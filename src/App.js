@@ -5,7 +5,7 @@ import { inject, observer } from "mobx-react";
 @observer
 class App extends Component {
   render() {
-    return <div>NYCCSC site</div>;
+    return <div>NYCCSC site...</div>;
   }
 }
 

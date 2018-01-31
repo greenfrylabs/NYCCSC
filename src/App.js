@@ -4,7 +4,7 @@ import { inject, observer } from "mobx-react";
 // styled
 import { Main, WHeader, Header, Block, BlockHeader } from "./styles";
 
-import { Dropdown } from "semantic-ui-react";
+import { Dropdown, Menu } from "semantic-ui-react";
 
 const options = [
   { key: 1, text: "Choice 1", value: 1 },
@@ -25,10 +25,11 @@ class App extends Component {
           <BlockHeader>
             <Dropdown
               placeholder="Select County"
+              search
+              selection
               options={options}
-              simple
-              item
             />
+
             <Dropdown
               placeholder="Calculated Variables"
               options={options}

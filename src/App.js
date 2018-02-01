@@ -19,7 +19,10 @@ import {
 
 import ACISLogo from "./data/images/acis_logo.png";
 
-import { Button, Select, Radio } from "antd";
+// components
+import InfoModal from "./components/InfoModal";
+
+import { Button, Select, Radio, Modal } from "antd";
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 
@@ -33,6 +36,7 @@ const options = [
 @observer
 class App extends Component {
   render() {
+    const { isModal, toggleModal } = this.props.app;
     return (
       <Main>
         <WHeader>
@@ -87,10 +91,22 @@ class App extends Component {
             <Button type="primary" icon="download" style={{ marginRight: 16 }}>
               Download Data
             </Button>
-            <Button type="primary" icon="info-circle-o">
+            <Button type="primary" icon="info-circle-o" onClick={toggleModal}>
               About Source Data
             </Button>
           </Footer>
+          <Modal
+            width={800}
+            title=""
+            closable={false}
+            visible={isModal}
+            okText="Close"
+            onOk={toggleModal}
+            footer={() => <Button type="primary">Ciccio</Button>}
+            onCancel={toggleModal}
+          >
+            <InfoModal />
+          </Modal>
         </Block>
       </Main>
     );

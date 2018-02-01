@@ -2,9 +2,26 @@ import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
 // styled
-import { Main, WHeader, Header, Block, BlockHeader } from "./styles";
+import {
+  Main,
+  WHeader,
+  Header,
+  Block,
+  BlockHeader,
+  WRadioButtons,
+  Body,
+  LeftContainer,
+  RightContainer,
+  Footer,
+  WMap,
+  WImage
+} from "./styles";
 
-import { Dropdown, Menu } from "semantic-ui-react";
+import ACISLogo from "./data/images/acis_logo.png";
+
+import { Button, Select, Radio } from "antd";
+const Option = Select.Option;
+const RadioGroup = Radio.Group;
 
 const options = [
   { key: 1, text: "Choice 1", value: 1 },
@@ -23,25 +40,57 @@ class App extends Component {
         </WHeader>
         <Block>
           <BlockHeader>
-            <Dropdown
-              placeholder="Select County"
-              search
-              selection
-              options={options}
-            />
+            <Select defaultValue="State" style={{ width: 120 }}>
+              <Option value="State">State</Option>
+              <Option value="County">County</Option>
+              <Option value="Basin">Basin</Option>
+              <Option value="Station">Station</Option>
+            </Select>
+            <Select placeholder="Select a county" style={{ width: 200 }}>
+              <Option value="List...">List...</Option>
+            </Select>
 
-            <Dropdown
-              placeholder="Calculated Variables"
-              options={options}
-              simple
-              item
-            />
-            <Dropdown placeholder="Season" options={options} simple item />
+            <Select placeholder="Calculated Variables" style={{ width: 250 }}>
+              <Option value="jack">Jack</Option>
+              <Option value="lucy">Lucy</Option>
+              <Option value="Yiminghe">yiminghe</Option>
+            </Select>
+
+            <Select placeholder="Annual" style={{ width: 120 }}>
+              <Option value="jack">Jack</Option>
+              <Option value="lucy">Lucy</Option>
+              <Option value="Yiminghe">yiminghe</Option>
+            </Select>
           </BlockHeader>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit
-          provident nobis quos iusto deleniti dolorum atque dolor adipisci
-          libero. Maxime similique harum saepe soluta voluptates error assumenda
-          optio minus vitae.
+
+          <WRadioButtons>
+            <RadioGroup>
+              <Radio value={4.5}>Low Emission rpc 4.5</Radio>
+              <Radio value={8.5}>Hi Emission rpc 8.5</Radio>
+            </RadioGroup>
+          </WRadioButtons>
+
+          <Body>
+            <LeftContainer>
+              <WMap>map...</WMap>
+              <WImage>
+                <img src={ACISLogo} alt="ACISLogo" />
+              </WImage>
+            </LeftContainer>
+            <RightContainer>graph...</RightContainer>
+          </Body>
+
+          <Footer>
+            <Button type="primary" icon="plus" style={{ marginRight: 16 }}>
+              Add Chart
+            </Button>
+            <Button type="primary" icon="download" style={{ marginRight: 16 }}>
+              Download Data
+            </Button>
+            <Button type="primary" icon="info-circle-o">
+              About Source Data
+            </Button>
+          </Footer>
         </Block>
       </Main>
     );

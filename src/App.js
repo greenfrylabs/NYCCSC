@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
+import { geoms, seasons, elems } from "./api";
+
 // styled
 import {
   Main,
@@ -26,17 +28,14 @@ import { Button, Select, Radio, Modal } from "antd";
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 
-const options = [
-  { key: 1, text: "Choice 1", value: 1 },
-  { key: 2, text: "Choice 2", value: 2 },
-  { key: 3, text: "Choice 3", value: 3 }
-];
-
 @inject("app")
 @observer
 class App extends Component {
   render() {
     const { isModal, toggleModal } = this.props.app;
+    console.log(geoms);
+    console.log(seasons);
+    console.log(elems);
     return (
       <Main>
         <WHeader>
@@ -102,7 +101,7 @@ class App extends Component {
             visible={isModal}
             okText="Close"
             onOk={toggleModal}
-            footer={() => <Button type="primary">Ciccio</Button>}
+            footer={<Button type="primary">Ciccio</Button>}
             onCancel={toggleModal}
           >
             <InfoModal />

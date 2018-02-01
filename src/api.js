@@ -6,7 +6,15 @@ export const geoms = new Map([
 ]);
 
 export let seasons = new Map([
-  ["ANN", { title: "Annual", interval: [1], duration: 1, maxmissing: 30 }],
+  [
+    "ANN",
+    {
+      title: "Annual",
+      interval: [1],
+      duration: 1,
+      maxmissing: 30
+    }
+  ],
   [
     "MAM",
     {
@@ -29,7 +37,13 @@ export let seasons = new Map([
   ],
   [
     "SON",
-    { title: "Fall", interval: [1, 0], duration: 3, maxmissing: 10, smonth: 11 }
+    {
+      title: "Fall",
+      interval: [1, 0],
+      duration: 3,
+      maxmissing: 10,
+      smonth: 11
+    }
   ],
   [
     "DJF",
@@ -63,27 +77,63 @@ export let seasons = new Map([
   ],
   [
     "Mar",
-    { title: "March", interval: [1, 0], duration: 1, maxmissing: 3, smonth: 3 }
+    {
+      title: "March",
+      interval: [1, 0],
+      duration: 1,
+      maxmissing: 3,
+      smonth: 3
+    }
   ],
   [
     "Apr",
-    { title: "April", interval: [1, 0], duration: 1, maxmissing: 3, smonth: 4 }
+    {
+      title: "April",
+      interval: [1, 0],
+      duration: 1,
+      maxmissing: 3,
+      smonth: 4
+    }
   ],
   [
     "May",
-    { title: "May", interval: [1, 0], duration: 1, maxmissing: 3, smonth: 5 }
+    {
+      title: "May",
+      interval: [1, 0],
+      duration: 1,
+      maxmissing: 3,
+      smonth: 5
+    }
   ],
   [
     "Jun",
-    { title: "June", interval: [1, 0], duration: 1, maxmissing: 3, smonth: 6 }
+    {
+      title: "June",
+      interval: [1, 0],
+      duration: 1,
+      maxmissing: 3,
+      smonth: 6
+    }
   ],
   [
     "Jul",
-    { title: "July", interval: [1, 0], duration: 1, maxmissing: 3, smonth: 7 }
+    {
+      title: "July",
+      interval: [1, 0],
+      duration: 1,
+      maxmissing: 3,
+      smonth: 7
+    }
   ],
   [
     "Aug",
-    { title: "August", interval: [1, 0], duration: 1, maxmissing: 3, smonth: 8 }
+    {
+      title: "August",
+      interval: [1, 0],
+      duration: 1,
+      maxmissing: 3,
+      smonth: 8
+    }
   ],
   [
     "Sep",
@@ -536,8 +586,11 @@ export const chartDefs = new Map([
 ]);
 
 chartDefs.forEach((def, chart) => {
+  console.log(def);
   def.gElems = def.elems.filter(e => typeof elems.get(e).gYr !== "undefined");
+  //   console.log(def.toString);
   def.toString = p => {
+    console.log(p);
     return [p.chart, p.geom, p.element, p.season, p.sid, p.bbox].join("/");
   };
 });

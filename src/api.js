@@ -586,11 +586,8 @@ export const chartDefs = new Map([
 ]);
 
 chartDefs.forEach((def, chart) => {
-  console.log(def);
   def.gElems = def.elems.filter(e => typeof elems.get(e).gYr !== "undefined");
-  //   console.log(def.toString);
   def.toString = p => {
-    console.log(p);
     return [p.chart, p.geom, p.element, p.season, p.sid, p.bbox].join("/");
   };
 });

@@ -11,6 +11,10 @@ import AppStore from "stores/appStore";
 // hot reload
 import { AppContainer } from "react-hot-loader";
 
+// history
+import createHistory from "history/createBrowserHistory";
+const history = createHistory({ basename: "/dataproduct/" });
+
 const fetcher = url => window.fetch(url).then(response => response.json());
 const app = new AppStore(fetcher);
 
@@ -18,7 +22,7 @@ const render = Component => {
   ReactDOM.render(
     <AppContainer>
       <Provider app={app}>
-        <App />
+        <App history={history} />
       </Provider>
     </AppContainer>,
     document.getElementById("root")

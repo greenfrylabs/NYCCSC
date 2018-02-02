@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
 // import { geoms, seasons, elems } from "./api";
-import createHistory from "history/createBrowserHistory";
 
 // styled
 import {
@@ -32,10 +31,28 @@ const RadioGroup = Radio.Group;
 @inject("app")
 @observer
 class App extends Component {
+  locationChange = location => {
+    let c = location.search;
+    if (!c)
+      return this.props.history.replaceState(
+        "/dataproduct/?c=Temp/state/maxt/ANN/NY/"
+      );
+    if (!Array.isArray(c)) c = [c];
+    //  this.props.store.app.changeQueryToParams(c);
+    console.log(c);
+  };
+
+  componentDidMount() {
+    const { history } = this.props;
+    this.unlisten = history.listen(this.locationChange(history.location));
+  }
+
+  componentWillUnmount() {
+    this.unlisten();
+  }
+
   render() {
     const { isModal, toggleModal } = this.props.app;
-    const history = createHistory();
-    console.log(history.location.search);
 
     return (
       <Main>

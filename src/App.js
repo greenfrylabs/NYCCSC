@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
-import { geoms, seasons, elems } from "./api";
+// import { geoms, seasons, elems } from "./api";
+import createHistory from "history/createBrowserHistory";
 
 // styled
 import {
@@ -33,9 +34,9 @@ const RadioGroup = Radio.Group;
 class App extends Component {
   render() {
     const { isModal, toggleModal } = this.props.app;
-    console.log(geoms);
-    console.log(seasons);
-    console.log(elems);
+    const history = createHistory();
+    console.log(history.location.search);
+
     return (
       <Main>
         <WHeader>

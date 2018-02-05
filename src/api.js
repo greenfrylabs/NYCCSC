@@ -435,7 +435,7 @@ export function buildQuery(params, meta) {
 export function parseURL(pStr) {
   let pFields = pStr.split("/");
   return {
-    chart: pFields[0],
+    chart: pFields[0].split("=")[1],
     geom: pFields[1],
     element: pFields[2],
     season: pFields[3],
@@ -446,6 +446,7 @@ export function parseURL(pStr) {
 
 export function correctParam(param) {
   let { chart, geom, element, season, sid, bbox } = param;
+
   let sane = true;
   if (["stn", "state", "county", "basin"].indexOf(geom) === -1) {
     geom = "state";

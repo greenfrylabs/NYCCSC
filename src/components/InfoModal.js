@@ -1,8 +1,8 @@
 import React from "react";
 
-import fig1 from "../data/images/info_fig_1.png";
-import fig2 from "../data/images/info_fig_2.png";
-import fig3 from "../data/images/info_fig_3.png";
+import fig1 from "../assets/images/info_fig_1.png";
+import fig2 from "../assets/images/info_fig_2.png";
+import fig3 from "../assets/images/info_fig_3.png";
 
 const InfoModal = () => {
   return (

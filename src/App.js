@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
-// import { geoms, seasons, elems } from "./api";
+import { geoms, seasons, elems } from "./api";
 
 // styled
 import {
@@ -19,7 +19,7 @@ import {
   WImage
 } from "./styles";
 
-import ACISLogo from "./data/images/acis_logo.png";
+import ACISLogo from "./assets/images/acis_logo.png";
 
 // components
 import InfoModal from "./components/InfoModal";
@@ -31,28 +31,17 @@ const RadioGroup = Radio.Group;
 @inject("app")
 @observer
 class App extends Component {
-  locationChange = location => {
-    let c = location.search;
-    if (!c)
-      return this.props.history.replaceState(
-        "/dataproduct/?c=Temp/state/maxt/ANN/NY/"
-      );
-    if (!Array.isArray(c)) c = [c];
-    //  this.props.store.app.changeQueryToParams(c);
-    console.log(c);
-  };
-
-  componentDidMount() {
-    const { history } = this.props;
-    this.unlisten = history.listen(this.locationChange(history.location));
-  }
-
-  componentWillUnmount() {
-    this.unlisten();
-  }
-
   render() {
     const { isModal, toggleModal } = this.props.app;
+
+    const geomList = [];
+    geoms.forEach((val, key) =>
+      geomList.push(
+        <Option key={val} value={val}>
+          {val}
+        </Option>
+      )
+    );
 
     return (
       <Main>
@@ -62,10 +51,7 @@ class App extends Component {
         <Block>
           <BlockHeader>
             <Select defaultValue="State" style={{ width: 120 }}>
-              <Option value="State">State</Option>
-              <Option value="County">County</Option>
-              <Option value="Basin">Basin</Option>
-              <Option value="Station">Station</Option>
+              {geomList}
             </Select>
             <Select placeholder="Select a county" style={{ width: 200 }}>
               <Option value="List...">List...</Option>

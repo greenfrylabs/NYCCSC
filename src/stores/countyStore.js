@@ -18,8 +18,8 @@ export default class CountyStore {
     this.app
       .fetch("/data/county.json")
       .then(json => {
-        console.log(json.meta);
-        // this.updateCounties(json);
+        // console.log(json.meta);
+        this.updateCounties(json.meta);
       })
       .catch(err => {
         console.log("Failed to load counties", err);

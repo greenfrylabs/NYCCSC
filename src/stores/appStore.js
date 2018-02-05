@@ -12,11 +12,15 @@ const history = createHistory({ basename: "/dataproduct/" });
 
 export default class AppStore {
   fetch;
-  counties;
+  countyStore;
   constructor(fetcher) {
     this.fetch = fetcher;
-    this.counties = new CountyStore(this);
+    this.countyStore = new CountyStore(this);
     this.setLocation(this.c);
+  }
+
+  get counties() {
+    return this.countyStore.counties;
   }
 
   // initial state query string

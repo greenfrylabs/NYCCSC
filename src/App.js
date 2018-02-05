@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
-import { geoms, seasons, elems } from "./api";
+import { geoms } from "./api";
 
 // styled
 import {

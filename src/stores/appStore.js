@@ -1,4 +1,4 @@
-import { observable, action, computed } from "mobx";
+import { observable, action } from "mobx";
 
 import CountyStore from "../stores/countyStore";
 import StateStore from "../stores/stateStore";
@@ -6,13 +6,7 @@ import BasinStore from "../stores/basinStore";
 import StationStore from "../stores/stationStore";
 import BlockStore from "../stores/blockStore";
 
-// utils
-import { isEquivalent } from "../utils";
-import { geoms, parseURL, correctParam } from "../api";
-
-// history
-import createHistory from "history/createBrowserHistory";
-const history = createHistory({ basename: "/dataproduct/" });
+import { geoms } from "../api";
 
 export default class AppStore {
   fetch;
@@ -28,7 +22,6 @@ export default class AppStore {
     this.basinStore = new BasinStore(this);
     this.stationStore = new StationStore(this);
     this.blockStore = new BlockStore(this);
-    this.setLocation(this.c);
   }
 
   get counties() {
@@ -53,28 +46,6 @@ export default class AppStore {
 
   get bStore() {
     return this.blockStore;
-  }
-
-  // initial state query string
-  @observable c = history.location.search;
-  @observable qString = "?c=Temp/state/maxt/ANN/NY/";
-
-  @action
-  setLocation = query => {
-    const qParam = parseURL(query);
-    const nParam = correctParam(qParam);
-    const isValid = isEquivalent(qParam, nParam);
-
-    if (!query || !isValid) {
-      history.replace(this.qString);
-      return;
-    }
-    return query;
-  };
-
-  @computed
-  get query() {
-    return parseURL(this.c);
   }
 
   @observable isModal = false;

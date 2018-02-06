@@ -32,8 +32,17 @@ const RadioGroup = Radio.Group;
 @observer
 class App extends Component {
   render() {
-    const { isModal, toggleModal } = this.props.app;
+    const {
+      isModal,
+      toggleModal,
+      counties,
+      states,
+      basins,
+      stations,
+      bStore
+    } = this.props.app;
 
+    // geom type
     const geomList = [];
     geoms.forEach((val, key) =>
       geomList.push(
@@ -43,6 +52,76 @@ class App extends Component {
       )
     );
 
+    // counties
+    const countyList = [];
+    counties.forEach((val, key) =>
+      countyList.push(
+        <Option key={key} value={key}>
+          {key}
+        </Option>
+      )
+    );
+
+    // states
+    const stateList = [];
+    states.forEach((val, key) =>
+      stateList.push(
+        <Option key={key} value={key}>
+          {key}
+        </Option>
+      )
+    );
+
+    // basins
+    const basinList = [];
+    basins.forEach((val, key) =>
+      basinList.push(
+        <Option key={key} value={key}>
+          {key}
+        </Option>
+      )
+    );
+
+    // stations
+    const stationList = [];
+    stations.forEach((val, key) =>
+      stationList.push(
+        <Option key={key} value={key}>
+          {key}
+        </Option>
+      )
+    );
+
+    // list to render
+    const list = geom => {
+      switch (geom) {
+        case "County":
+          return countyList;
+        case "Basin":
+          return basinList;
+        case "Station":
+          return stationList;
+        default:
+          return stateList;
+      }
+    };
+
+    let firstValue = "";
+    switch (bStore.geom) {
+      case "County":
+        firstValue = counties.keys()[0];
+        break;
+      case "Basin":
+        firstValue = basins.keys()[0];
+        break;
+      case "Station":
+        firstValue = stations.keys()[0];
+        break;
+      default:
+        firstValue = states.keys()[0];
+        break;
+    }
+
     return (
       <Main>
         <WHeader>
@@ -50,11 +129,19 @@ class App extends Component {
         </WHeader>
         <Block>
           <BlockHeader>
-            <Select defaultValue="State" style={{ width: 120 }}>
+            <Select
+              style={{ width: 120 }}
+              onChange={val => bStore.setField("geom", val)}
+              value={bStore.geom}
+            >
               {geomList}
             </Select>
-            <Select placeholder="Select a county" style={{ width: 200 }}>
-              <Option value="List...">List...</Option>
+            <Select
+              placeholder={`Select ${bStore.geom}`}
+              value={firstValue}
+              style={{ width: 200 }}
+            >
+              {list(bStore.geom)}
             </Select>
 
             <Select placeholder="Calculated Variables" style={{ width: 250 }}>
@@ -71,7 +158,7 @@ class App extends Component {
           </BlockHeader>
 
           <WRadioButtons>
-            <RadioGroup>
+            <RadioGroup defaultValue={4.5}>
               <Radio value={4.5}>Low Emission rpc 4.5</Radio>
               <Radio value={8.5}>Hi Emission rpc 8.5</Radio>
             </RadioGroup>

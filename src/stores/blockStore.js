@@ -63,5 +63,8 @@ export default class BlockStore {
   @observable season = "Annual";
   @observable rpc = 4.5;
 
-  @action setField = (name, val) => (this[name] = val);
+  @action
+  setField = (name, val) => {
+    this[name] = val;
+  };
 }

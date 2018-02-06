@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
-import { geoms } from "./api";
+import { geoms, elems, seasons } from "./api";
 
 // styled
 import {
@@ -109,18 +109,38 @@ class App extends Component {
     let firstValue = "";
     switch (bStore.geom) {
       case "County":
-        firstValue = counties.keys()[0];
+        firstValue = bStore.county;
         break;
       case "Basin":
-        firstValue = basins.keys()[0];
+        firstValue = bStore.basin;
         break;
       case "Station":
-        firstValue = stations.keys()[0];
+        firstValue = bStore.station;
         break;
       default:
-        firstValue = states.keys()[0];
+        firstValue = bStore.state;
         break;
     }
+
+    // elements
+    const elemList = [];
+    elems.forEach((obj, key) =>
+      elemList.push(
+        <Option key={key} value={obj.label}>
+          {obj.label}
+        </Option>
+      )
+    );
+
+    // seasons
+    const seasonList = [];
+    seasons.forEach((obj, key) =>
+      seasonList.push(
+        <Option key={key} value={obj.title}>
+          {obj.title}
+        </Option>
+      )
+    );
 
     return (
       <Main>
@@ -137,28 +157,40 @@ class App extends Component {
               {geomList}
             </Select>
             <Select
-              placeholder={`Select ${bStore.geom}`}
+              style={{ width: 250 }}
+              onChange={val =>
+                bStore.setField(
+                  bStore.geom.charAt(0).toLowerCase() + bStore.geom.slice(1),
+                  val
+                )
+              }
               value={firstValue}
-              style={{ width: 200 }}
             >
               {list(bStore.geom)}
             </Select>
 
-            <Select placeholder="Calculated Variables" style={{ width: 250 }}>
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="Yiminghe">yiminghe</Option>
+            <Select
+              style={{ width: 320 }}
+              onChange={val => bStore.setField("elem", val)}
+              value={bStore.elem}
+            >
+              {elemList}
             </Select>
 
-            <Select placeholder="Annual" style={{ width: 120 }}>
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="Yiminghe">yiminghe</Option>
+            <Select
+              style={{ width: 120 }}
+              onChange={val => bStore.setField("season", val)}
+              value={bStore.season}
+            >
+              {seasonList}
             </Select>
           </BlockHeader>
 
           <WRadioButtons>
-            <RadioGroup defaultValue={4.5}>
+            <RadioGroup
+              defaultValue={4.5}
+              onChange={e => bStore.setField("rpc", e.target.value)}
+            >
               <Radio value={4.5}>Low Emission rpc 4.5</Radio>
               <Radio value={8.5}>Hi Emission rpc 8.5</Radio>
             </RadioGroup>

@@ -72,4 +72,15 @@ export default class BlockStore {
       })
     );
   };
+
+  @action
+  addChart = blockIdx => {
+    const currentQString = this.app.history.location.search;
+    const b = this.blocks[blockIdx];
+    const newQString = `&c=${b.bChart}/${b.bGeom}/${b.bElement}/${b.bSeason}/${
+      b.bSid
+    }/`;
+    const finalQString = `${currentQString}${newQString}`;
+    this.app.history.push(finalQString);
+  };
 }

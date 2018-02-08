@@ -38,10 +38,19 @@ export default class Block extends Component {
       counties,
       states,
       basins,
-      stations
+      stations,
+      bStore
     } = this.props.app;
 
-    const { geom, element, season, sid, setField, setRpc } = this.props.block;
+    const {
+      geom,
+      element,
+      season,
+      sid,
+      setField,
+      setRpc,
+      blockIdx
+    } = this.props.block;
 
     // geom type
     const geomList = [];
@@ -201,7 +210,12 @@ export default class Block extends Component {
         </Body>
 
         <Footer>
-          <Button type="primary" icon="plus" style={{ marginRight: 16 }}>
+          <Button
+            type="primary"
+            icon="plus"
+            style={{ marginRight: 16 }}
+            onClick={() => bStore.addChart(blockIdx)}
+          >
             Add Chart
           </Button>
           <Button type="primary" icon="download" style={{ marginRight: 16 }}>

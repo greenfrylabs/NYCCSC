@@ -11,7 +11,7 @@ export default class BasinStore {
 
   @action
   updateBasins = json =>
-    json.forEach(blockJson => this.basins.set(blockJson.name, blockJson));
+    json.forEach(blockJson => this.basins.set(blockJson.id, blockJson));
 
   @action
   loadBasins() {

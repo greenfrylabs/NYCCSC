@@ -11,7 +11,7 @@ export default class StateStore {
 
   @action
   updateStates = json =>
-    json.forEach(blockJson => this.states.set(blockJson.name, blockJson));
+    json.forEach(blockJson => this.states.set(blockJson.id, blockJson));
 
   @action
   loadStates() {

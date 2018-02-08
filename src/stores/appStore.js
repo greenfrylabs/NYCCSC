@@ -10,13 +10,15 @@ import { geoms } from "../api";
 
 export default class AppStore {
   fetch;
+  history;
   countyStore;
   stateStore;
   basinStore;
   stationStore;
   blockStore;
-  constructor(fetcher) {
+  constructor(fetcher, history) {
     this.fetch = fetcher;
+    this.history = history;
     this.countyStore = new CountyStore(this);
     this.stateStore = new StateStore(this);
     this.basinStore = new BasinStore(this);

@@ -38,24 +38,16 @@ export default class Block extends Component {
       counties,
       states,
       basins,
-      stations,
-      bStore
+      stations
     } = this.props.app;
 
-    const {
-      geom,
-      element,
-      season,
-      setGeom,
-      setElement,
-      setSeason
-    } = this.props.block;
+    const { geom, element, season, sid, setField, setRpc } = this.props.block;
 
     // geom type
     const geomList = [];
     geoms.forEach((val, key) =>
       geomList.push(
-        <Option key={val} value={key}>
+        <Option key={key} value={key}>
           {val}
         </Option>
       )
@@ -66,7 +58,7 @@ export default class Block extends Component {
     counties.forEach((val, key) =>
       countyList.push(
         <Option key={key} value={key}>
-          {key}
+          {val.name}
         </Option>
       )
     );
@@ -76,7 +68,7 @@ export default class Block extends Component {
     states.forEach((val, key) =>
       stateList.push(
         <Option key={key} value={key}>
-          {key}
+          {val.name}
         </Option>
       )
     );
@@ -86,7 +78,7 @@ export default class Block extends Component {
     basins.forEach((val, key) =>
       basinList.push(
         <Option key={key} value={key}>
-          {key}
+          {val.name}
         </Option>
       )
     );
@@ -96,7 +88,7 @@ export default class Block extends Component {
     stations.forEach((val, key) =>
       stationList.push(
         <Option key={key} value={key}>
-          {key}
+          {val.properties.name}
         </Option>
       )
     );
@@ -115,19 +107,24 @@ export default class Block extends Component {
       }
     };
 
-    let firstValue = "";
-    switch (bStore.geom) {
+    let val = "";
+    let t = "";
+    switch (geom) {
       case "County":
-        firstValue = bStore.county;
+        t = counties.get(sid);
+        t ? (val = t.name) : (val = "Albany County");
         break;
       case "Basin":
-        firstValue = bStore.basin;
+        t = basins.get(sid);
+        t ? (val = t.name) : (val = "Middle Hudson");
         break;
       case "Station":
-        firstValue = bStore.station;
+        t = stations.get(sid);
+        t ? (val = t.properties.name) : (val = "ALBANY INTL AP");
         break;
       default:
-        firstValue = bStore.state;
+        t = states.get(sid);
+        t ? (val = t.name) : (val = "NY");
         break;
     }
 
@@ -154,36 +151,40 @@ export default class Block extends Component {
     return (
       <WBlock>
         <BlockHeader>
-          <Select style={{ width: 120 }} onChange={setGeom} value={geom}>
+          <Select
+            style={{ width: 120 }}
+            onChange={d => setField("bGeom", d)}
+            value={geom}
+          >
             {geomList}
           </Select>
           <Select
             style={{ width: 250 }}
-            onChange={val =>
-              bStore.setField(
-                bStore.geom.charAt(0).toLowerCase() + bStore.geom.slice(1),
-                val
-              )
-            }
-            value={firstValue}
+            onChange={d => setField("bSid", d)}
+            value={val}
           >
-            {list(bStore.geom)}
+            {list(geom)}
           </Select>
 
-          <Select style={{ width: 320 }} onChange={setElement} value={element}>
+          <Select
+            style={{ width: 320 }}
+            onChange={d => setField("bElement", d)}
+            value={element}
+          >
             {elemList}
           </Select>
 
-          <Select style={{ width: 120 }} onChange={setSeason} value={season}>
+          <Select
+            style={{ width: 120 }}
+            onChange={d => setField("bSeason", d)}
+            value={season}
+          >
             {seasonList}
           </Select>
         </BlockHeader>
 
         <WRadioButtons>
-          <RadioGroup
-            defaultValue={4.5}
-            onChange={e => bStore.setField("rpc", e.target.value)}
-          >
+          <RadioGroup defaultValue={4.5} onChange={e => setRpc(e.target.value)}>
             <Radio value={4.5}>Low Emission rpc 4.5</Radio>
             <Radio value={8.5}>Hi Emission rpc 8.5</Radio>
           </RadioGroup>

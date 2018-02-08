@@ -1,4 +1,4 @@
-import { observable, action } from "mobx";
+import { observable, action, when } from "mobx";
 
 // model
 import BlockModel from "./blockModel";
@@ -7,52 +7,48 @@ import BlockModel from "./blockModel";
 import { isEquivalent } from "../utils";
 import { parseURL, correctParam } from "../api";
 
-// history
-import createHistory from "history/createBrowserHistory";
-const history = createHistory({ basename: "/dataproduct/" });
-
 export default class BlockStore {
   app;
   constructor(app) {
     this.app = app;
-    this.getQString(this.qString);
+    when(() => this.blocks.length === 0, () => this.getQString(this.qString));
   }
 
   @observable blocks = [];
 
   // initial state query string
-  @observable qString = history.location.search;
+  @observable qString = this.app.history.location.search;
   @observable qStringDefault = "?c=Temp/state/maxt/ANN/NY/";
 
   @action
   getQString = qString => {
     console.log(qString);
     if (!qString) {
-      history.push(this.qStringDefault);
+      this.app.history.push(this.qStringDefault);
       return;
     }
 
     if (qString.includes("&")) {
       const qStringArr = qString.split("&");
-      qStringArr.forEach(qString => {
-        this.setBlock(qString);
+      qStringArr.forEach((qString, i) => {
+        this.setBlock(qString, i);
       });
     } else {
-      console.log("single qString");
-      this.setBlock(qString);
+      // console.log("single qString");
+      this.setBlock(qString, 0);
     }
   };
 
   @action
-  setBlock = qString => {
+  setBlock = (qString, i) => {
     const qParam = parseURL(qString);
     // console.log(qParam);
     const nParam = correctParam(qParam);
-    console.log(nParam);
+    // console.log(nParam);
     const isValid = isEquivalent(qParam, nParam);
 
     if (!isValid) {
-      history.replace(this.qStringDefault);
+      this.app.history.replace(this.qStringDefault);
       return;
     }
 
@@ -62,15 +58,17 @@ export default class BlockStore {
     const geom = qParam.geom;
     const season = qParam.season;
     const sid = qParam.sid;
+    const blockIdx = i;
 
     this.blocks.push(
-      new BlockModel({
+      new BlockModel(this, {
         bbox,
         chart,
         element,
         geom,
         season,
-        sid
+        sid,
+        blockIdx
       })
     );
   };

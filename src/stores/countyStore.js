@@ -11,7 +11,7 @@ export default class CountyStore {
 
   @action
   updateCounties = json =>
-    json.forEach(blockJson => this.counties.set(blockJson.name, blockJson));
+    json.forEach(blockJson => this.counties.set(blockJson.id, blockJson));
 
   @action
   loadCounties() {

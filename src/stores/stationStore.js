@@ -11,9 +11,7 @@ export default class StationStore {
 
   @action
   updateStations = json =>
-    json.forEach(blockJson =>
-      this.stations.set(blockJson.properties.name, blockJson)
-    );
+    json.forEach(blockJson => this.stations.set(blockJson.id, blockJson));
 
   @action
   loadStations() {

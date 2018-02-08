@@ -24,8 +24,9 @@ export default class BlockStore {
   getQString = qString => {
     console.log(qString);
     if (!qString) {
-      this.app.history.push(this.qStringDefault);
-      return;
+      console.log("NO string");
+      this.app.history.replace(this.qStringDefault);
+      qString = this.qStringDefault;
     }
 
     if (qString.includes("&")) {
@@ -34,14 +35,13 @@ export default class BlockStore {
         this.setBlock(qString, i);
       });
     } else {
-      // console.log("single qString");
       this.setBlock(qString, 0);
     }
   };
 
   @action
   setBlock = (qString, i) => {
-    const qParam = parseURL(qString);
+    let qParam = parseURL(qString);
     // console.log(qParam);
     const nParam = correctParam(qParam);
     // console.log(nParam);
@@ -49,7 +49,7 @@ export default class BlockStore {
 
     if (!isValid) {
       this.app.history.replace(this.qStringDefault);
-      return;
+      qParam = parseURL(this.qStringDefault);
     }
 
     const bbox = qParam.bbox;

@@ -56,7 +56,7 @@ export default class BlockModel {
     this.blockIdx === 0 ? (values = `?c=${values}`) : (values = `c=${values}`);
     arr[this.blockIdx] = values;
     const updatedURL = arr.join("&");
-    this.app.history.replace(updatedURL);
+    this.app.history.push(updatedURL);
   };
 
   @action setRpc = d => (this.rpc = d);

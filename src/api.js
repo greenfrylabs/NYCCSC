@@ -457,6 +457,7 @@ export function correctParam(param) {
     sane = false;
   }
   let def = chartDefs.get(chart);
+  console.log(def);
   if (geom === "stn") {
     if (def.elems.indexOf(element) === -1) {
       element = def.elems[0];

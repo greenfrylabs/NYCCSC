@@ -48,6 +48,10 @@ export default class AppStore {
     return this.blockStore;
   }
 
+  get blocks() {
+    return this.blockStore.blocks;
+  }
+
   @observable isModal = false;
   @action toggleModal = () => (this.isModal = !this.isModal);
 }

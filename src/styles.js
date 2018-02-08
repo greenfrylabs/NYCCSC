@@ -20,7 +20,7 @@ export const Header = styled.div`
   font-size: 4rem;
 `;
 
-export const Block = styled.div`
+export const WBlock = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;

@@ -48,6 +48,7 @@ export default class Block extends Component {
       season,
       sid,
       setField,
+      rpc,
       setRpc,
       blockIdx
     } = this.props.block;
@@ -193,7 +194,7 @@ export default class Block extends Component {
         </BlockHeader>
 
         <WRadioButtons>
-          <RadioGroup defaultValue={4.5} onChange={e => setRpc(e.target.value)}>
+          <RadioGroup defaultValue={rpc} onChange={e => setRpc(e.target.value)}>
             <Radio value={4.5}>Low Emission rpc 4.5</Radio>
             <Radio value={8.5}>Hi Emission rpc 8.5</Radio>
           </RadioGroup>

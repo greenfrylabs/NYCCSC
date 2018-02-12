@@ -26,7 +26,7 @@ export default class BlockModel {
 
   @action
   setField = (field, val) => {
-    let qString = this.app.history.location.search;
+    let qString = this.app.blockStore.qString;
     let arr = [];
     if (qString.includes("&")) {
       arr = qString.split("&");

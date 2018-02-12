@@ -13,9 +13,10 @@ export default class BlockModel {
   @observable rpc = 8.5;
   @observable blockIdx;
 
-  constructor(store, { bbox, chart, element, geom, season, sid, blockIdx }) {
+  constructor(store, { list, chart, element, geom, season, sid, blockIdx }) {
+    console.log(list, sid);
     this.app = store.app;
-    this.bBbox = bbox;
+    this.bBbox = list.bbox;
     this.bChart = chart;
     this.bElement = element;
     this.bGeom = geom;

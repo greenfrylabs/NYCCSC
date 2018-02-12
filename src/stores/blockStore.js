@@ -39,7 +39,7 @@ export default class BlockStore {
       if (!isValid) {
         qParam = parseURL("?c=Temp/state/maxt/ANN/NY/");
       }
-      const bbox = qParam.bbox;
+
       const chart = qParam.chart;
       const element = qParam.element;
       const geom = qParam.geom;
@@ -47,9 +47,23 @@ export default class BlockStore {
       const sid = qParam.sid;
       const blockIdx = i;
 
+      let list;
+      if (geom === "state") {
+        list = this.app.states;
+      }
+      if (geom === "county") {
+        list = this.app.counties;
+      }
+      if (geom === "basin") {
+        list = this.app.basins;
+      }
+      if (geom === "stn") {
+        list = this.app.stations;
+      }
+
       this.blocks.push(
         new BlockModel(this, {
-          bbox,
+          list,
           chart,
           element,
           geom,

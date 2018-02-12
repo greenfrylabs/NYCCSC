@@ -76,7 +76,6 @@ export default class BlockStore {
         );
       }
     });
-    console.log(results.join(""));
     this.app.history.push(results.join(""));
   };
 

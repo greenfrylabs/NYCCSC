@@ -13,7 +13,7 @@ class App extends Component {
   render() {
     const { blocks } = this.props.app;
     const blockList = blocks.map((block, i) => <Block key={i} block={block} />);
-    console.log(blocks.slice());
+    // console.log(blocks.slice());
     return (
       <Main>
         <WHeader>

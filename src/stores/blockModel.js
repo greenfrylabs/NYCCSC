@@ -4,25 +4,34 @@ import { geoms, chartDefs, elems, seasons, parseURL } from "../api";
 
 export default class BlockModel {
   app;
-  @observable bBbox = "";
-  @observable bChart = "Temp";
-  @observable bElement = "maxt";
-  @observable bGeom = "state";
-  @observable bSeason = "ANN";
-  @observable bSid = "NY";
+  @observable bChart;
+  @observable bElement;
+  @observable bGeom;
+  @observable bSeason;
+  @observable bSid;
   @observable rpc = 8.5;
   @observable blockIdx;
+  @observable list;
 
-  constructor(store, { list, chart, element, geom, season, sid, blockIdx }) {
-    console.log(list, sid);
+  constructor(store, { chart, element, geom, season, sid, blockIdx, list }) {
     this.app = store.app;
-    this.bBbox = list.bbox;
     this.bChart = chart;
     this.bElement = element;
     this.bGeom = geom;
     this.bSeason = season;
     this.bSid = sid;
     this.blockIdx = blockIdx;
+    this.list = list;
+  }
+
+  @computed
+  get bbox() {
+    return this.list.get(this.sid).bbox.slice();
+  }
+
+  @computed
+  get geojson() {
+    return this.list.get(this.sid).geojson.coordinates.slice();
   }
 
   @action
@@ -38,21 +47,21 @@ export default class BlockModel {
     this[field] = val;
 
     // parse url
-    let newField = "";
-    if (field === "bGeom") newField = "geom";
-    if (field === "bElement") newField = "element";
-    if (field === "bSeason") newField = "season";
-    if (field === "bSid") newField = "sid";
+    let geomType = "";
+    if (field === "bGeom") geomType = "geom";
+    if (field === "bElement") geomType = "element";
+    if (field === "bSeason") geomType = "season";
+    if (field === "bSid") geomType = "sid";
 
     let objQString = parseURL(qString);
-    if (newField === "geom") {
+    if (geomType === "geom") {
       if (val === "state") objQString["sid"] = "NY";
       if (val === "basin") objQString["sid"] = "02020006";
       if (val === "county") objQString["sid"] = "36001";
       if (val === "stn") objQString["sid"] = "USH00300042";
     }
 
-    objQString[newField] = val;
+    objQString[geomType] = val;
     let values = Object.values(objQString).join("/");
     this.blockIdx === 0 ? (values = `?c=${values}`) : (values = `c=${values}`);
     arr[this.blockIdx] = values;

@@ -1,4 +1,4 @@
-import { observable, action, computed } from "mobx";
+import { observable, action, when } from "mobx";
 
 // model
 import BlockModel from "./blockModel";
@@ -11,32 +11,36 @@ export default class BlockStore {
   app;
   constructor(app) {
     this.app = app;
-    this.setBlock();
+    when(() => this.blocks.length === 0, () => this.setBlocks());
+    this.app.history.listen(location => {
+      console.log(location.search);
+      this.setBlocks();
+    });
   }
 
   @observable blocks = [];
 
-  // initial state query string
-  @observable
-  qString = this.app.history.location.search || "?c=Temp/state/maxt/ANN/NY/";
-
-  @computed
-  get qStrings() {
-    if (this.qString.includes("&")) {
-      return this.qString.split("&");
-    } else {
-      return [this.qString];
-    }
-  }
-
   @action
-  setBlock = () => {
-    this.qStrings.forEach((qString, i) => {
+  setBlocks = () => {
+    this.blocks.clear();
+    let arr = [];
+    const qString =
+      this.app.history.location.search || "?c=Temp/state/maxt/ANN/NY/";
+
+    if (qString.includes("&")) {
+      arr = qString.split("&");
+    } else {
+      arr = [qString];
+    }
+
+    arr.forEach((qString, i) => {
       let qParam = parseURL(qString);
       const nParam = correctParam(qParam);
       const isValid = isEquivalent(qParam, nParam);
 
       if (!isValid) {
+        console.log("not valid");
+        this.app.history.replace("?c=Temp/state/maxt/ANN/NY/");
         qParam = parseURL("?c=Temp/state/maxt/ANN/NY/");
       }
 
@@ -61,33 +65,32 @@ export default class BlockStore {
         list = this.app.stations;
       }
 
+      console.log(`pushing: ${blockIdx}`);
       this.blocks.push(
         new BlockModel(this, {
-          list,
           chart,
           element,
           geom,
           season,
           sid,
-          blockIdx
+          blockIdx,
+          list
         })
       );
     });
-    this.setQString();
   };
 
   @action
   setQString = () => {
     let results = [];
     this.blocks.forEach((b, i) => {
+      const qString = `c=${b.bChart}/${b.bGeom}/${b.bElement}/${b.bSeason}/${
+        b.bSid
+      }/`;
       if (i === 0) {
-        results.push(
-          `?c=${b.bChart}/${b.bGeom}/${b.bElement}/${b.bSeason}/${b.bSid}/`
-        );
+        results.push(`?${qString}`);
       } else {
-        results.push(
-          `&c=${b.bChart}/${b.bGeom}/${b.bElement}/${b.bSeason}/${b.bSid}/`
-        );
+        results.push(`&${qString}`);
       }
     });
     this.app.history.push(results.join(""));

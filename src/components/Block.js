@@ -22,7 +22,7 @@ import ACISLogo from "../assets/images/acis_logo.png";
 
 // components
 import InfoModal from "./InfoModal";
-import MiniMap from "../components/MiniMap";
+// import MiniMap from "../components/MiniMap";
 
 // antd
 import { Button, Select, Radio, Modal } from "antd";
@@ -40,8 +40,7 @@ export default class Block extends Component {
       states,
       basins,
       stations,
-      bStore,
-      county
+      bStore
     } = this.props.app;
 
     const {
@@ -140,10 +139,6 @@ export default class Block extends Component {
         break;
     }
 
-    if (t) {
-      console.log(t.id);
-    }
-
     // elements
     const elemList = [];
     elems.forEach((val, key) =>
@@ -208,14 +203,7 @@ export default class Block extends Component {
 
         <Body>
           <LeftContainer>
-            <WMap>
-              <MiniMap
-                geomType={geom}
-                geoJSON={t ? t.geojson : null}
-                bbox={t ? t.bbox : null}
-                sid={sid}
-              />
-            </WMap>
+            <WMap>sdfsdf</WMap>
             <WImage>
               <img src={ACISLogo} alt="ACISLogo" />
             </WImage>

@@ -17,6 +17,7 @@ export default class MiniMap extends Component {
     this.state = {
       title: ""
     };
+    console.log(this.props);
   }
 
   updateSid() {
@@ -95,11 +96,11 @@ export default class MiniMap extends Component {
   componentDidMount() {
     this.map = L.map(ReactDOM.findDOMNode(this.refs.map), {
       center: position,
-      zoom: 5.6
+      zoom: 5.4
     });
     L.tileLayer(
       "https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png",
-      { subdomains: "abcd", minZoom: 5.6, maxZoom: 10, opacity: 0.3 }
+      { subdomains: "abcd", minZoom: 5.4, maxZoom: 10, opacity: 0.3 }
     ).addTo(this.map);
     if (this.props.geoJSON) {
       this.updateLayer();
@@ -122,8 +123,10 @@ export default class MiniMap extends Component {
   }
 
   render() {
+    const title = this.state.title;
     return (
       <div style={{ width: "100%", height: "100%" }}>
+        <div>{title}</div>
         <div ref="map" style={{ width: "100%", height: "100%" }} />
       </div>
     );

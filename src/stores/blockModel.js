@@ -26,16 +26,27 @@ export default class BlockModel {
 
   @computed
   get bbox() {
-    return this.list.get(this.sid).bbox.slice();
+    if (this.list) {
+      const obj = this.list.get(this.sid);
+      if (obj) {
+        return obj.bbox.slice();
+      }
+    }
   }
 
   @computed
   get geojson() {
-    return this.list.get(this.sid).geojson.coordinates.slice();
+    if (this.list) {
+      const obj = this.list.get(this.sid);
+      if (obj) {
+        return obj.geojson.coordinates.slice();
+      }
+    }
   }
 
   @action
   setField = (field, val) => {
+    console.log(field, val);
     let qString = this.app.history.location.search;
     let arr = [];
     if (qString.includes("&")) {

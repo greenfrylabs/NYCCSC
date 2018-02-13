@@ -39,6 +39,7 @@ export default class AppStore {
   }
 
   get stations() {
+    // console.log(this.stationStore.stations);
     return this.stationStore.stations;
   }
 

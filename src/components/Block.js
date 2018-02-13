@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
 // api
-import { geoms, elems, seasons } from "../api";
+import { geoms, elems, seasons, chartDefs } from "../api";
 
 // styled
 import {
@@ -22,7 +22,7 @@ import ACISLogo from "../assets/images/acis_logo.png";
 
 // components
 import InfoModal from "./InfoModal";
-// import MiniMap from "../components/MiniMap";
+import MiniMap from "../components/MiniMap";
 
 // antd
 import { Button, Select, Radio, Modal } from "antd";
@@ -44,7 +44,9 @@ export default class Block extends Component {
     } = this.props.app;
 
     const {
+      chart,
       geom,
+      bGeom,
       element,
       season,
       sid,
@@ -52,7 +54,14 @@ export default class Block extends Component {
       rpc,
       setRpc,
       blockIdx
+      // geojson,
+      // bbox
     } = this.props.block;
+
+    const cDef = chartDefs.get(chart);
+    const seasonsAdj = element === "grow_32" ? ["ANN"] : cDef.seasons;
+    const elementsAdj = geom === "stn" ? cDef.elems : cDef.gElems;
+    // console.log(cDef);
 
     // geom type
     const geomList = [];
@@ -120,41 +129,61 @@ export default class Block extends Component {
 
     let val = "";
     let t;
+    let bbox;
+    let geojson;
     switch (geom) {
       case "County":
         t = counties.get(sid);
+        if (t) {
+          bbox = t.bbox.slice();
+          geojson = t.geojson;
+        }
         t ? (val = t.name) : (val = "Albany County");
         break;
       case "Basin":
         t = basins.get(sid);
+        if (t) {
+          bbox = t.bbox.slice();
+          geojson = t.geojson;
+        }
         t ? (val = t.name) : (val = "Middle Hudson");
         break;
       case "Station":
         t = stations.get(sid);
+        if (t) {
+          // bbox = t.geometry;
+          geojson = t.geometry;
+        }
         t ? (val = t.properties.name) : (val = "ALBANY INTL AP");
         break;
       default:
         t = states.get(sid);
+        if (t) {
+          bbox = t.bbox.slice();
+          geojson = t.geojson;
+        }
         t ? (val = t.name) : (val = "NY");
         break;
     }
 
+    // console.log(bbox, geojson);
+
     // elements
     const elemList = [];
-    elems.forEach((val, key) =>
+    elementsAdj.forEach(el =>
       elemList.push(
-        <Option key={key} value={key}>
-          {val.label}
+        <Option key={el} value={el}>
+          {elems.get(el).label}
         </Option>
       )
     );
 
     // seasons
     const seasonList = [];
-    seasons.forEach((val, key) =>
+    seasonsAdj.forEach(el =>
       seasonList.push(
-        <Option key={key} value={key}>
-          {val.title}
+        <Option key={el} value={el}>
+          {seasons.get(el).title}
         </Option>
       )
     );
@@ -203,7 +232,16 @@ export default class Block extends Component {
 
         <Body>
           <LeftContainer>
-            <WMap>sdfsdf</WMap>
+            <WMap>
+              {bbox && (
+                <MiniMap
+                  geomType={bGeom}
+                  geoJSON={geojson}
+                  bbox={bbox}
+                  sid={sid}
+                />
+              )}
+            </WMap>
             <WImage>
               <img src={ACISLogo} alt="ACISLogo" />
             </WImage>

@@ -18,8 +18,8 @@ export default class StationStore {
     this.app
       .fetch("/data/stn.json")
       .then(json => {
-        // console.log(json.features);
-        this.updateStations(json.features);
+        console.log(json);
+        this.updateStations(json);
       })
       .catch(err => {
         console.log("Failed to load stations", err);

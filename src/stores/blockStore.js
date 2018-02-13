@@ -65,7 +65,7 @@ export default class BlockStore {
         list = this.app.stations;
       }
 
-      console.log(`pushing: ${blockIdx}`);
+      // console.log(`pushing: ${blockIdx}`);
       this.blocks.push(
         new BlockModel(this, {
           chart,

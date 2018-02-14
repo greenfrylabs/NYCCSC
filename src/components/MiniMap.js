@@ -15,7 +15,6 @@ export default class MiniMap extends Component {
     this.state = {
       title: ""
     };
-    console.log(this.props);
   }
 
   updateSid() {

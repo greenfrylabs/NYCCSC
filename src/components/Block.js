@@ -4,10 +4,14 @@ import { inject, observer } from "mobx-react";
 // api
 import { geoms, elems, seasons, chartDefs } from "../api";
 
+// utils
+import { transformToGeoJSON } from "utils";
+
 import basins from "../assets/basin.json";
 import counties from "../assets/county.json";
 import states from "../assets/state.json";
 import stations from "../assets/stn.json";
+import allStates from "assets/allStates.json";
 
 // styled
 import {
@@ -110,26 +114,28 @@ export default class Block extends Component {
     ));
 
     // list to render
-    const bbox = [-73.73622, 40.93942, -73.10422, 41.35243];
-    let geojson = [];
+    let center = [42.9543, -75.5262];
+    let geojson;
     let list;
 
     switch (geom) {
       case "County":
         list = countyList;
-        geojson = counties.meta.map(o => o.geojson);
+        geojson = transformToGeoJSON(counties);
         break;
       case "Basin":
         list = basinList;
-        geojson = basins.meta.map(o => o.geojson);
+        geojson = transformToGeoJSON(basins);
         break;
       case "Station":
         list = stationList;
-        // geojson = stations.meta.map(o => o.geojson)
+        geojson = stations;
         break;
       default:
         list = stateList;
-        geojson = states.meta.map(o => o.geojson);
+        // const state = allStates.find(state => state.postalCode === sid);
+        // center = [state.lat, state.lon];
+        geojson = transformToGeoJSON(states);
         break;
     }
 
@@ -182,8 +188,9 @@ export default class Block extends Component {
                 <MiniMap
                   geomType={bGeom}
                   geoJSON={geojson}
-                  bbox={bbox}
+                  center={center}
                   sid={sid}
+                  update={d => setField("bSid", d)}
                 />
               )}
             </WMap>

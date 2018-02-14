@@ -9,15 +9,13 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import L from "leaflet";
 
-const position = [43, -76];
-
 export default class MiniMap extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       title: ""
     };
-    console.log(this.props);
+    console.log(this.props, this.props.center);
   }
 
   updateSid() {
@@ -52,6 +50,7 @@ export default class MiniMap extends Component {
     if (this.layer && this.map.hasLayer(this.layer)) {
       this.map.removeLayer(this.layer);
     }
+    this.center = this.props.center;
     this.geomType = this.props.geomType;
     const isPoint = this.geomType === "stn";
     const fl = (this.layer = L.geoJson(this.props.geoJSON, {
@@ -82,7 +81,6 @@ export default class MiniMap extends Component {
     }));
 
     fl.on("mouseover", e => {
-      console.log(e.layer);
       this.setState({ title: e.layer.feature.properties.name });
     });
     fl.on("mouseout", e => {
@@ -96,7 +94,7 @@ export default class MiniMap extends Component {
 
   componentDidMount() {
     this.map = L.map(ReactDOM.findDOMNode(this.refs.map), {
-      center: position,
+      center: this.props.center,
       zoom: 5.6
     });
     L.tileLayer(
@@ -127,8 +125,18 @@ export default class MiniMap extends Component {
     const title = this.state.title;
     return (
       <div style={{ width: "100%", height: "100%" }}>
-        <div>{title}</div>
-        <div ref="map" style={{ width: "100%", height: "100%" }} />
+        <div
+          style={{
+            width: "100%",
+            height: "10%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          {title}
+        </div>
+        <div ref="map" style={{ width: "100%", height: "90%" }} />
       </div>
     );
   }

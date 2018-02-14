@@ -104,4 +104,11 @@ export default class BlockStore {
     this.blocks.push(b);
     this.setQString();
   };
+
+  @action
+  deleteChart = blockIdx => {
+    const b = this.blocks[blockIdx];
+    this.blocks.splice(blockIdx, 1);
+    this.setQString();
+  };
 }

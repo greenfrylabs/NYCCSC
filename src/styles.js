@@ -12,7 +12,7 @@ export const WHeader = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  height: 95px;
+  height: 93px;
   padding: 1rem;
   border-bottom: 2px solid ${primary};
 `;

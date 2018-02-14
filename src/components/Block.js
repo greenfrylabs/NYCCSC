@@ -190,6 +190,15 @@ export default class Block extends Component {
                 onClick={() => bStore.addChart(blockIdx)}
               />
             </Tooltip>
+            <Tooltip title="Delete Chart">
+              <Button
+                disabled={blockIdx === 0 ? true : false}
+                icon="minus"
+                shape="circle"
+                style={{ marginRight: 16 }}
+                onClick={() => bStore.deleteChart(blockIdx)}
+              />
+            </Tooltip>
             <Tooltip title="Download Data">
               <Button
                 // type="primary"
@@ -232,12 +241,15 @@ export default class Block extends Component {
         <Modal
           width={800}
           title=""
-          closable={false}
+          closable={true}
           visible={isModal}
           okText="Close"
-          onOk={toggleModal}
-          footer={<Button type="primary">Ciccio</Button>}
           onCancel={toggleModal}
+          footer={
+            <Button type="primary" onClick={toggleModal}>
+              Close
+            </Button>
+          }
         >
           <InfoModal />
         </Modal>

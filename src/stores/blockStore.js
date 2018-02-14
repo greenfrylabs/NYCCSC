@@ -11,16 +11,8 @@ export default class BlockStore {
   app;
   constructor(app) {
     this.app = app;
-    when(
-      () => !this.app.history.location.search,
-      this.app.history.push("?c=Temp/state/maxt/ANN/NY/")
-    );
-
     when(() => this.blocks.length === 0, () => this.setBlocks());
-    this.app.history.listen(location => {
-      console.log(location.search);
-      this.setBlocks();
-    });
+    this.app.history.listen(location => this.setBlocks());
   }
 
   @observable blocks = [];
@@ -29,8 +21,13 @@ export default class BlockStore {
   setBlocks = () => {
     this.blocks.clear();
     let arr = [];
-    const qString =
-      this.app.history.location.search || "?c=Temp/state/maxt/ANN/NY/";
+    let qString = this.app.history.location.search;
+    const defaultQString = "?c=Temp/state/maxt/ANN/NY/";
+
+    if (!qString) {
+      this.app.history.push("?c=Temp/state/maxt/ANN/NY/");
+      qString = defaultQString;
+    }
 
     if (qString.includes("&")) {
       arr = qString.split("&");

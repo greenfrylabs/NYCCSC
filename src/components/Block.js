@@ -11,7 +11,7 @@ import basins from "../assets/basin.json";
 import counties from "../assets/county.json";
 import states from "../assets/state.json";
 import stations from "../assets/stn.json";
-import allStates from "assets/allStates.json";
+// import allStates from "assets/allStates.json";
 
 // styled
 import {

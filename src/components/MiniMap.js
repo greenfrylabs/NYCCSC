@@ -82,6 +82,7 @@ export default class MiniMap extends Component {
     }));
 
     fl.on("mouseover", e => {
+      console.log(e.layer);
       this.setState({ title: e.layer.feature.properties.name });
     });
     fl.on("mouseout", e => {
@@ -96,11 +97,11 @@ export default class MiniMap extends Component {
   componentDidMount() {
     this.map = L.map(ReactDOM.findDOMNode(this.refs.map), {
       center: position,
-      zoom: 5.4
+      zoom: 5.6
     });
     L.tileLayer(
       "https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png",
-      { subdomains: "abcd", minZoom: 5.4, maxZoom: 10, opacity: 0.3 }
+      { subdomains: "abcd", minZoom: 5.6, maxZoom: 10, opacity: 0.3 }
     ).addTo(this.map);
     if (this.props.geoJSON) {
       this.updateLayer();

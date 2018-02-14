@@ -4,6 +4,11 @@ import { inject, observer } from "mobx-react";
 // api
 import { geoms, elems, seasons, chartDefs } from "../api";
 
+import basins from "../assets/basin.json";
+import counties from "../assets/county.json";
+import states from "../assets/state.json";
+import stations from "../assets/stn.json";
+
 // styled
 import {
   WBlock,
@@ -33,15 +38,7 @@ const RadioGroup = Radio.Group;
 @observer
 export default class Block extends Component {
   render() {
-    const {
-      isModal,
-      toggleModal,
-      counties,
-      states,
-      basins,
-      stations,
-      bStore
-    } = this.props.app;
+    const { isModal, toggleModal, bStore } = this.props.app;
 
     const {
       chart,
@@ -54,14 +51,7 @@ export default class Block extends Component {
       rpc,
       setRpc,
       blockIdx
-      // geojson,
-      // bbox
     } = this.props.block;
-
-    const cDef = chartDefs.get(chart);
-    const seasonsAdj = element === "grow_32" ? ["ANN"] : cDef.seasons;
-    const elementsAdj = geom === "stn" ? cDef.elems : cDef.gElems;
-    // console.log(cDef);
 
     // geom type
     const geomList = [];
@@ -74,119 +64,74 @@ export default class Block extends Component {
     );
 
     // counties
-    const countyList = [];
-    counties.forEach((val, key) =>
-      countyList.push(
-        <Option key={key} value={key}>
-          {val.name}
-        </Option>
-      )
-    );
+    const countyList = counties.meta.map(county => (
+      <Option key={county.id} value={county.id}>
+        {county.name}
+      </Option>
+    ));
 
     // states
-    const stateList = [];
-    states.forEach((val, key) =>
-      stateList.push(
-        <Option key={key} value={key}>
-          {val.name}
-        </Option>
-      )
-    );
+    const stateList = states.meta.map(state => (
+      <Option key={state.id} value={state.id}>
+        {state.name}
+      </Option>
+    ));
 
     // basins
-    const basinList = [];
-    basins.forEach((val, key) =>
-      basinList.push(
-        <Option key={key} value={key}>
-          {val.name}
-        </Option>
-      )
-    );
+    const basinList = basins.meta.map(basin => (
+      <Option key={basin.id} value={basin.id}>
+        {basin.name}
+      </Option>
+    ));
 
     // stations
-    const stationList = [];
-    stations.forEach((val, key) =>
-      stationList.push(
-        <Option key={key} value={key}>
-          {val.properties.name}
-        </Option>
-      )
-    );
+    const stationList = stations.features.map(station => (
+      <Option key={station.id} value={station.id}>
+        {station.properties.name}
+      </Option>
+    ));
 
-    // list to render
-    const list = geom => {
-      switch (geom) {
-        case "County":
-          return countyList;
-        case "Basin":
-          return basinList;
-        case "Station":
-          return stationList;
-        default:
-          return stateList;
-      }
-    };
-
-    let val = "";
-    let t;
-    let bbox;
-    let geojson;
-    switch (geom) {
-      case "County":
-        t = counties.get(sid);
-        if (t) {
-          bbox = t.bbox.slice();
-          geojson = t.geojson;
-        }
-        t ? (val = t.name) : (val = "Albany County");
-        break;
-      case "Basin":
-        t = basins.get(sid);
-        if (t) {
-          bbox = t.bbox.slice();
-          geojson = t.geojson;
-        }
-        t ? (val = t.name) : (val = "Middle Hudson");
-        break;
-      case "Station":
-        t = stations.get(sid);
-        if (t) {
-          // bbox = t.geometry;
-          geojson = t.geometry;
-        }
-        t ? (val = t.properties.name) : (val = "ALBANY INTL AP");
-        break;
-      default:
-        t = states.get(sid);
-        if (t) {
-          bbox = t.bbox.slice();
-          geojson = t.geojson;
-        }
-        t ? (val = t.name) : (val = "NY");
-        break;
-    }
-
-    // console.log(bbox, geojson);
+    const cDef = chartDefs.get(chart);
+    const seasonsAdj = element === "grow_32" ? ["ANN"] : cDef.seasons;
+    const elementsAdj = geom === "stn" ? cDef.elems : cDef.gElems;
 
     // elements
-    const elemList = [];
-    elementsAdj.forEach(el =>
-      elemList.push(
-        <Option key={el} value={el}>
-          {elems.get(el).label}
-        </Option>
-      )
-    );
+    const elemList = elementsAdj.map(el => (
+      <Option key={el} value={el}>
+        {elems.get(el).label}
+      </Option>
+    ));
 
     // seasons
-    const seasonList = [];
-    seasonsAdj.forEach(el =>
-      seasonList.push(
-        <Option key={el} value={el}>
-          {seasons.get(el).title}
-        </Option>
-      )
-    );
+    const seasonList = seasonsAdj.map(el => (
+      <Option key={el} value={el}>
+        {seasons.get(el).title}
+      </Option>
+    ));
+
+    // list to render
+    const bbox = [-73.73622, 40.93942, -73.10422, 41.35243];
+    let geojson = [];
+    let list;
+
+    switch (geom) {
+      case "County":
+        list = countyList;
+        geojson = counties.meta.map(o => o.geojson);
+        break;
+      case "Basin":
+        list = basinList;
+        geojson = basins.meta.map(o => o.geojson);
+        break;
+      case "Station":
+        list = stationList;
+        // geojson = stations.meta.map(o => o.geojson)
+        break;
+      default:
+        list = stateList;
+        geojson = states.meta.map(o => o.geojson);
+        break;
+    }
 
     return (
       <WBlock>
@@ -201,9 +146,9 @@ export default class Block extends Component {
           <Select
             style={{ width: 250 }}
             onChange={d => setField("bSid", d)}
-            value={val}
+            value={sid}
           >
-            {list(geom)}
+            {list}
           </Select>
 
           <Select
@@ -233,7 +178,7 @@ export default class Block extends Component {
         <Body>
           <LeftContainer>
             <WMap>
-              {bbox && (
+              {geojson && (
                 <MiniMap
                   geomType={bGeom}
                   geoJSON={geojson}

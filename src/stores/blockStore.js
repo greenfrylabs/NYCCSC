@@ -11,6 +11,11 @@ export default class BlockStore {
   app;
   constructor(app) {
     this.app = app;
+    when(
+      () => !this.app.history.location.search,
+      this.app.history.push("?c=Temp/state/maxt/ANN/NY/")
+    );
+
     when(() => this.blocks.length === 0, () => this.setBlocks());
     this.app.history.listen(location => {
       console.log(location.search);

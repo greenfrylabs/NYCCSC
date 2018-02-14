@@ -23,3 +23,23 @@ export const isEquivalent = (a, b) => {
   // are considered equivalent
   return true;
 };
+
+export const transformToGeoJSON = res => {
+  const out = { type: "FeatureCollection" };
+  out.features = res.meta.map(f => {
+    return {
+      type: "Feature",
+      id: f.id,
+      properties: {
+        name: f.name,
+        id: f.id,
+        bbox: f.bbox
+      },
+      geometry: {
+        type: f.geojson.type,
+        coordinates: f.geojson.coordinates
+      }
+    };
+  });
+  return out;
+};

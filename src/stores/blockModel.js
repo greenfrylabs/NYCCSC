@@ -11,9 +11,8 @@ export default class BlockModel {
   @observable bSid;
   @observable rpc = 8.5;
   @observable blockIdx;
-  @observable list;
 
-  constructor(store, { chart, element, geom, season, sid, blockIdx, list }) {
+  constructor(store, { chart, element, geom, season, sid, blockIdx }) {
     this.app = store.app;
     this.bChart = chart;
     this.bElement = element;
@@ -21,27 +20,6 @@ export default class BlockModel {
     this.bSeason = season;
     this.bSid = sid;
     this.blockIdx = blockIdx;
-    this.list = list;
-  }
-
-  @computed
-  get bbox() {
-    if (this.list) {
-      const obj = this.list.get(this.sid);
-      if (obj) {
-        return obj.bbox.slice();
-      }
-    }
-  }
-
-  @computed
-  get geojson() {
-    if (this.list) {
-      const obj = this.list.get(this.sid);
-      if (obj) {
-        return obj.geojson.coordinates.slice();
-      }
-    }
   }
 
   @action

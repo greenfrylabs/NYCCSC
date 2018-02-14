@@ -219,7 +219,7 @@ export default class Block extends Component {
               )}
             </WMap>
             <WImage>
-              <img src={ACISLogo} alt="ACISLogo" height="50px" width="200px" />
+              <img src={ACISLogo} alt="ACISLogo" height="60px" width="200px" />
             </WImage>
           </LeftContainer>
           <RightContainer>graph...</RightContainer>

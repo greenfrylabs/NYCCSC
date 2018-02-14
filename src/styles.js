@@ -62,7 +62,7 @@ export const LeftContainer = styled.div`
 `;
 
 export const WMap = styled.div`
-  flex: 6;
+  flex: 7;
   width: 100%;
   height: 350px;
   // border: 1px solid #dedede;
@@ -73,7 +73,7 @@ export const WImage = styled.div`
   flex: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   width: 100%;
   // background: pink;
 `;

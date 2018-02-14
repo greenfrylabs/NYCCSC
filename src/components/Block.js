@@ -172,8 +172,12 @@ export default class Block extends Component {
           </Select>
 
           <RadioGroup defaultValue={rpc} onChange={e => setRpc(e.target.value)}>
-            <Radio value={4.5}>RPC 4.5</Radio>
-            <Radio value={8.5}>RPC 8.5</Radio>
+            <Tooltip title="Low Emission rpc">
+              <Radio value={4.5}>RPC 4.5</Radio>
+            </Tooltip>
+            <Tooltip title="Hi Emission rpc">
+              <Radio value={8.5}>RPC 8.5</Radio>
+            </Tooltip>
           </RadioGroup>
 
           <div>

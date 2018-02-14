@@ -134,7 +134,7 @@ export default class MiniMap extends Component {
             justifyContent: "center"
           }}
         >
-          {title}
+          <h4>{title}</h4>
         </div>
         <div ref="map" style={{ width: "100%", height: "90%" }} />
       </div>

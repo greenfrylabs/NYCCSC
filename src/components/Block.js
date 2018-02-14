@@ -17,11 +17,9 @@ import stations from "../assets/stn.json";
 import {
   WBlock,
   BlockHeader,
-  WRadioButtons,
   Body,
   LeftContainer,
   RightContainer,
-  Footer,
   WMap,
   WImage
 } from "../styles";
@@ -34,7 +32,7 @@ import InfoModal from "./InfoModal";
 import MiniMap from "../components/MiniMap";
 
 // antd
-import { Button, Select, Radio, Modal } from "antd";
+import { Button, Select, Radio, Modal, Tooltip } from "antd";
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 
@@ -172,14 +170,40 @@ export default class Block extends Component {
           >
             {seasonList}
           </Select>
-        </BlockHeader>
 
-        <WRadioButtons>
           <RadioGroup defaultValue={rpc} onChange={e => setRpc(e.target.value)}>
-            <Radio value={4.5}>Low Emission rpc 4.5</Radio>
-            <Radio value={8.5}>Hi Emission rpc 8.5</Radio>
+            <Radio value={4.5}>RPC 4.5</Radio>
+            <Radio value={8.5}>RPC 8.5</Radio>
           </RadioGroup>
-        </WRadioButtons>
+
+          <div>
+            <Tooltip title="Add Chart">
+              <Button
+                // type="primary"
+                icon="plus"
+                shape="circle"
+                style={{ marginRight: 16 }}
+                onClick={() => bStore.addChart(blockIdx)}
+              />
+            </Tooltip>
+            <Tooltip title="Download Data">
+              <Button
+                // type="primary"
+                icon="download"
+                shape="circle"
+                style={{ marginRight: 16 }}
+              />
+            </Tooltip>
+            <Tooltip title="About Source Data">
+              <Button
+                // type="primary"
+                icon="info-circle-o"
+                shape="circle"
+                onClick={toggleModal}
+              />
+            </Tooltip>
+          </div>
+        </BlockHeader>
 
         <Body>
           <LeftContainer>
@@ -195,28 +219,12 @@ export default class Block extends Component {
               )}
             </WMap>
             <WImage>
-              <img src={ACISLogo} alt="ACISLogo" />
+              <img src={ACISLogo} alt="ACISLogo" height="50px" width="200px" />
             </WImage>
           </LeftContainer>
           <RightContainer>graph...</RightContainer>
         </Body>
 
-        <Footer>
-          <Button
-            type="primary"
-            icon="plus"
-            style={{ marginRight: 16 }}
-            onClick={() => bStore.addChart(blockIdx)}
-          >
-            Add Chart
-          </Button>
-          <Button type="primary" icon="download" style={{ marginRight: 16 }}>
-            Download Data
-          </Button>
-          <Button type="primary" icon="info-circle-o" onClick={toggleModal}>
-            About Source Data
-          </Button>
-        </Footer>
         <Modal
           width={800}
           title=""

@@ -14,6 +14,7 @@ export const WHeader = styled.div`
   width: 100%;
   height: 95px;
   padding: 1rem;
+  border-bottom: 2px solid ${primary};
 `;
 
 export const Header = styled.div`
@@ -21,28 +22,32 @@ export const Header = styled.div`
 `;
 
 export const WBlock = styled.div`
+  // max-width: 1600px;
   display: flex;
+  // margin: 0 auto;
   flex-direction: column;
-  flex: 1;
   height: 600px;
   padding: 1rem;
-  border-top: 2px solid ${primary};
   border-bottom: 2px solid ${primary};
+  // background: pink;
 `;
 
 export const BlockHeader = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin: 0 0 16px 0;
+  // height: 40px;
+  // background: teal;
 `;
 
 export const WRadioButtons = styled.div`
   height: 40px;
-  margin-top: 16px;
-  margin-bottom: 16px;
+  margin: 0 0 8px 0;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
+  // background: pink;
 `;
 
 export const Body = styled.div`
@@ -57,11 +62,11 @@ export const LeftContainer = styled.div`
 `;
 
 export const WMap = styled.div`
-  flex: 3;
+  flex: 6;
   width: 100%;
-  height: 300px;
-  border: 1px solid #dedede;
-  border-radius: 4px;
+  height: 350px;
+  // border: 1px solid #dedede;
+  // border-radius: 4px;
 `;
 
 export const WImage = styled.div`
@@ -70,6 +75,7 @@ export const WImage = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  // background: pink;
 `;
 
 export const RightContainer = styled.div`

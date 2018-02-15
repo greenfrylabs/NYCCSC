@@ -28,11 +28,10 @@ import {
 import ACISLogo from "../assets/images/acis_logo.png";
 
 // components
-import InfoModal from "./InfoModal";
 import MiniMap from "../components/MiniMap";
 
 // antd
-import { Button, Select, Radio, Modal, Tooltip } from "antd";
+import { Button, Select, Radio, Tooltip } from "antd";
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 
@@ -40,7 +39,7 @@ const RadioGroup = Radio.Group;
 @observer
 export default class Block extends Component {
   render() {
-    const { isModal, toggleModal, bStore } = this.props.app;
+    const { toggleModal, bStore } = this.props.app;
 
     const {
       chart,
@@ -237,22 +236,6 @@ export default class Block extends Component {
           </LeftContainer>
           <RightContainer>graph...</RightContainer>
         </Body>
-
-        <Modal
-          width={800}
-          title=""
-          closable={true}
-          visible={isModal}
-          okText="Close"
-          onCancel={toggleModal}
-          footer={
-            <Button type="primary" onClick={toggleModal}>
-              Close
-            </Button>
-          }
-        >
-          <InfoModal />
-        </Modal>
       </WBlock>
     );
   }

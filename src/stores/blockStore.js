@@ -12,14 +12,15 @@ export default class BlockStore {
   constructor(app) {
     this.app = app;
     when(() => this.blocks.length === 0, () => this.setBlocks());
-    this.app.history.listen(location => this.setBlocks());
+    this.app.history.listen(location => this.updateBlocks());
   }
 
   @observable blocks = [];
 
   @action
   setBlocks = () => {
-    this.blocks.clear();
+    console.log("setBlocks");
+    // this.blocks.clear();
     let arr = [];
     let qString = this.app.history.location.search;
     const defaultQString = "?c=Temp/state/maxt/ANN/NY/";
@@ -53,21 +54,6 @@ export default class BlockStore {
       const sid = qParam.sid;
       const blockIdx = i;
 
-      let list;
-      if (geom === "state") {
-        list = this.app.states;
-      }
-      if (geom === "county") {
-        list = this.app.counties;
-      }
-      if (geom === "basin") {
-        list = this.app.basins;
-      }
-      if (geom === "stn") {
-        list = this.app.stations;
-      }
-
-      // console.log(`pushing: ${blockIdx}`);
       this.blocks.push(
         new BlockModel(this, {
           chart,
@@ -75,11 +61,15 @@ export default class BlockStore {
           geom,
           season,
           sid,
-          blockIdx,
-          list
+          blockIdx
         })
       );
     });
+  };
+
+  @action
+  updateBlocks = () => {
+    console.log("update");
   };
 
   @action
@@ -99,9 +89,17 @@ export default class BlockStore {
   };
 
   @action
-  addChart = blockIdx => {
-    const b = this.blocks[blockIdx];
-    this.blocks.push(b);
+  addChart = idx => {
+    const b = this.blocks[idx];
+    const chart = b.bChart;
+    const element = b.bElement;
+    const geom = b.bGeom;
+    const season = b.bSeason;
+    const sid = b.bSid;
+    const blockIdx = b.blockIdx + 1;
+    this.blocks.push(
+      new BlockModel(this, { chart, element, geom, season, sid, blockIdx })
+    );
     this.setQString();
   };
 

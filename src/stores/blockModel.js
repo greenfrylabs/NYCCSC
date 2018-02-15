@@ -1,6 +1,6 @@
 import { observable, action, computed } from "mobx";
 
-import { geoms, chartDefs, elems, seasons, parseURL } from "../api";
+import { geoms, elems, seasons, parseURL } from "../api";
 
 export default class BlockModel {
   app;
@@ -24,7 +24,7 @@ export default class BlockModel {
 
   @action
   setField = (field, val) => {
-    // console.log(field, val);
+    console.log(field, val);
     let qString = this.app.history.location.search;
     let arr = [];
     if (qString.includes("&")) {
@@ -62,7 +62,7 @@ export default class BlockModel {
 
   @computed
   get chart() {
-    return chartDefs.get(this.bChart).title;
+    return this.bChart;
   }
   @computed
   get geom() {

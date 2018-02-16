@@ -1,7 +1,5 @@
 import { observable, action } from "mobx";
 
-import { parseURL } from "../api";
-
 export default class BlockModel {
   app;
   @observable chart;

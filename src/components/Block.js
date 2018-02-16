@@ -225,7 +225,7 @@ export default class Block extends Component {
                   geoJSON={geojson}
                   center={center}
                   sid={sid}
-                  update={d => setField("bSid", d)}
+                  update={d => setField("sid", d)}
                 />
               )}
             </WMap>

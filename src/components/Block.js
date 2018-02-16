@@ -29,9 +29,10 @@ import ACISLogo from "../assets/images/acis_logo.png";
 
 // components
 import MiniMap from "../components/MiniMap";
+import Graph from "../components/Graph";
 
 // antd
-import { Button, Select, Radio, Tooltip } from "antd";
+import { Button, Select, Radio, Tooltip, Icon } from "antd";
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 
@@ -50,7 +51,8 @@ export default class Block extends Component {
       setField,
       rpc,
       setRpc,
-      idx
+      idx,
+      data
     } = this.props.block;
 
     // geom type
@@ -233,7 +235,22 @@ export default class Block extends Component {
               <img src={ACISLogo} alt="ACISLogo" height="60px" width="200px" />
             </WImage>
           </LeftContainer>
-          <RightContainer>graph...</RightContainer>
+          <RightContainer>
+            {data ? (
+              <Graph data={data} />
+            ) : (
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              >
+                <Icon type="loading" style={{ fontSize: 32 }} />
+              </div>
+            )}
+          </RightContainer>
         </Body>
       </WBlock>
     );

@@ -2,6 +2,7 @@ import { observable, action } from "mobx";
 
 export default class BlockModel {
   app;
+  @observable data;
   @observable chart;
   @observable element;
   @observable geom;
@@ -10,8 +11,12 @@ export default class BlockModel {
   @observable rpc;
   @observable idx;
 
-  constructor(store, { chart, element, geom, season, sid, idx, rpc = 8.5 }) {
+  constructor(
+    store,
+    { data, chart, element, geom, season, sid, idx, rpc = 8.5 }
+  ) {
     this.app = store.app;
+    this.data = data;
     this.chart = chart;
     this.element = element;
     this.geom = geom;

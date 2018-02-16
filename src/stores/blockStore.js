@@ -73,6 +73,7 @@ export default class BlockStore {
   addBlock = index => {
     // console.log("addChart");
     const b = this.blocks[index];
+    const data = b.data;
     const chart = b.chart;
     const element = b.element;
     const geom = b.geom;
@@ -82,7 +83,16 @@ export default class BlockStore {
     const rpc = b.rpc;
 
     this.blocks.push(
-      new BlockModel(this, { chart, element, geom, season, sid, idx, rpc })
+      new BlockModel(this, {
+        data,
+        chart,
+        element,
+        geom,
+        season,
+        sid,
+        idx,
+        rpc
+      })
     );
     this.setQString();
   };
@@ -91,6 +101,7 @@ export default class BlockStore {
   updateBlock = index => {
     // console.log("updateBlock");
     const b = this.blocks[index];
+    const data = b.data;
     const chart = b.chart;
     const element = b.element;
     const geom = b.geom;
@@ -103,6 +114,7 @@ export default class BlockStore {
       index,
       1,
       new BlockModel(this, {
+        data,
         chart,
         element,
         geom,
@@ -156,8 +168,20 @@ export default class BlockStore {
       };
       const station = stations.features.find(s => s.id === params.sid);
       const query = buildQuery(params, station);
-      fetchStationData(query).then(res => (this.blocks[i]["data"] = res.data));
+      fetchStationData(query).then(
+        res => (this.blocks[i]["data"] = this.transformData(res.data))
+      );
       this.isLoading = false;
     });
   };
+
+  transformData(arr) {
+    let results = [];
+    arr.data.forEach(el => {
+      if (el[1] !== "M") {
+        results.push({ year: parseInt(el[0], 10), e: parseFloat(el[1], 10) });
+      }
+    });
+    return results;
+  }
 }

@@ -52,7 +52,8 @@ export default class Block extends Component {
       rpc,
       setRpc,
       idx,
-      data
+      data,
+      graphTitle
     } = this.props.block;
 
     // geom type
@@ -237,7 +238,12 @@ export default class Block extends Component {
           </LeftContainer>
           <RightContainer>
             {data ? (
-              <Graph data={data} />
+              <div style={{ width: "100%", height: "100%" }}>
+                <div style={{ textAlign: "center" }}>
+                  <h4>{graphTitle}</h4>
+                </div>
+                <Graph data={data} />
+              </div>
             ) : (
               <div
                 style={{

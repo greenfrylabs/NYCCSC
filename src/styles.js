@@ -36,7 +36,7 @@ export const BlockHeader = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin: 0 0 16px 0;
+  margin: 0 0 48px 0;
   // height: 40px;
   // background: teal;
 `;

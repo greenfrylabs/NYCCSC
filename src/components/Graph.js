@@ -14,11 +14,11 @@ export default class Graph extends Component {
       <ResponsiveContainer width="100%" height="100%">
         <ComposedChart
           data={data.slice()}
-          margin={{ top: 15, right: 15, left: -20, bottom: 0 }}
+          margin={{ top: 15, right: 15, left: -20, bottom: 15 }}
         >
           <XAxis dataKey="year" />
           <YAxis dataKey="e" domain={["dataMin", "dataMax"]} />
-          <Scatter line={true} dataKey="e" stroke="#8884d8" />
+          <Scatter line={false} dataKey="e" fill="#7483EE" />
         </ComposedChart>
       </ResponsiveContainer>
     );

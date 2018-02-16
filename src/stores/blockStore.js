@@ -169,17 +169,21 @@ export default class BlockStore {
       const station = stations.features.find(s => s.id === params.sid);
       const query = buildQuery(params, station);
       fetchStationData(query).then(
-        res => (this.blocks[i]["data"] = this.transformData(res.data))
+        res => (this.blocks[i]["data"] = this.transformData(res))
       );
       this.isLoading = false;
     });
   };
 
-  transformData(arr) {
+  transformData(res) {
     let results = [];
-    arr.data.forEach(el => {
+    res.data.data.forEach(el => {
       if (el[1] !== "M") {
-        results.push({ year: parseInt(el[0], 10), e: parseFloat(el[1], 10) });
+        results.push({
+          year: parseInt(el[0], 10),
+          e: parseFloat(el[1], 10),
+          meta: res.data.meta
+        });
       }
     });
     return results;

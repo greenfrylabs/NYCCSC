@@ -1,4 +1,10 @@
-import { observable, action } from "mobx";
+import { observable, action, computed } from "mobx";
+
+import { seasons, elems } from "../api";
+import states from "../assets/state.json";
+import basins from "../assets/basin.json";
+import counties from "../assets/county.json";
+import stations from "../assets/stn.json";
 
 export default class BlockModel {
   app;
@@ -45,4 +51,27 @@ export default class BlockModel {
     this.rpc = d;
     this.app.blockStore.updateBlock(this.idx);
   };
+
+  @computed
+  get graphTitle() {
+    const season = seasons.get(this.season).title;
+    const element = elems.get(this.element).label;
+    let sid;
+    if (this.geom === "state") {
+      sid = states.meta.find(s => s.id === this.sid).name;
+    }
+    if (this.geom === "county") {
+      sid = counties.meta.find(s => s.id === this.sid).name;
+    }
+
+    if (this.geom === "basin") {
+      sid = basins.meta.find(s => s.id === this.sid).name;
+    }
+
+    if (this.geom === "stn") {
+      sid = stations.features.find(s => s.id === this.sid).properties.name;
+    }
+
+    return `${season} ${element} - ${sid}`;
+  }
 }

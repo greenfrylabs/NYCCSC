@@ -53,7 +53,8 @@ export default class Block extends Component {
       setRpc,
       idx,
       data,
-      graphTitle
+      graphTitle,
+      yaxisLabel
     } = this.props.block;
 
     // geom type
@@ -242,7 +243,7 @@ export default class Block extends Component {
                 <div style={{ textAlign: "center" }}>
                   <h4>{graphTitle}</h4>
                 </div>
-                <Graph data={data} />
+                <Graph data={data} yaxisLabel={yaxisLabel} />
               </div>
             ) : (
               <div

@@ -71,7 +71,11 @@ export default class BlockModel {
     if (this.geom === "stn") {
       sid = stations.features.find(s => s.id === this.sid).properties.name;
     }
-
     return `${season} ${element} - ${sid}`;
+  }
+
+  @computed
+  get yaxisLabel() {
+    return "ylabel...";
   }
 }

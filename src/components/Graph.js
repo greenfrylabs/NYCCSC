@@ -17,7 +17,7 @@ export default class Graph extends Component {
           margin={{ top: 15, right: 15, left: -20, bottom: 15 }}
         >
           <XAxis dataKey="year" />
-          <YAxis dataKey="e" domain={["dataMin", "dataMax"]} />
+          <YAxis dataKey="e" domain={["dataMin", "dataMax"]} label={{value: 'dsdfsdf', angle: -90, position: 'insideTopRight'}} offset={40}/>
           <Scatter line={false} dataKey="e" fill="#7483EE" />
         </ComposedChart>
       </ResponsiveContainer>

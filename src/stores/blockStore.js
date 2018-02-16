@@ -15,7 +15,12 @@ export default class BlockStore {
   constructor(app) {
     this.app = app;
     when(() => this.blocks.length === 0, () => this.setBlocks());
-    // this.app.history.listen(location => {this.updateBlocks());
+    // this.app.history.listen(location => {
+    //   console.log(location.search)
+    //   if(location.search) {
+    //   this.updateBlock()
+    //   }
+    // })
   }
 
   @observable blocks = [];

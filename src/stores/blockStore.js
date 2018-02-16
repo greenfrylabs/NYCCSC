@@ -66,7 +66,7 @@ export default class BlockStore {
         })
       );
     });
-    // this.loadData();
+    this.loadData();
   };
 
   @action
@@ -113,6 +113,7 @@ export default class BlockStore {
       })
     );
     this.setQString();
+    this.loadData();
   };
 
   @action
@@ -153,7 +154,7 @@ export default class BlockStore {
         season: b.season,
         sid: b.sid
       };
-      const station = stations.features.find(s => (s.id = params.sid));
+      const station = stations.features.find(s => s.id === params.sid);
       const query = buildQuery(params, station);
       fetchStationData(query).then(res => (this.blocks[i]["data"] = res.data));
       this.isLoading = false;

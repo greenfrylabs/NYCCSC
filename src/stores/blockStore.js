@@ -5,14 +5,17 @@ import BlockModel from "./blockModel";
 
 // utils
 import { isEquivalent } from "../utils";
-import { parseURL, correctParam } from "../api";
+import { parseURL, buildQuery, correctParam } from "../api";
+import { fetchStationData } from "fetchData";
+
+import stations from "../assets/stn.json";
 
 export default class BlockStore {
   app;
   constructor(app) {
     this.app = app;
     when(() => this.blocks.length === 0, () => this.setBlocks());
-    // this.app.history.listen(location => this.updateBlocks());
+    // this.app.history.listen(location => {this.updateBlocks());
   }
 
   @observable blocks = [];
@@ -20,7 +23,6 @@ export default class BlockStore {
   @action
   setBlocks = () => {
     console.log("setBlocks");
-    // this.blocks.clear();
     let arr = [];
     let qString = this.app.history.location.search;
     const defaultQString = "?c=Temp/state/maxt/ANN/NY/";
@@ -52,7 +54,6 @@ export default class BlockStore {
       const geom = qParam.geom;
       const season = qParam.season;
       const sid = qParam.sid;
-      const blockIdx = i;
 
       this.blocks.push(
         new BlockModel(this, {
@@ -61,23 +62,72 @@ export default class BlockStore {
           geom,
           season,
           sid,
-          blockIdx
+          idx: i
         })
       );
     });
+    // this.loadData();
   };
 
   @action
-  updateBlocks = () => {
-    console.log("update");
+  addBlock = index => {
+    // console.log("addChart");
+    const b = this.blocks[index];
+    const chart = b.chart;
+    const element = b.element;
+    const geom = b.geom;
+    const season = b.season;
+    const sid = b.sid;
+    const idx = b.idx + 1;
+    const rpc = b.rpc;
+
+    this.blocks.push(
+      new BlockModel(this, { chart, element, geom, season, sid, idx, rpc })
+    );
+    this.setQString();
+  };
+
+  @action
+  updateBlock = index => {
+    // console.log("updateBlock");
+    const b = this.blocks[index];
+    const chart = b.chart;
+    const element = b.element;
+    const geom = b.geom;
+    const season = b.season;
+    const sid = b.sid;
+    const idx = b.idx;
+    const rpc = b.rpc;
+
+    this.blocks.splice(
+      index,
+      1,
+      new BlockModel(this, {
+        chart,
+        element,
+        geom,
+        season,
+        sid,
+        idx,
+        rpc
+      })
+    );
+    this.setQString();
+  };
+
+  @action
+  deleteBlock = idx => {
+    // console.log("deleteBlock");
+    this.blocks.splice(idx, 1);
+    this.setQString();
   };
 
   @action
   setQString = () => {
     let results = [];
     this.blocks.forEach((b, i) => {
-      const qString = `c=${b.bChart}/${b.bGeom}/${b.bElement}/${b.bSeason}/${
-        b.bSid
+      const qString = `c=${b.chart}/${b.geom}/${b.element}/${b.season}/${
+        b.sid
       }/`;
       if (i === 0) {
         results.push(`?${qString}`);
@@ -88,24 +138,25 @@ export default class BlockStore {
     this.app.history.push(results.join(""));
   };
 
-  @action
-  addChart = idx => {
-    const b = this.blocks[idx];
-    const chart = b.bChart;
-    const element = b.bElement;
-    const geom = b.bGeom;
-    const season = b.bSeason;
-    const sid = b.bSid;
-    const blockIdx = b.blockIdx + 1;
-    this.blocks.push(
-      new BlockModel(this, { chart, element, geom, season, sid, blockIdx })
-    );
-    this.setQString();
-  };
+  // fetching data
+  @observable isLoading = false;
 
   @action
-  deleteChart = blockIdx => {
-    this.blocks.splice(blockIdx, 1);
-    this.setQString();
+  loadData = () => {
+    this.isLoading = true;
+    let params = {};
+    this.blocks.forEach((b, i) => {
+      params = {
+        chart: b.chart,
+        geom: b.geom,
+        element: b.element,
+        season: b.season,
+        sid: b.sid
+      };
+      const station = stations.features.find(s => (s.id = params.sid));
+      const query = buildQuery(params, station);
+      fetchStationData(query).then(res => (this.blocks[i]["data"] = res.data));
+      this.isLoading = false;
+    });
   };
 }

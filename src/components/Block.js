@@ -44,14 +44,13 @@ export default class Block extends Component {
     const {
       chart,
       geom,
-      bGeom,
       element,
       season,
       sid,
       setField,
       rpc,
       setRpc,
-      blockIdx
+      idx
     } = this.props.block;
 
     // geom type
@@ -116,15 +115,15 @@ export default class Block extends Component {
     let list;
 
     switch (geom) {
-      case "County":
+      case "county":
         list = countyList;
         geojson = transformToGeoJSON(counties);
         break;
-      case "Basin":
+      case "basin":
         list = basinList;
         geojson = transformToGeoJSON(basins);
         break;
-      case "Station":
+      case "stn":
         list = stationList;
         geojson = stations;
         break;
@@ -141,14 +140,14 @@ export default class Block extends Component {
         <BlockHeader>
           <Select
             style={{ width: 120 }}
-            onChange={d => setField("bGeom", d)}
+            onChange={d => setField("geom", d)}
             value={geom}
           >
             {geomList}
           </Select>
           <Select
             style={{ width: 250 }}
-            onChange={d => setField("bSid", d)}
+            onChange={d => setField("sid", d)}
             value={sid}
           >
             {list}
@@ -156,7 +155,7 @@ export default class Block extends Component {
 
           <Select
             style={{ width: 320 }}
-            onChange={d => setField("bElement", d)}
+            onChange={d => setField("element", d)}
             value={element}
           >
             {elemList}
@@ -164,7 +163,7 @@ export default class Block extends Component {
 
           <Select
             style={{ width: 120 }}
-            onChange={d => setField("bSeason", d)}
+            onChange={d => setField("season", d)}
             value={season}
           >
             {seasonList}
@@ -186,16 +185,16 @@ export default class Block extends Component {
                 icon="plus"
                 shape="circle"
                 style={{ marginRight: 16 }}
-                onClick={() => bStore.addChart(blockIdx)}
+                onClick={() => bStore.addBlock(idx)}
               />
             </Tooltip>
             <Tooltip title="Delete Chart">
               <Button
-                disabled={blockIdx === 0 ? true : false}
+                disabled={idx === 0 ? true : false}
                 icon="minus"
                 shape="circle"
                 style={{ marginRight: 16 }}
-                onClick={() => bStore.deleteChart(blockIdx)}
+                onClick={() => bStore.deleteBlock(idx)}
               />
             </Tooltip>
             <Tooltip title="Download Data">
@@ -222,7 +221,7 @@ export default class Block extends Component {
             <WMap>
               {geojson && (
                 <MiniMap
-                  geomType={bGeom}
+                  geomType={geom}
                   geoJSON={geojson}
                   center={center}
                   sid={sid}

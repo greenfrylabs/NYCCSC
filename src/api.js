@@ -393,17 +393,18 @@ export let elems = new Map([
 // "elems":[{"name":"maxt","interval":[1,0,0],"duration":"std","season_start":"07-30","reduce":"run_gt_40"}]}
 
 export function buildQuery(params, meta) {
-  const s = seasons.get(params.season),
-    e = elems.get(params.element);
+  const s = seasons.get(params.season);
+  const e = elems.get(params.element);
   let p = {};
   let elem = {
     interval: s.interval,
     duration: s.duration,
     maxmissing: s.maxmissing
   };
+  // console.log(s, e, p, elem, meta);
   if (params.geom === "stn") {
     p.edate = "por";
-    p.sid = meta.ghcn;
+    p.sid = meta.properties.ghcn;
     p.sdate = s.smonth ? ["por", s.smonth] : ["por"];
     elem = { ...elem, ...e.acis };
   } else {
@@ -428,6 +429,7 @@ export function buildQuery(params, meta) {
       elem = { ...elem, ...e.acis, ...e.grid };
     }
   }
+
   p.elems = [elem];
   return p;
 }
@@ -515,16 +517,16 @@ const defaultSids = {
   basin: "02020006"
 };
 
-export function haveSameResults(p1, p2) {
-  if (!p2) return false;
-  const { chart, geom, element, season, sid } = p1;
-  if (p2.chart !== chart) return false;
-  if (p2.geom !== geom) return false;
-  if (p2.element !== element) return false;
-  if (p2.season !== season) return false;
-  if (geom === "stn" && p2.sid !== sid) return false;
-  return true;
-}
+// export function haveSameResults(p1, p2) {
+//   if (!p2) return false;
+//   const { chart, geom, element, season, sid } = p1;
+//   if (p2.chart !== chart) return false;
+//   if (p2.geom !== geom) return false;
+//   if (p2.element !== element) return false;
+//   if (p2.season !== season) return false;
+//   if (geom === "stn" && p2.sid !== sid) return false;
+//   return true;
+// }
 
 const allSeasons = [...seasons.keys()];
 

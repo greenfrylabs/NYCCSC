@@ -186,13 +186,11 @@ export default class BlockStore {
     let results = [];
     if (res) {
       res.data.data.forEach(el => {
-        if (el[1] !== "M") {
-          results.push({
-            year: parseInt(el[0], 10),
-            e: parseFloat(el[1], 10),
-            meta: res.data.meta
-          });
-        }
+        results.push({
+          year: parseInt(el[0], 10),
+          e: el[1] !== "M" ? parseFloat(el[1], 10) : "",
+          meta: res.data.meta
+        });
       });
       return results;
     }

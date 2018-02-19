@@ -21,7 +21,12 @@ import {
   LeftContainer,
   RightContainer,
   WMap,
-  WImage
+  WImage,
+  RowColumn,
+  WGraphTitle,
+  WLegend,
+  LegendCell,
+  Center
 } from "../styles";
 
 // logo
@@ -239,23 +244,21 @@ export default class Block extends Component {
           </LeftContainer>
           <RightContainer>
             {data ? (
-              <div style={{ width: "100%", height: "100%" }}>
-                <div style={{ textAlign: "center" }}>
+              <RowColumn>
+                <WGraphTitle>
                   <h4>{graphTitle}</h4>
-                </div>
+                </WGraphTitle>
                 <Graph data={data} yaxisLabel={yaxisLabel} />
-              </div>
+                <WLegend>
+                  <LegendCell>One</LegendCell>
+                  <LegendCell>Two</LegendCell>
+                  <LegendCell>three</LegendCell>
+                </WLegend>
+              </RowColumn>
             ) : (
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center"
-                }}
-              >
+              <Center>
                 <Icon type="loading" style={{ fontSize: 32 }} />
-              </div>
+              </Center>
             )}
           </RightContainer>
         </Body>

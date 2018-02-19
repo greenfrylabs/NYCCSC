@@ -58,6 +58,7 @@ export const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-width: 250px;
   padding: 0px 0.5em;
 `;
 
@@ -86,15 +87,38 @@ export const RightContainer = styled.div`
   // border-radius: 4px;
 `;
 
-// export const Footer = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   height: 40px;
-//   margin-top: 16px;
-// `;
+export const RowColumn = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
 
-// export const GraphWrapper = styled.div`
-//   width: 100%;
-//   height: 100%;
-// `;
+export const WGraphTitle = styled.div`
+  text-align: center;
+  height: 5%;
+`;
+
+export const WLegend = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 10%;
+`;
+
+export const LegendCell = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+`;
+
+export const Center = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;

@@ -172,9 +172,7 @@ export default class BlockStore {
         sid: b.sid
       };
       const station = stations.features.find(s => s.id === params.sid);
-
       const query = buildQuery(params, station);
-
       fetchStationData(query).then(
         res => (this.blocks[i]["data"] = this.transformData(res))
       );
@@ -188,7 +186,7 @@ export default class BlockStore {
       res.data.data.forEach(el => {
         results.push({
           year: parseInt(el[0], 10),
-          e: el[1] !== "M" ? parseFloat(el[1], 10) : "",
+          e: el[1] !== "M" ? parseFloat(el[1], 10) : null,
           meta: res.data.meta
         });
       });

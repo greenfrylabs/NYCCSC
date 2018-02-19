@@ -5,14 +5,15 @@ import {
   XAxis,
   YAxis,
   ComposedChart,
-  Tooltip
+  Tooltip,
+  Brush
 } from "recharts";
 
 export default class Graph extends Component {
   render() {
     const { data, yaxisLabel } = this.props;
     return (
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height="85%">
         <ComposedChart
           data={data.slice()}
           margin={{ top: 15, right: 15, left: 0, bottom: 15 }}
@@ -29,6 +30,7 @@ export default class Graph extends Component {
           />
           <Tooltip cursor={{ strokeDasharray: "3 3" }} />
           <Scatter line={false} dataKey="e" fill="#7483EE" />
+          <Brush dataKey="year" height={15} stroke="#7483EE" />
         </ComposedChart>
       </ResponsiveContainer>
     );

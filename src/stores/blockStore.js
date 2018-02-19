@@ -15,12 +15,12 @@ export default class BlockStore {
   constructor(app) {
     this.app = app;
     when(() => this.blocks.length === 0, () => this.setBlocks());
-    // this.app.history.listen(location => {
-    //   console.log(location.search)
-    //   if(location.search) {
-    //   this.updateBlock()
-    //   }
-    // })
+    this.app.history.listen((location, action) => {
+      if (action === "POP") {
+        this.blocks = [];
+        this.setBlocks();
+      }
+    });
   }
 
   @observable blocks = [];
@@ -172,7 +172,9 @@ export default class BlockStore {
         sid: b.sid
       };
       const station = stations.features.find(s => s.id === params.sid);
+
       const query = buildQuery(params, station);
+
       fetchStationData(query).then(
         res => (this.blocks[i]["data"] = this.transformData(res))
       );
@@ -182,15 +184,17 @@ export default class BlockStore {
 
   transformData(res) {
     let results = [];
-    res.data.data.forEach(el => {
-      if (el[1] !== "M") {
-        results.push({
-          year: parseInt(el[0], 10),
-          e: parseFloat(el[1], 10),
-          meta: res.data.meta
-        });
-      }
-    });
-    return results;
+    if (res) {
+      res.data.data.forEach(el => {
+        if (el[1] !== "M") {
+          results.push({
+            year: parseInt(el[0], 10),
+            e: parseFloat(el[1], 10),
+            meta: res.data.meta
+          });
+        }
+      });
+      return results;
+    }
   }
 }

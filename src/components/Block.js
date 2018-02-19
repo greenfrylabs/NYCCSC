@@ -143,14 +143,14 @@ export default class Block extends Component {
       <WBlock>
         <BlockHeader>
           <Select
-            style={{ width: 120 }}
+            style={{ width: 110 }}
             onChange={d => setField("geom", d)}
             value={geom}
           >
             {geomList}
           </Select>
           <Select
-            style={{ width: 250 }}
+            style={{ width: 240 }}
             onChange={d => setField("sid", d)}
             value={sid}
           >
@@ -158,7 +158,7 @@ export default class Block extends Component {
           </Select>
 
           <Select
-            style={{ width: 320 }}
+            style={{ width: 350 }}
             onChange={d => setField("element", d)}
             value={element}
           >
@@ -166,7 +166,7 @@ export default class Block extends Component {
           </Select>
 
           <Select
-            style={{ width: 120 }}
+            style={{ width: 110 }}
             onChange={d => setField("season", d)}
             value={season}
           >

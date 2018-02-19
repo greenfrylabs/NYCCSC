@@ -76,6 +76,6 @@ export default class BlockModel {
 
   @computed
   get yaxisLabel() {
-    return "ylabel...";
+    return elems.get(this.element).yLabel;
   }
 }

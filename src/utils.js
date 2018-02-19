@@ -43,3 +43,8 @@ export const transformToGeoJSON = res => {
   });
   return out;
 };
+
+export const foldm = (r, j) =>
+  r.reduce((a, b, i, g) => (!(i % j) ? a.concat([g.slice(i, i + j)]) : a), []);
+
+export const average = arr => arr.reduce((p, c) => p + c, 0) / arr.length;

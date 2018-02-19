@@ -6,6 +6,10 @@ import basins from "../assets/basin.json";
 import counties from "../assets/county.json";
 import stations from "../assets/stn.json";
 
+import { foldm, average } from "../utils";
+
+const takeRight = require("lodash.takeright");
+
 export default class BlockModel {
   app;
   @observable data;
@@ -77,5 +81,49 @@ export default class BlockModel {
   @computed
   get yaxisLabel() {
     return elems.get(this.element).yLabel;
+  }
+
+  @observable meanRange = 5;
+  @action setMeanRange = d => (this.meanRange = d);
+
+  // @computed
+  // get mean() {
+  //   if (this.data) {
+  //     const splittedData = foldm(this.data, this.meanRange);
+  //     const filtered = splittedData.filter(
+  //       chunk => chunk.length === this.meanRange
+  //     );
+  //     const means = filtered.map((chunk, i) => {
+  //       const means = chunk.map(y => y.e);
+  //       return {
+  //         period: `${chunk[0].year}-${chunk[chunk.length - 1].year}`,
+  //         mean: average(means).toFixed(2)
+  //       };
+  //     });
+  //   }
+  // }
+
+  @computed
+  get dataWithMeanValues() {
+    if (this.data) {
+      let mean = null;
+      let arr = [];
+      let hasNull = false;
+      return this.data.map((d, i) => {
+        arr.push(d.e);
+        const chunk = takeRight(arr, 5);
+        hasNull = chunk.includes(null);
+        if (i > 5) {
+          if (!hasNull) {
+            mean = parseFloat(average(takeRight(arr, 5)).toFixed(2));
+            return { ...d, mean, hasNull };
+          } else {
+            mean = null;
+            return { ...d, mean, hasNull };
+          }
+        }
+        return { ...d, mean, hasNull };
+      });
+    }
   }
 }

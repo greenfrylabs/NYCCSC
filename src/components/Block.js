@@ -24,8 +24,6 @@ import {
   WImage,
   RowColumn,
   WGraphTitle,
-  WLegend,
-  LegendCell,
   Center
 } from "../styles";
 
@@ -59,9 +57,9 @@ export default class Block extends Component {
       idx,
       data,
       graphTitle,
-      yaxisLabel
+      yaxisLabel,
+      dataWithMeanValues
     } = this.props.block;
-
     // geom type
     const geomList = [];
     geoms.forEach((val, key) =>
@@ -190,7 +188,6 @@ export default class Block extends Component {
           <div>
             <Tooltip title="Add Chart">
               <Button
-                // type="primary"
                 icon="plus"
                 shape="circle"
                 style={{ marginRight: 16 }}
@@ -208,7 +205,6 @@ export default class Block extends Component {
             </Tooltip>
             <Tooltip title="Download Data">
               <Button
-                // type="primary"
                 icon="download"
                 shape="circle"
                 style={{ marginRight: 16 }}
@@ -216,7 +212,6 @@ export default class Block extends Component {
             </Tooltip>
             <Tooltip title="About Source Data">
               <Button
-                // type="primary"
                 icon="info-circle-o"
                 shape="circle"
                 onClick={toggleModal}
@@ -248,12 +243,7 @@ export default class Block extends Component {
                 <WGraphTitle>
                   <h4>{graphTitle}</h4>
                 </WGraphTitle>
-                <Graph data={data} yaxisLabel={yaxisLabel} />
-                <WLegend>
-                  <LegendCell>One</LegendCell>
-                  <LegendCell>Two</LegendCell>
-                  <LegendCell>three</LegendCell>
-                </WLegend>
+                <Graph data={dataWithMeanValues} yaxisLabel={yaxisLabel} />
               </RowColumn>
             ) : (
               <Center>

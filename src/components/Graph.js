@@ -10,7 +10,8 @@ import {
   ComposedChart,
   Brush,
   Line,
-  ReferenceLine
+  ReferenceLine,
+  ReferenceArea
 } from "recharts";
 
 import { WLegend, LegendCell } from "../styles";
@@ -22,13 +23,23 @@ export default class Graph extends Component {
 
   render() {
     const { data, yaxisLabel } = this.props;
+    let startYear;
+    let year;
+    let e;
+    let mean;
+    if (this.displayedData) {
+      startYear = this.displayedData.startYear;
+      year = this.displayedData.year;
+      e = this.displayedData.e;
+      mean = this.displayedData.mean;
+    }
 
     return (
       <div style={{ width: "100%", height: "95%" }}>
         <ResponsiveContainer width="100%" height="90%">
           <ComposedChart
             data={data}
-            margin={{ top: 15, right: 15, left: 0, bottom: 15 }}
+            margin={{ top: 15, right: 40, left: 0, bottom: 15 }}
             onMouseMove={a => a && this.setDisplayedData(a.activeTooltipIndex)}
           >
             <XAxis dataKey="year" />
@@ -41,12 +52,7 @@ export default class Graph extends Component {
                 position: "insideLeft"
               }}
             />
-            <ReferenceLine
-              x={this.displayedData ? this.displayedData.year : null}
-              stroke="#B2B2B2"
-              label={this.displayedData ? this.displayedData.year : null}
-              strokeDasharray="3 3"
-            />
+
             <Scatter line={false} dataKey="e" fill="#99A4F2" />
             <Line
               name="5-yr Mean"
@@ -62,6 +68,14 @@ export default class Graph extends Component {
               stroke="#99A4F2"
               travellerWidth={1}
             />
+            <ReferenceArea
+              x1={startYear}
+              x2={year}
+              label={`${startYear}-${year}`}
+              fill="#99A4F2"
+              fillOpacity={0.1}
+              isFront={true}
+            />
           </ComposedChart>
         </ResponsiveContainer>
         <WLegend>
@@ -69,12 +83,12 @@ export default class Graph extends Component {
             <span style={{ margin: "0 15px" }}>Observed Data </span>
             {this.displayedData && (
               <span style={{ color: "#99A4F2" }}>
-                <b>{this.displayedData.year}:</b> {this.displayedData.e} ˚F
+                <b>{year}:</b> {e} ˚F
               </span>
             )}
             {this.displayedData && (
               <span style={{ marginLeft: 15, color: "#DC9052" }}>
-                <b>5-yrs mean:</b> {this.displayedData.mean}˚F
+                <b>5-yrs mean:</b> {mean}˚F
               </span>
             )}
           </LegendCell>

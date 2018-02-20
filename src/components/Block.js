@@ -60,6 +60,9 @@ export default class Block extends Component {
       yaxisLabel,
       dataWithMeanValues
     } = this.props.block;
+
+    console.log(dataWithMeanValues);
+
     // geom type
     const geomList = [];
     geoms.forEach((val, key) =>

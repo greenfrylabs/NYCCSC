@@ -103,6 +103,9 @@ export default class BlockModel {
   //   }
   // }
 
+  @observable range = 5;
+  @action setRange = d => (this.range = d);
+
   @computed
   get dataWithMeanValues() {
     if (this.data) {
@@ -111,18 +114,19 @@ export default class BlockModel {
       let hasNull = false;
       return this.data.map((d, i) => {
         arr.push(d.e);
-        const chunk = takeRight(arr, 5);
+        const startYear = d.year - (this.range - 1);
+        const chunk = takeRight(arr, this.range);
         hasNull = chunk.includes(null);
-        if (i > 5) {
+        if (i > this.range) {
           if (!hasNull) {
-            mean = parseFloat(average(takeRight(arr, 5)).toFixed(2));
-            return { ...d, mean, hasNull };
+            mean = parseFloat(average(takeRight(arr, this.range)).toFixed(2));
+            return { startYear, ...d, mean, hasNull };
           } else {
             mean = null;
-            return { ...d, mean, hasNull };
+            return { startYear, ...d, mean, hasNull };
           }
         }
-        return { ...d, mean, hasNull };
+        return { startYear, ...d, mean, hasNull };
       });
     }
   }

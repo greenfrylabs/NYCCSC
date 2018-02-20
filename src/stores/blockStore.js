@@ -86,6 +86,7 @@ export default class BlockStore {
     const sid = b.sid;
     const idx = b.idx + 1;
     const rpc = b.rpc;
+    const meanRange = b.meanRange;
 
     this.blocks.push(
       new BlockModel(this, {
@@ -96,7 +97,8 @@ export default class BlockStore {
         season,
         sid,
         idx,
-        rpc
+        rpc,
+        meanRange
       })
     );
     this.setQString();
@@ -114,6 +116,7 @@ export default class BlockStore {
     const sid = b.sid;
     const idx = b.idx;
     const rpc = b.rpc;
+    const meanRange = b.meanRange;
 
     this.blocks.splice(
       index,
@@ -126,7 +129,8 @@ export default class BlockStore {
         season,
         sid,
         idx,
-        rpc
+        rpc,
+        meanRange
       })
     );
     this.setQString();

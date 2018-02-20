@@ -61,8 +61,6 @@ export default class Block extends Component {
       dataWithMeanValues
     } = this.props.block;
 
-    console.log(dataWithMeanValues);
-
     // geom type
     const geomList = [];
     geoms.forEach((val, key) =>
@@ -241,12 +239,16 @@ export default class Block extends Component {
             </WImage>
           </LeftContainer>
           <RightContainer>
-            {data ? (
+            {dataWithMeanValues ? (
               <RowColumn>
                 <WGraphTitle>
                   <h4>{graphTitle}</h4>
                 </WGraphTitle>
-                <Graph data={dataWithMeanValues} yaxisLabel={yaxisLabel} />
+                <Graph
+                  dataWithMeanValues={dataWithMeanValues}
+                  yaxisLabel={yaxisLabel}
+                  setField={setField}
+                />
               </RowColumn>
             ) : (
               <Center>

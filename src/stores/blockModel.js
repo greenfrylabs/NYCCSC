@@ -20,10 +20,11 @@ export default class BlockModel {
   @observable sid;
   @observable rpc;
   @observable idx;
+  @observable meanRange;
 
   constructor(
     store,
-    { data, chart, element, geom, season, sid, idx, rpc = 8.5 }
+    { data, chart, element, geom, season, sid, idx, meanRange = 5, rpc = 8.5 }
   ) {
     this.app = store.app;
     this.data = data;
@@ -34,10 +35,12 @@ export default class BlockModel {
     this.sid = sid;
     this.idx = idx;
     this.rpc = rpc;
+    this.meanRange = meanRange;
   }
 
   @action
   setField = (field, val) => {
+    console.log(field, val);
     if (field === "geom") {
       this[field] = val;
       if (val === "state") this.sid = "NY";
@@ -83,50 +86,30 @@ export default class BlockModel {
     return elems.get(this.element).yLabel;
   }
 
-  @observable meanRange = 5;
-  @action setMeanRange = d => (this.meanRange = d);
-
-  // @computed
-  // get mean() {
-  //   if (this.data) {
-  //     const splittedData = foldm(this.data, this.meanRange);
-  //     const filtered = splittedData.filter(
-  //       chunk => chunk.length === this.meanRange
-  //     );
-  //     const means = filtered.map((chunk, i) => {
-  //       const means = chunk.map(y => y.e);
-  //       return {
-  //         period: `${chunk[0].year}-${chunk[chunk.length - 1].year}`,
-  //         mean: average(means).toFixed(2)
-  //       };
-  //     });
-  //   }
-  // }
-
-  @observable range = 5;
-  @action setRange = d => (this.range = d);
-
   @computed
   get dataWithMeanValues() {
     if (this.data) {
       let mean = null;
+      const meanRange = this.meanRange;
       let arr = [];
       let hasNull = false;
       return this.data.map((d, i) => {
         arr.push(d.e);
-        const startYear = d.year - (this.range - 1);
-        const chunk = takeRight(arr, this.range);
+        const startYear = d.year - (this.meanRange - 1);
+        const chunk = takeRight(arr, this.meanRange);
         hasNull = chunk.includes(null);
-        if (i > this.range) {
+        if (i > this.meanRange) {
           if (!hasNull) {
-            mean = parseFloat(average(takeRight(arr, this.range)).toFixed(2));
-            return { startYear, ...d, mean, hasNull };
+            mean = parseFloat(
+              average(takeRight(arr, this.meanRange)).toFixed(2)
+            );
+            return { startYear, ...d, mean, meanRange };
           } else {
             mean = null;
-            return { startYear, ...d, mean, hasNull };
+            return { startYear, ...d, mean, meanRange };
           }
         }
-        return { startYear, ...d, mean, hasNull };
+        return { startYear, ...d, mean, meanRange };
       });
     }
   }

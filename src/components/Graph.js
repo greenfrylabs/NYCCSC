@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { observable, action } from "mobx";
-import { observer } from "mobx-react";
+import { inject, observer } from "mobx-react";
 
 import {
   ResponsiveContainer,
@@ -10,37 +10,59 @@ import {
   ComposedChart,
   Brush,
   Line,
-  ReferenceLine,
   ReferenceArea
 } from "recharts";
 
+import { Menu, Dropdown } from "antd";
+
 import { WLegend, LegendCell } from "../styles";
 
+@inject("app")
 @observer
 export default class Graph extends Component {
-  @observable displayedData;
-  @action setDisplayedData = idx => (this.displayedData = this.props.data[idx]);
+  @observable datum;
+  @action setdatum = idx => (this.datum = this.props.dataWithMeanValues[idx]);
 
   render() {
-    const { data, yaxisLabel } = this.props;
+    const { dataWithMeanValues, yaxisLabel, setField } = this.props;
+    const list = [
+      { label: "5 years mean", val: 5 },
+      { label: "10 years mean", val: 10 },
+      { label: "15 years mean", val: 15 },
+      { label: "20 years mean", val: 20 },
+      { label: "25 years mean", val: 25 },
+      { label: "30 years mean", val: 30 }
+    ];
+
     let startYear;
     let year;
     let e;
     let mean;
-    if (this.displayedData) {
-      startYear = this.displayedData.startYear;
-      year = this.displayedData.year;
-      e = this.displayedData.e;
-      mean = this.displayedData.mean;
+    let meanRange = 5;
+    let label = "5 years mean";
+    if (this.datum) {
+      // console.log(this.datum);
+      startYear = this.datum.startYear;
+      year = this.datum.year;
+      e = this.datum.e;
+      mean = this.datum.mean;
+      meanRange = this.datum.meanRange;
+      label = list.find(o => o.val === meanRange);
     }
+
+    const rangeList = (
+      <Menu selectable onClick={e => setField("meanRange", e.key)}>
+        {list.map(o => <Menu.Item key={o.val}>{o.label}</Menu.Item>)}
+      </Menu>
+    );
 
     return (
       <div style={{ width: "100%", height: "95%" }}>
         <ResponsiveContainer width="100%" height="90%">
           <ComposedChart
-            data={data}
+            data={dataWithMeanValues}
             margin={{ top: 15, right: 40, left: 0, bottom: 15 }}
-            onMouseMove={a => a && this.setDisplayedData(a.activeTooltipIndex)}
+            onMouseMove={a => a && this.setdatum(a.activeTooltipIndex)}
           >
             <XAxis dataKey="year" />
             <YAxis
@@ -81,14 +103,17 @@ export default class Graph extends Component {
         <WLegend>
           <LegendCell>
             <span style={{ margin: "0 15px" }}>Observed Data </span>
-            {this.displayedData && (
+            {this.datum && (
               <span style={{ color: "#99A4F2" }}>
                 <b>{year}:</b> {e} ˚F
               </span>
             )}
-            {this.displayedData && (
+            {this.datum && (
               <span style={{ marginLeft: 15, color: "#DC9052" }}>
-                <b>5-yrs mean:</b> {mean}˚F
+                <Dropdown overlay={rangeList}>
+                  <span>{label.label}</span>
+                </Dropdown>{" "}
+                {mean}˚F
               </span>
             )}
           </LegendCell>

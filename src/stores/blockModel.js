@@ -6,7 +6,7 @@ import basins from "../assets/basin.json";
 import counties from "../assets/county.json";
 import stations from "../assets/stn.json";
 
-import { foldm, average } from "../utils";
+import { average } from "../utils";
 
 const takeRight = require("lodash.takeright");
 

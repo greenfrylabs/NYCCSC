@@ -108,12 +108,14 @@ export const WLegend = styled.div`
 
 export const LegendCell = styled.div`
   display: flex;
-  flex: 1;
+  // flex: 1;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  // height: 100%;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
+  font-size: 1rem;
+  padding: 0.3rem;
 `;
 
 export const Center = styled.div`

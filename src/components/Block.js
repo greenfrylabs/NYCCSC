@@ -13,6 +13,8 @@ import states from "../assets/state.json";
 import stations from "../assets/stn.json";
 // import allStates from "assets/allStates.json";
 
+import { CSVLink } from "react-csv";
+
 // styled
 import {
   WBlock,
@@ -58,7 +60,9 @@ export default class Block extends Component {
       graphTitle,
       yaxisLabel,
       dataWithMeanValues,
-      meanLabel
+      meanLabel,
+      stationCSV,
+      setStationCSV
     } = this.props.block;
 
     // geom type
@@ -205,11 +209,19 @@ export default class Block extends Component {
               />
             </Tooltip>
             <Tooltip title="Download Data">
-              <Button
-                icon="download"
-                shape="circle"
-                style={{ marginRight: 16 }}
-              />
+              <CSVLink
+                data={stationCSV ? stationCSV.slice() : []}
+                filename={"NYCCSC.csv"}
+                target="_blank"
+                onClick={e => setStationCSV()}
+              >
+                <Button
+                  icon="download"
+                  shape="circle"
+                  style={{ marginRight: 16 }}
+                  onClick={e => setStationCSV()}
+                />
+              </CSVLink>
             </Tooltip>
             <Tooltip title="About Source Data">
               <Button

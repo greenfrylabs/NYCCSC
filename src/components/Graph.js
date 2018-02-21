@@ -13,7 +13,7 @@ import {
   ReferenceArea
 } from "recharts";
 
-import { Menu, Dropdown } from "antd";
+import { Menu, Dropdown, Icon } from "antd";
 
 import { WLegend, LegendCell } from "../styles";
 
@@ -121,7 +121,9 @@ export default class Graph extends Component {
               <span style={{ margin: "0 15px", color: "#DC9052" }}>
                 <Dropdown overlay={rangeList}>
                   <span>{meanLabel}</span>
-                </Dropdown>: {mean} ˚F
+                </Dropdown>{" "}
+                <Icon type="down" style={{ fontSize: 10 }} />{" "}
+                {mean ? `${mean} ˚F` : "No data"}
               </span>
             )}
           </LegendCell>

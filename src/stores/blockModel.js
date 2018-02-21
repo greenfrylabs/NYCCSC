@@ -87,6 +87,11 @@ export default class BlockModel {
   }
 
   @computed
+  get elementLabel() {
+    return elems.get(this.element).label;
+  }
+
+  @computed
   get meanLabel() {
     return `${this.meanRange} years mean`;
   }
@@ -118,4 +123,17 @@ export default class BlockModel {
       });
     }
   }
+
+  @observable stationCSV = [];
+  @action
+  setStationCSV = () => {
+    this.dataWithMeanValues.forEach(d =>
+      this.stationCSV.push({
+        Year: d.year,
+        [this.elementLabel]: d.e,
+        Range: `${d.startYear}-${d.year}`,
+        Mean: d.mean
+      })
+    );
+  };
 }

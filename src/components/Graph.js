@@ -20,39 +20,39 @@ import { WLegend, LegendCell } from "../styles";
 @inject("app")
 @observer
 export default class Graph extends Component {
+  @observable index;
   @observable datum;
-  @action setdatum = idx => (this.datum = this.props.dataWithMeanValues[idx]);
+
+  @action
+  setIndex = idx => {
+    this.index = idx;
+    this.datum = this.props.dataWithMeanValues[this.index];
+  };
+
+  @action resetIndex = () => (this.index = null);
 
   render() {
-    const { dataWithMeanValues, yaxisLabel, setField } = this.props;
-    const list = [
-      { label: "5 years mean", val: 5 },
-      { label: "10 years mean", val: 10 },
-      { label: "15 years mean", val: 15 },
-      { label: "20 years mean", val: 20 },
-      { label: "25 years mean", val: 25 },
-      { label: "30 years mean", val: 30 }
-    ];
+    const { dataWithMeanValues, yaxisLabel, setField, meanLabel } = this.props;
 
     let startYear;
     let year;
     let e;
     let mean;
-    let meanRange = 5;
-    let label = "5 years mean";
     if (this.datum) {
-      // console.log(this.datum);
       startYear = this.datum.startYear;
       year = this.datum.year;
       e = this.datum.e;
       mean = this.datum.mean;
-      meanRange = this.datum.meanRange;
-      label = list.find(o => o.val === meanRange);
     }
 
     const rangeList = (
       <Menu selectable onClick={e => setField("meanRange", e.key)}>
-        {list.map(o => <Menu.Item key={o.val}>{o.label}</Menu.Item>)}
+        <Menu.Item key={5}>5 years mean</Menu.Item>
+        <Menu.Item key={10}>10 years mean</Menu.Item>
+        <Menu.Item key={15}>15 years mean</Menu.Item>
+        <Menu.Item key={20}>20 years mean</Menu.Item>
+        <Menu.Item key={25}>25 years mean</Menu.Item>
+        <Menu.Item key={30}>30 years mean</Menu.Item>
       </Menu>
     );
 
@@ -62,7 +62,8 @@ export default class Graph extends Component {
           <ComposedChart
             data={dataWithMeanValues}
             margin={{ top: 15, right: 40, left: 0, bottom: 15 }}
-            onMouseMove={a => a && this.setdatum(a.activeTooltipIndex)}
+            onMouseMove={a => a && this.setIndex(a.activeTooltipIndex)}
+            onMouseLeave={this.resetIndex}
           >
             <XAxis dataKey="year" />
             <YAxis
@@ -75,7 +76,12 @@ export default class Graph extends Component {
               }}
             />
 
-            <Scatter line={false} dataKey="e" fill="#99A4F2" />
+            <Scatter
+              line={false}
+              dataKey="e"
+              fill="#99A4F2"
+              fillOpacity={0.7}
+            />
             <Line
               name="5-yr Mean"
               type="monotone"
@@ -90,14 +96,17 @@ export default class Graph extends Component {
               stroke="#99A4F2"
               travellerWidth={1}
             />
-            <ReferenceArea
-              x1={startYear}
-              x2={year}
-              label={`${startYear}-${year}`}
-              fill="#99A4F2"
-              fillOpacity={0.1}
-              isFront={true}
-            />
+
+            {this.index && (
+              <ReferenceArea
+                x1={startYear}
+                x2={year}
+                label={`${startYear}-${year}`}
+                fill="#99A4F2"
+                fillOpacity={0.1}
+                isFront={true}
+              />
+            )}
           </ComposedChart>
         </ResponsiveContainer>
         <WLegend>
@@ -105,15 +114,14 @@ export default class Graph extends Component {
             <span style={{ margin: "0 15px" }}>Observed Data </span>
             {this.datum && (
               <span style={{ color: "#99A4F2" }}>
-                <b>{year}:</b> {e} ˚F
+                {year}: {e} ˚F
               </span>
             )}
             {this.datum && (
-              <span style={{ marginLeft: 15, color: "#DC9052" }}>
+              <span style={{ margin: "0 15px", color: "#DC9052" }}>
                 <Dropdown overlay={rangeList}>
-                  <span>{label.label}</span>
-                </Dropdown>{" "}
-                {mean}˚F
+                  <span>{meanLabel}</span>
+                </Dropdown>: {mean} ˚F
               </span>
             )}
           </LegendCell>

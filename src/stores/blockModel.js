@@ -87,6 +87,11 @@ export default class BlockModel {
   }
 
   @computed
+  get meanLabel() {
+    return `${this.meanRange} years mean`;
+  }
+
+  @computed
   get dataWithMeanValues() {
     if (this.data) {
       let mean = null;

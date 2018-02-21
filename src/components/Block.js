@@ -55,10 +55,10 @@ export default class Block extends Component {
       rpc,
       setRpc,
       idx,
-      data,
       graphTitle,
       yaxisLabel,
-      dataWithMeanValues
+      dataWithMeanValues,
+      meanLabel
     } = this.props.block;
 
     // geom type
@@ -248,6 +248,7 @@ export default class Block extends Component {
                   dataWithMeanValues={dataWithMeanValues}
                   yaxisLabel={yaxisLabel}
                   setField={setField}
+                  meanLabel={meanLabel}
                 />
               </RowColumn>
             ) : (

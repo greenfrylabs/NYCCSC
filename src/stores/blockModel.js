@@ -97,7 +97,35 @@ export default class BlockModel {
   }
 
   @computed
-  get dataWithMeanValues() {
+  get stationData() {
+    if (this.data) {
+      let mean = null;
+      const meanRange = this.meanRange;
+      let arr = [];
+      let hasNull = false;
+      return this.data.map((d, i) => {
+        arr.push(d.e);
+        const startYear = d.year - (this.meanRange - 1);
+        const chunk = takeRight(arr, this.meanRange);
+        hasNull = chunk.includes(null);
+        if (i > this.meanRange) {
+          if (!hasNull) {
+            mean = parseFloat(
+              average(takeRight(arr, this.meanRange)).toFixed(2)
+            );
+            return { startYear, ...d, mean, meanRange };
+          } else {
+            mean = null;
+            return { startYear, ...d, mean, meanRange };
+          }
+        }
+        return { startYear, ...d, mean, meanRange };
+      });
+    }
+  }
+
+  @computed
+  get gridData() {
     if (this.data) {
       let mean = null;
       const meanRange = this.meanRange;

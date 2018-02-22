@@ -9,6 +9,11 @@ export const fetchStationData = params => {
     .catch(err => console.log("Failed to load station data", err));
 };
 
-export const fetchGridData = () => {
-  return;
+export const fetchGridData = params => {
+  return axios
+    .post(`${protocol}//grid2.rcc-acis.org/GridData`, params)
+    .then(res => res)
+    .catch(err => console.log("Failed to load grid data", err));
 };
+
+// //g.rcc-acis.org/GridData

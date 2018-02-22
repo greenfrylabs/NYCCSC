@@ -6,9 +6,12 @@ import BlockModel from "./blockModel";
 // utils
 import { isEquivalent } from "../utils";
 import { parseURL, buildQuery, correctParam } from "../api";
-import { fetchStationData } from "fetchData";
+import { fetchStationData, fetchGridData } from "fetchData";
 
 import stations from "../assets/stn.json";
+import states from "../assets/state.json";
+import counties from "../assets/county.json";
+import basins from "../assets/basin.json";
 
 export default class BlockStore {
   app;
@@ -175,26 +178,51 @@ export default class BlockStore {
         season: b.season,
         sid: b.sid
       };
-      const station = stations.features.find(s => s.id === params.sid);
-      const query = buildQuery(params, station);
-      fetchStationData(query).then(
-        res => (this.blocks[i]["data"] = this.transformData(res))
-      );
+
+      let meta;
+      if (b.geom === "stn") {
+        meta = stations.features.find(d => d.id === params.sid);
+        const query = buildQuery(params, meta);
+        fetchStationData(query).then(
+          res => (this.blocks[i]["data"] = this.transformStationData(res))
+        );
+      } else {
+        if (b.geom === "state") {
+          meta = states.meta.find(d => d.id === params.sid);
+        }
+        if (b.geom === "county") {
+          meta = counties.meta.find(d => d.id === params.sid);
+        }
+        if (b.geom === "basin") {
+          meta = basins.meta.find(d => d.id === params.sid);
+        }
+
+        const query = buildQuery(params, meta);
+        fetchGridData(query).then(
+          res => (this.blocks[i]["data"] = this.transformGridData(res, b.sid))
+        );
+      }
       this.isLoading = false;
     });
   };
 
-  transformData(res) {
-    let results = [];
-    if (res) {
-      res.data.data.forEach(el => {
-        results.push({
-          year: parseInt(el[0], 10),
-          e: el[1] !== "M" ? parseFloat(el[1], 10) : null,
-          meta: res.data.meta
-        });
-      });
-      return results;
-    }
+  transformStationData(res) {
+    return res.data.data.map(el => {
+      return {
+        year: parseInt(el[0], 10),
+        e: el[1] !== "M" ? parseFloat(el[1]) : null,
+        meta: res.data.meta
+      };
+    });
+  }
+
+  transformGridData(res, sid) {
+    console.log(res.data.data, sid);
+    return res.data.data.map(el => {
+      return {
+        year: parseInt(el[0], 10),
+        e: Number(el[1][sid].toFixed(2))
+      };
+    });
   }
 }

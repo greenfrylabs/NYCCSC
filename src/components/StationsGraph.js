@@ -26,13 +26,13 @@ export default class Graph extends Component {
   @action
   setIndex = idx => {
     this.index = idx;
-    this.datum = this.props.dataWithMeanValues[this.index];
+    this.datum = this.props.stationData[this.index];
   };
 
   @action resetIndex = () => (this.index = null);
 
   render() {
-    const { dataWithMeanValues, yaxisLabel, setField, meanLabel } = this.props;
+    const { stationData, yaxisLabel, setField, meanLabel } = this.props;
 
     let startYear;
     let year;
@@ -60,7 +60,7 @@ export default class Graph extends Component {
       <div style={{ width: "100%", height: "95%" }}>
         <ResponsiveContainer width="100%" height="90%">
           <ComposedChart
-            data={dataWithMeanValues}
+            data={stationData}
             margin={{ top: 15, right: 40, left: 0, bottom: 15 }}
             onMouseMove={a => a && this.setIndex(a.activeTooltipIndex)}
             onMouseLeave={this.resetIndex}
@@ -92,7 +92,7 @@ export default class Graph extends Component {
             />
             <Brush
               dataKey="year"
-              height={15}
+              height={20}
               stroke="#99A4F2"
               travellerWidth={1}
             />

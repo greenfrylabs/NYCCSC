@@ -34,7 +34,8 @@ import ACISLogo from "../assets/images/acis_logo.png";
 
 // components
 import MiniMap from "../components/MiniMap";
-import Graph from "../components/Graph";
+import StationsGraph from "../components/StationsGraph";
+import GridGraph from "../components/GridGraph";
 
 // antd
 import { Button, Select, Radio, Tooltip, Icon } from "antd";
@@ -59,7 +60,8 @@ export default class Block extends Component {
       idx,
       graphTitle,
       yaxisLabel,
-      dataWithMeanValues,
+      stationData,
+      gridData,
       meanLabel,
       stationCSV,
       setStationCSV
@@ -251,17 +253,26 @@ export default class Block extends Component {
             </WImage>
           </LeftContainer>
           <RightContainer>
-            {dataWithMeanValues ? (
+            {stationData ? (
               <RowColumn>
                 <WGraphTitle>
                   <h4>{graphTitle}</h4>
                 </WGraphTitle>
-                <Graph
-                  dataWithMeanValues={dataWithMeanValues}
-                  yaxisLabel={yaxisLabel}
-                  setField={setField}
-                  meanLabel={meanLabel}
-                />
+                {geom === "stn" ? (
+                  <StationsGraph
+                    stationData={stationData}
+                    yaxisLabel={yaxisLabel}
+                    setField={setField}
+                    meanLabel={meanLabel}
+                  />
+                ) : (
+                  <GridGraph
+                    gridData={gridData}
+                    yaxisLabel={yaxisLabel}
+                    setField={setField}
+                    meanLabel={meanLabel}
+                  />
+                )}
               </RowColumn>
             ) : (
               <Center>

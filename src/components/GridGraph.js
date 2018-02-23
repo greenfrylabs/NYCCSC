@@ -92,15 +92,6 @@ export default class Graph extends Component {
             <Line
               name="5-yr Mean"
               type="monotone"
-              dataKey="observedMean"
-              stroke="#DC9052"
-              dot={false}
-              strokeWidth={2}
-            />
-
-            <Line
-              name="5-yr Mean"
-              type="monotone"
               dataKey="min45"
               stroke="#2A43F6"
               dot={false}
@@ -121,6 +112,14 @@ export default class Graph extends Component {
               type="monotone"
               dataKey="max45"
               stroke="#ED483B"
+              dot={false}
+              strokeWidth={2}
+            />
+            <Line
+              name="5-yr Mean"
+              type="monotone"
+              dataKey="observedMean"
+              stroke="#DC9052"
               dot={false}
               strokeWidth={2}
             />

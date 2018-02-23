@@ -222,35 +222,42 @@ export default class BlockStore {
           res => (this.blocks[i]["data"] = this.transformGridData(res, b.sid))
         );
       }
-      this.isLoading = false;
     });
+    this.isLoading = false;
   };
 
   transformStationData(res) {
-    return res.data.data.map(el => {
-      return {
-        year: parseInt(el[0], 10),
-        e: el[1] !== "M" ? parseFloat(el[1]) : null,
-        meta: res.data.meta
-      };
-    });
+    if (res) {
+      let results = [];
+      res.data.data.forEach(el => {
+        results.push({
+          year: parseInt(el[0], 10),
+          value: el[1] !== "M" ? parseFloat(el[1]) : null,
+          meta: res.data.meta
+        });
+      });
+      // console.log(results);
+      return results;
+    }
   }
 
   transformGridData(res, sid) {
-    console.log(res);
-    let results = [];
-    const keys = Object.keys(res);
+    if (res) {
+      console.log(res);
+      let results = [];
+      const keys = Object.keys(res);
 
-    keys.forEach((k, i) => {
-      res[k].data.data.forEach((el, j) => {
-        if (i === 0) {
-          results.push({ year: parseInt(el[0], 10), [k]: el[1] });
-        } else {
-          results[j][k] = el[1];
-        }
+      keys.forEach((k, i) => {
+        res[k].data.data.forEach((el, j) => {
+          if (i === 0) {
+            results.push({ year: parseInt(el[0], 10), [k]: el[1] });
+          } else {
+            results[j][[k]] = el[1];
+          }
+        });
       });
-    });
-    console.log(results.length, results[0]);
-    return results;
+      // console.log(results);
+      return results;
+    }
   }
 }

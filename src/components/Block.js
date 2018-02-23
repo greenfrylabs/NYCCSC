@@ -253,7 +253,7 @@ export default class Block extends Component {
             </WImage>
           </LeftContainer>
           <RightContainer>
-            {stationData ? (
+            {stationData || gridData ? (
               <RowColumn>
                 <WGraphTitle>
                   <h4>{graphTitle}</h4>

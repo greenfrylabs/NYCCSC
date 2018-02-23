@@ -36,12 +36,12 @@ export default class Graph extends Component {
 
     let startYear;
     let year;
-    let e;
+    let value;
     let mean;
     if (this.datum) {
       startYear = this.datum.startYear;
       year = this.datum.year;
-      e = this.datum.e;
+      value = this.datum.value;
       mean = this.datum.mean;
     }
 
@@ -67,7 +67,7 @@ export default class Graph extends Component {
           >
             <XAxis dataKey="year" />
             <YAxis
-              dataKey="e"
+              dataKey="value"
               domain={["dataMin", "dataMax"]}
               label={{
                 value: `${yaxisLabel}`,
@@ -114,7 +114,7 @@ export default class Graph extends Component {
             <span style={{ margin: "0 15px" }}>Observed Data </span>
             {this.datum && (
               <span style={{ color: "#99A4F2" }}>
-                {year}: {e} ˚F
+                {year}: {value} ˚F
               </span>
             )}
             {this.datum && (

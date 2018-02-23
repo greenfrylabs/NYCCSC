@@ -34,15 +34,27 @@ export default class Graph extends Component {
   render() {
     const { gridData, yaxisLabel, setField, meanLabel } = this.props;
 
+    let max45;
+    let max85;
+    let mean45;
+    let mean85;
+    let min45;
+    let min85;
+    let observed;
+    let observedMean;
     let startYear;
     let year;
-    let e;
-    let mean;
     if (this.datum) {
+      max45 = this.datum.max45;
+      max85 = this.datum.max85;
+      mean45 = this.datum.mean45;
+      mean85 = this.datum.mean85;
+      min45 = this.datum.min45;
+      min85 = this.datum.min85;
+      observed = this.datum.observed;
+      observedMean = this.datum.observedMean;
       startYear = this.datum.startYear;
       year = this.datum.year;
-      e = this.datum.e;
-      mean = this.datum.mean;
     }
 
     const rangeList = (
@@ -67,8 +79,9 @@ export default class Graph extends Component {
           >
             <XAxis dataKey="year" />
             <YAxis
-              dataKey="e"
-              domain={["dataMin", "dataMax"]}
+              dataKey="observed"
+              allowDecimals={false}
+              domain={["dataMin", "dataMax + 20"]}
               label={{
                 value: `${yaxisLabel}`,
                 angle: -90,
@@ -76,20 +89,49 @@ export default class Graph extends Component {
               }}
             />
 
-            {/*<Scatter
-              line={false}
-              dataKey="e"
-              fill="#99A4F2"
-              fillOpacity={0.7}
-            />*/}
             <Line
               name="5-yr Mean"
               type="monotone"
-              dataKey="e"
+              dataKey="observedMean"
               stroke="#DC9052"
               dot={false}
               strokeWidth={2}
             />
+
+            <Line
+              name="5-yr Mean"
+              type="monotone"
+              dataKey="min45"
+              stroke="#2A43F6"
+              dot={false}
+              strokeWidth={2}
+            />
+
+            <Line
+              name="5-yr Mean"
+              type="monotone"
+              dataKey="mean45"
+              stroke="#808080"
+              dot={false}
+              strokeWidth={2}
+            />
+
+            <Line
+              name="5-yr Mean"
+              type="monotone"
+              dataKey="max45"
+              stroke="#ED483B"
+              dot={false}
+              strokeWidth={2}
+            />
+
+            <Scatter
+              line={false}
+              dataKey="observed"
+              fill="#99A4F2"
+              fillOpacity={0.7}
+            />
+
             <Brush
               dataKey="year"
               height={20}
@@ -114,7 +156,7 @@ export default class Graph extends Component {
             <span style={{ margin: "0 15px" }}>Observed Data </span>
             {this.datum && (
               <span style={{ color: "#99A4F2" }}>
-                {year}: {e} ˚F
+                {year}: {observed} ˚F
               </span>
             )}
             {this.datum && (
@@ -123,7 +165,7 @@ export default class Graph extends Component {
                   <span>{meanLabel}</span>
                 </Dropdown>{" "}
                 <Icon type="down" style={{ fontSize: 10 }} />{" "}
-                {mean ? `${mean} ˚F` : "No data"}
+                {observed ? `${observedMean} ˚F` : "No data"}
               </span>
             )}
           </LegendCell>

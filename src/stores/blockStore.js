@@ -197,8 +197,28 @@ export default class BlockStore {
           meta = basins.meta.find(d => d.id === params.sid);
         }
 
-        const query = buildQuery(params, meta);
-        fetchGridData(query).then(
+        // observed
+        let observed = buildQuery(params, meta);
+
+        // rcp45
+        let mean45 = { ...observed };
+        mean45.grid = "loca:wMean:rcp45";
+        let min45 = { ...observed };
+        min45.grid = "loca:allMin:rcp45";
+        let max45 = { ...observed };
+        max45.grid = "loca:allMax:rcp45";
+
+        // rcp85
+        let mean85 = { ...observed };
+        mean85.grid = "loca:wMean:rcp85";
+        let min85 = { ...observed };
+        min85.grid = "loca:allMin:rcp85";
+        let max85 = { ...observed };
+        max85.grid = "loca:allMax:rcp85";
+
+        const queryArr = [observed, min45, mean45, max45, min85, mean85, max85];
+
+        fetchGridData(queryArr).then(
           res => (this.blocks[i]["data"] = this.transformGridData(res, b.sid))
         );
       }
@@ -217,12 +237,20 @@ export default class BlockStore {
   }
 
   transformGridData(res, sid) {
-    console.log(res.data.data, sid);
-    return res.data.data.map(el => {
-      return {
-        year: parseInt(el[0], 10),
-        e: Number(el[1][sid].toFixed(2))
-      };
+    console.log(res);
+    let results = [];
+    const keys = Object.keys(res);
+
+    keys.forEach((k, i) => {
+      res[k].data.data.forEach((el, j) => {
+        if (i === 0) {
+          results.push({ year: parseInt(el[0], 10), [k]: el[1] });
+        } else {
+          results[j][k] = el[1];
+        }
+      });
     });
+    console.log(results.length, results[0]);
+    return results;
   }
 }

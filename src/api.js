@@ -435,7 +435,7 @@ export function buildQuery(params, meta) {
       default:
         p.state = "ny";
     }
-    p.grid = `loca:wMean:rcp85`;
+    p.grid = `livneh`;
     // livneh
     // max
     p.sdate = s.smonth ? [e.locaYr[0], s.smonth] : [e.locaYr[0]];

@@ -8,7 +8,6 @@ import {
   XAxis,
   YAxis,
   ComposedChart,
-  Brush,
   Line,
   ReferenceArea,
   Area
@@ -46,6 +45,7 @@ export default class Graph extends Component {
     let min;
     let observed;
     let observedMean;
+    let calculatedMean;
     let startYear;
     let year;
     if (this.datum) {
@@ -59,6 +59,7 @@ export default class Graph extends Component {
       min = this.datum.min45;
       observed = this.datum.observed;
       observedMean = this.datum.observedMean;
+      calculatedMean = this.datum.calculatedMean;
       startYear = this.datum.startYear;
       year = this.datum.year;
     }
@@ -98,14 +99,14 @@ export default class Graph extends Component {
               <Area
                 type="monotone"
                 dataKey={rpc === 8.5 ? "max85" : "max45"}
-                fill="#F9C2BD"
+                fill="#F9EBED"
               />
             )}
             {isModeledGraph && (
               <Area
                 type="monotone"
                 dataKey={rpc === 8.5 ? "mean85" : "mean45"}
-                fill="#8884d8"
+                fill="#EBF0F3"
               />
             )}
             {isModeledGraph && (
@@ -116,42 +117,67 @@ export default class Graph extends Component {
               />
             )}
 
+            {/* HACK........... FIX IT*/}
             {isModeledGraph && (
-              <Line
-                name="5-yr Mean"
-                dataKey={rpc === 8.5 ? "max85" : "max45"}
-                stroke="#ED483B"
-                dot={false}
-                strokeWidth={2}
-              />
-            )}
-
-            {isModeledGraph && (
-              <Line
-                name="5-yr Mean"
+              <Area
+                type="monotone"
                 dataKey={rpc === 8.5 ? "min85" : "min45"}
-                stroke="#2A43F6"
+                fill="#fff"
+              />
+            )}
+
+            {isModeledGraph && (
+              <Area
+                type="monotone"
+                dataKey={rpc === 8.5 ? "min85" : "min45"}
+                fill="#fff"
+              />
+            )}
+
+            {isModeledGraph && (
+              <Area
+                type="monotone"
+                dataKey={rpc === 8.5 ? "min85" : "min45"}
+                fill="#fff"
+              />
+            )}
+
+            {isModeledGraph && (
+              <Area
+                type="monotone"
+                dataKey={rpc === 8.5 ? "min85" : "min45"}
+                fill="#fff"
+              />
+            )}
+            {/* HACK........... FIX IT*/}
+
+            {isModeledGraph && (
+              <Line
+                name="Max"
+                dataKey={rpc === 8.5 ? "max85" : "max45"}
+                stroke="#C5283D"
                 dot={false}
-                strokeWidth={2}
+                strokeWidth={1}
               />
             )}
 
             {isModeledGraph && (
               <Line
-                name="5-yr Mean"
-                dataKey={rpc === 8.5 ? "mean85" : "mean45"}
-                stroke="#808080"
+                name="Min"
+                dataKey={rpc === 8.5 ? "min85" : "min45"}
+                stroke="#255F85"
                 dot={false}
-                strokeWidth={2}
+                strokeWidth={1}
               />
             )}
-            {isObservedGraph && (
+
+            {isModeledGraph && (
               <Line
-                name="5-yr Mean"
-                dataKey="observedMean"
-                stroke="#DC9052"
+                name="Mean"
+                dataKey={rpc === 8.5 ? "mean85" : "mean45"}
+                stroke="#2F2F2F"
                 dot={false}
-                strokeWidth={2}
+                strokeWidth={1}
               />
             )}
 
@@ -159,17 +185,20 @@ export default class Graph extends Component {
               <Scatter
                 line={false}
                 dataKey="observed"
-                fill="green"
-                fillOpacity={0.7}
+                fill="black"
+                fillOpacity={0.5}
               />
             )}
 
-            <Brush
-              dataKey="year"
-              height={20}
-              stroke="#99A4F2"
-              travellerWidth={1}
-            />
+            {isObservedGraph && (
+              <Line
+                name="5-yr Mean"
+                dataKey="observedMean"
+                stroke="#E8B650"
+                dot={false}
+                strokeWidth={2}
+              />
+            )}
 
             {this.index && (
               <ReferenceArea
@@ -191,11 +220,11 @@ export default class Graph extends Component {
             />
             <div style={{ margin: "0 10px" }}>Observed </div>
             <div style={{ margin: "0 10px" }}>
-              <div style={{ color: observed ? "green" : "white" }}>
+              <div style={{ color: observed ? "#7D7A7A" : "white" }}>
                 {year}: {observed} ˚F
               </div>
 
-              <div style={{ color: "#DC9052" }}>
+              <div style={{ color: "#E8B650" }}>
                 <Dropdown overlay={rangeList}>
                   <span>{meanLabel}</span>
                 </Dropdown>{" "}
@@ -211,33 +240,50 @@ export default class Graph extends Component {
               checked={isModeledGraph}
             />
             <div style={{ margin: "0 10px" }}>Modeled </div>
-            <div style={{ margin: "0 10px" }}>
+
+            <div>
               <div
                 style={{
-                  fontSize: "0.7rem",
-                  color: "#ED483B",
+                  fontSize: "1rem",
+                  color: "#255F85",
+                  textAlign: "right"
+                }}
+              >
+                Min: {this.index ? `${min.toFixed(2)} ˚F` : ""}
+              </div>
+              <div
+                style={{
+                  fontSize: "1rem",
+                  color: "#C5283D",
                   textAlign: "right"
                 }}
               >
                 Max: {this.index ? `${max.toFixed(2)} ˚F` : ""}
               </div>
-              <div
-                style={{
-                  fontSize: "0.7rem",
-                  color: "#808080",
-                  textAlign: "right"
-                }}
-              >
-                Mean: {this.index ? `${mean.toFixed(2)} ˚F` : ""}
+            </div>
+            <div>
+              <div style={{ margin: "0 40px" }}>
+                <div
+                  style={{
+                    fontSize: "1rem",
+                    color: "#2F2F2F",
+                    textAlign: "right"
+                  }}
+                >
+                  Mean: {this.index ? `${mean.toFixed(2)} ˚F` : ""}
+                </div>
               </div>
-              <div
-                style={{
-                  fontSize: "0.7rem",
-                  color: "#2A43F6",
-                  textAlign: "right"
-                }}
-              >
-                Min: {this.index ? `${min.toFixed(2)} ˚F` : ""}
+              <div style={{ margin: "0 40px" }}>
+                <div
+                  style={{
+                    fontSize: "1rem",
+                    color: "black",
+                    textAlign: "right"
+                  }}
+                >
+                  {this.index ? `${year - startYear + 1}-yrs` : "5-yrs"} Mean:{" "}
+                  {this.index ? `${calculatedMean.toFixed(2)} ˚F` : ""}
+                </div>
               </div>
             </div>
           </LegendCell>

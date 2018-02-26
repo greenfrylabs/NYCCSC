@@ -154,7 +154,9 @@ export default class BlockModel {
       let results = [...this.data];
 
       let arr = [];
+      let cmArr = [];
       let hasNull = false;
+      let hasNull2 = false;
       results.forEach((d, i) => {
         results[i]["observedMean"] = null;
         results[i]["meanRange"] = this.meanRange;
@@ -166,16 +168,30 @@ export default class BlockModel {
         results[i]["min45"] = d["min45"][this.sid];
         results[i]["min85"] = d["min85"][this.sid];
         results[i]["observed"] = Number(d["observed"][this.sid].toFixed(2));
+        results[i]["calculatedMean"] = null;
         if (d.year >= 2012) {
           results[i]["observed"] = null;
         }
         arr.push(d.observed);
+        if (this.rpc === 8.5) {
+          cmArr.push(d.mean85);
+        } else {
+          cmArr.push(d.mean45);
+        }
+
         if (i > this.meanRange) {
           let tempArr = arr.slice(-this.meanRange);
+          let tempArr2 = cmArr.slice(-this.meanRange);
           hasNull = tempArr.includes(null);
+          hasNull2 = tempArr2.includes(null);
           if (!hasNull) {
             results[i]["observedMean"] = parseFloat(
               average(tempArr).toFixed(2)
+            );
+          }
+          if (!hasNull2) {
+            results[i]["calculatedMean"] = parseFloat(
+              average(tempArr2).toFixed(2)
             );
           }
         }

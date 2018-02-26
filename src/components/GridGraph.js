@@ -48,10 +48,6 @@ export default class Graph extends Component {
 
     const { isObservedGraph, isModeledGraph } = this.props.app.blockStore;
 
-    const CustomizedLabel = (a, b) => {
-      console.log(a, b);
-      return <text> ciccio </text>;
-    };
     return (
       <div style={{ width: "100%", height: "95%" }}>
         <ResponsiveContainer width="100%" height="90%">
@@ -128,7 +124,9 @@ export default class Graph extends Component {
                 dataKey="observed"
                 fill="black"
                 fillOpacity={0.5}
-              />
+              >
+                {gridData.map(d => console.log(d))}
+              </Scatter>
             )}
 
             {this.index && (
@@ -138,8 +136,8 @@ export default class Graph extends Component {
                 label={{
                   position: "insideBottom",
                   value: `${this.startYear}-${this.year}`,
-                  // fill: "red",
-                  fontSize: 15
+                  fill: "red",
+                  fontSize: 13
                 }}
                 fill="#99A4F2"
                 fillOpacity={0.1}

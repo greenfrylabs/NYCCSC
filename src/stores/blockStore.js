@@ -26,6 +26,10 @@ export default class BlockStore {
     });
   }
 
+  @observable isObservedGraph = true;
+  @action toggleObservedGraph = d => (this.isObservedGraph = d);
+  @observable isModeledGraph = true;
+  @action toggleModeledGraph = d => (this.isModeledGraph = d);
   @observable blocks = [];
 
   @action
@@ -243,12 +247,12 @@ export default class BlockStore {
 
   transformGridData(res, sid) {
     if (res) {
-      console.log(res);
+      // console.log(res);
       let results = [];
       const keys = Object.keys(res);
 
       keys.forEach((k, i) => {
-        console.log(res[k].data.data);
+        // console.log(res[k].data.data);
         res[k].data.data.forEach((el, j) => {
           if (i === 0) {
             results.push({ year: parseInt(el[0], 10), [k]: el[1] });

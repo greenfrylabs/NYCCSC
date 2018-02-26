@@ -10,10 +10,11 @@ import {
   ComposedChart,
   Brush,
   Line,
-  ReferenceArea
+  ReferenceArea,
+  Area
 } from "recharts";
 
-import { Menu, Dropdown, Icon } from "antd";
+import { Menu, Dropdown, Icon, Checkbox } from "antd";
 
 import { WLegend, LegendCell } from "../styles";
 
@@ -33,7 +34,13 @@ export default class Graph extends Component {
 
   render() {
     const { gridData, yaxisLabel, setField, meanLabel } = this.props;
-
+    const {
+      isObservedGraph,
+      isModeledGraph,
+      toggleObservedGraph,
+      toggleModeledGraph
+    } = this.props.app.blockStore;
+    console.log(isObservedGraph, isModeledGraph);
     let max45;
     let max85;
     let mean45;
@@ -88,48 +95,63 @@ export default class Graph extends Component {
                 position: "insideLeft"
               }}
             />
+            {isModeledGraph && (
+              <Area type="monotone" dataKey="max45" fill="#F9C2BD" />
+            )}
+            {isModeledGraph && (
+              <Area type="monotone" dataKey="mean45" fill="#8884d8" />
+            )}
+            {isModeledGraph && (
+              <Area type="monotone" dataKey="min45" fill="#fff" />
+            )}
 
-            <Line
-              name="5-yr Mean"
-              type="monotone"
-              dataKey="min45"
-              stroke="#2A43F6"
-              dot={false}
-              strokeWidth={2}
-            />
+            {isModeledGraph && (
+              <Line
+                name="5-yr Mean"
+                dataKey="max45"
+                stroke="#ED483B"
+                dot={false}
+                strokeWidth={2}
+              />
+            )}
 
-            <Line
-              name="5-yr Mean"
-              type="monotone"
-              dataKey="mean45"
-              stroke="#808080"
-              dot={false}
-              strokeWidth={2}
-            />
+            {isModeledGraph && (
+              <Line
+                name="5-yr Mean"
+                dataKey="min45"
+                stroke="#2A43F6"
+                dot={false}
+                strokeWidth={2}
+              />
+            )}
 
-            <Line
-              name="5-yr Mean"
-              type="monotone"
-              dataKey="max45"
-              stroke="#ED483B"
-              dot={false}
-              strokeWidth={2}
-            />
-            <Line
-              name="5-yr Mean"
-              type="monotone"
-              dataKey="observedMean"
-              stroke="#DC9052"
-              dot={false}
-              strokeWidth={2}
-            />
+            {isModeledGraph && (
+              <Line
+                name="5-yr Mean"
+                dataKey="mean45"
+                stroke="#808080"
+                dot={false}
+                strokeWidth={2}
+              />
+            )}
+            {isObservedGraph && (
+              <Line
+                name="5-yr Mean"
+                dataKey="observedMean"
+                stroke="#DC9052"
+                dot={false}
+                strokeWidth={2}
+              />
+            )}
 
-            <Scatter
-              line={false}
-              dataKey="observed"
-              fill="#99A4F2"
-              fillOpacity={0.7}
-            />
+            {isObservedGraph && (
+              <Scatter
+                line={false}
+                dataKey="observed"
+                fill="green"
+                fillOpacity={0.7}
+              />
+            )}
 
             <Brush
               dataKey="year"
@@ -152,21 +174,61 @@ export default class Graph extends Component {
         </ResponsiveContainer>
         <WLegend>
           <LegendCell>
-            <span style={{ margin: "0 15px" }}>Observed Data </span>
-            {this.datum && (
-              <span style={{ color: "#99A4F2" }}>
+            <Checkbox
+              onChange={e => toggleObservedGraph(e.target.checked)}
+              checked={isObservedGraph}
+            />
+            <div style={{ margin: "0 10px" }}>Observed </div>
+            <div style={{ margin: "0 10px" }}>
+              <div style={{ color: observed ? "green" : "white" }}>
                 {year}: {observed} ˚F
-              </span>
-            )}
-            {this.datum && (
-              <span style={{ margin: "0 15px", color: "#DC9052" }}>
+              </div>
+
+              <div style={{ color: "#DC9052" }}>
                 <Dropdown overlay={rangeList}>
                   <span>{meanLabel}</span>
                 </Dropdown>{" "}
                 <Icon type="down" style={{ fontSize: 10 }} />{" "}
                 {observed ? `${observedMean} ˚F` : "No data"}
-              </span>
-            )}
+              </div>
+            </div>
+          </LegendCell>
+
+          <LegendCell>
+            <Checkbox
+              onChange={e => toggleModeledGraph(e.target.checked)}
+              checked={isModeledGraph}
+            />
+            <div style={{ margin: "0 10px" }}>Modeled </div>
+            <div style={{ margin: "0 10px" }}>
+              <div
+                style={{
+                  fontSize: "0.7rem",
+                  color: "#ED483B",
+                  textAlign: "right"
+                }}
+              >
+                Max: {this.index ? `${max45.toFixed(2)} ˚F` : ""}
+              </div>
+              <div
+                style={{
+                  fontSize: "0.7rem",
+                  color: "#808080",
+                  textAlign: "right"
+                }}
+              >
+                Mean: {this.index ? `${mean45.toFixed(2)} ˚F` : ""}
+              </div>
+              <div
+                style={{
+                  fontSize: "0.7rem",
+                  color: "#2A43F6",
+                  textAlign: "right"
+                }}
+              >
+                Min: {this.index ? `${min45.toFixed(2)} ˚F` : ""}
+              </div>
+            </div>
           </LegendCell>
         </WLegend>
       </div>

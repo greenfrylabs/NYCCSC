@@ -64,7 +64,11 @@ export default class Block extends Component {
       gridData,
       meanLabel,
       stationCSV,
-      setStationCSV
+      setStationCSV,
+      isObservedGraph,
+      isModeledGraph,
+      setObservedGraph,
+      setModeledGraph
     } = this.props.block;
 
     // geom type

@@ -8,7 +8,6 @@ import {
   XAxis,
   YAxis,
   ComposedChart,
-  Brush,
   Line,
   ReferenceArea
 } from "recharts";
@@ -89,12 +88,6 @@ export default class Graph extends Component {
               stroke="#DC9052"
               dot={false}
               strokeWidth={2}
-            />
-            <Brush
-              dataKey="year"
-              height={20}
-              stroke="#99A4F2"
-              travellerWidth={1}
             />
 
             {this.index && (

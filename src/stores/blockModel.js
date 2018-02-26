@@ -94,34 +94,6 @@ export default class BlockModel {
     return `${this.meanRange} years mean`;
   }
 
-  // @computed
-  // get stationData() {
-  //   if (this.data && this.geom === "stn") {
-  //     let mean = null;
-  //     const meanRange = this.meanRange;
-  //     let arr = [];
-  //     let hasNull = false;
-  //     return this.data.map((d, i) => {
-  //       arr.push(d.e);
-  //       const startYear = d.year - (this.meanRange - 1);
-  //       const chunk = takeRight(arr, this.meanRange);
-  //       hasNull = chunk.includes(null);
-  //       if (i > this.meanRange) {
-  //         if (!hasNull) {
-  //           mean = parseFloat(
-  //             average(takeRight(arr, this.meanRange)).toFixed(2)
-  //           );
-  //           return { startYear, ...d, mean, meanRange };
-  //         } else {
-  //           mean = null;
-  //           return { startYear, ...d, mean, meanRange };
-  //         }
-  //       }
-  //       return { startYear, ...d, mean, meanRange };
-  //     });
-  //   }
-  // }
-
   @computed
   get stationData() {
     if (this.data && this.geom === "stn") {
@@ -153,43 +125,50 @@ export default class BlockModel {
     if (this.data && this.geom !== "stn") {
       let results = [...this.data];
 
-      let arr = [];
-      let cmArr = [];
-      let hasNull = false;
-      let hasNull2 = false;
+      let arrObserved = [];
+      let arrModeled = [];
+      let arrObservedHasNull = false;
+      let arrModeledHasNull = false;
+
       results.forEach((d, i) => {
         results[i]["observedMean"] = null;
         results[i]["meanRange"] = this.meanRange;
         results[i]["startYear"] = d.year - (this.meanRange - 1);
-        results[i]["max45"] = d["max45"][this.sid];
-        results[i]["max85"] = d["max85"][this.sid];
-        results[i]["mean45"] = d["mean45"][this.sid];
-        results[i]["mean85"] = d["mean85"][this.sid];
-        results[i]["min45"] = d["min45"][this.sid];
-        results[i]["min85"] = d["min85"][this.sid];
+        if (this.rpc === 8.5) {
+          results[i]["max"] = d["max85"][this.sid];
+          results[i]["mean"] = d["mean85"][this.sid];
+          results[i]["min"] = d["min85"][this.sid];
+        } else {
+          results[i]["max"] = d["max45"][this.sid];
+          results[i]["mean"] = d["mean45"][this.sid];
+          results[i]["min"] = d["min45"][this.sid];
+        }
+
         results[i]["observed"] = Number(d["observed"][this.sid].toFixed(2));
         results[i]["calculatedMean"] = null;
+
         if (d.year >= 2012) {
           results[i]["observed"] = null;
         }
-        arr.push(d.observed);
+
+        arrObserved.push(d.observed);
         if (this.rpc === 8.5) {
-          cmArr.push(d.mean85);
+          arrModeled.push(d.mean85);
         } else {
-          cmArr.push(d.mean45);
+          arrModeled.push(d.mean45);
         }
 
         if (i > this.meanRange) {
-          let tempArr = arr.slice(-this.meanRange);
-          let tempArr2 = cmArr.slice(-this.meanRange);
-          hasNull = tempArr.includes(null);
-          hasNull2 = tempArr2.includes(null);
-          if (!hasNull) {
+          let tempArr = arrObserved.slice(-this.meanRange);
+          let tempArr2 = arrModeled.slice(-this.meanRange);
+          arrObservedHasNull = tempArr.includes(null);
+          arrModeledHasNull = tempArr2.includes(null);
+          if (!arrObservedHasNull) {
             results[i]["observedMean"] = parseFloat(
               average(tempArr).toFixed(2)
             );
           }
-          if (!hasNull2) {
+          if (!arrModeledHasNull) {
             results[i]["calculatedMean"] = parseFloat(
               average(tempArr2).toFixed(2)
             );

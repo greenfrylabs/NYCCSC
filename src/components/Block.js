@@ -183,7 +183,11 @@ export default class Block extends Component {
             {seasonList}
           </Select>
 
-          <RadioGroup defaultValue={rpc} onChange={e => setRpc(e.target.value)}>
+          <RadioGroup
+            defaultValue={geom === "stn" ? null : rpc}
+            onChange={e => setRpc(e.target.value)}
+            disabled={geom === "stn" ? true : false}
+          >
             <Tooltip title="Low Emission rpc">
               <Radio value={4.5}>RPC 4.5</Radio>
             </Tooltip>

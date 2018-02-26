@@ -408,7 +408,7 @@ export let elems = new Map([
 // "elems":[{"name":"maxt","interval":[1,0,0],"duration":"std","season_start":"07-30","reduce":"run_gt_40"}]}
 
 export function buildQuery(params, meta) {
-  console.log(params, meta);
+  // console.log(params, meta);
   const s = seasons.get(params.season);
   const e = elems.get(params.element);
   let p = {};
@@ -418,7 +418,7 @@ export function buildQuery(params, meta) {
     reduce: e.acis.reduce
   };
 
-  console.log(s, e);
+  // console.log(s, e);
   if (params.geom === "stn") {
     p.edate = "por";
     p.sid = meta.properties.ghcn;
@@ -445,7 +445,7 @@ export function buildQuery(params, meta) {
   }
 
   p.elems = [elem];
-  console.log(p);
+  // console.log(p);
   return p;
 }
 

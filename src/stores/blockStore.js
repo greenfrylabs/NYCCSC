@@ -248,6 +248,7 @@ export default class BlockStore {
       const keys = Object.keys(res);
 
       keys.forEach((k, i) => {
+        console.log(res[k].data.data);
         res[k].data.data.forEach((el, j) => {
           if (i === 0) {
             results.push({ year: parseInt(el[0], 10), [k]: el[1] });

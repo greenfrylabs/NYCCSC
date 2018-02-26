@@ -33,31 +33,30 @@ export default class Graph extends Component {
   @action resetIndex = () => (this.index = null);
 
   render() {
-    const { gridData, yaxisLabel, setField, meanLabel } = this.props;
+    const { gridData, yaxisLabel, setField, meanLabel, rpc } = this.props;
     const {
       isObservedGraph,
       isModeledGraph,
       toggleObservedGraph,
       toggleModeledGraph
     } = this.props.app.blockStore;
-    console.log(isObservedGraph, isModeledGraph);
-    let max45;
-    let max85;
-    let mean45;
-    let mean85;
-    let min45;
-    let min85;
+
+    let max;
+    let mean;
+    let min;
     let observed;
     let observedMean;
     let startYear;
     let year;
     if (this.datum) {
-      max45 = this.datum.max45;
-      max85 = this.datum.max85;
-      mean45 = this.datum.mean45;
-      mean85 = this.datum.mean85;
-      min45 = this.datum.min45;
-      min85 = this.datum.min85;
+      if (rpc === 8.5) {
+        max = this.datum.max85;
+        mean = this.datum.mean85;
+        min = this.datum.min85;
+      }
+      max = this.datum.max45;
+      mean = this.datum.mean45;
+      min = this.datum.min45;
       observed = this.datum.observed;
       observedMean = this.datum.observedMean;
       startYear = this.datum.startYear;
@@ -96,19 +95,31 @@ export default class Graph extends Component {
               }}
             />
             {isModeledGraph && (
-              <Area type="monotone" dataKey="max45" fill="#F9C2BD" />
+              <Area
+                type="monotone"
+                dataKey={rpc === 8.5 ? "max85" : "max45"}
+                fill="#F9C2BD"
+              />
             )}
             {isModeledGraph && (
-              <Area type="monotone" dataKey="mean45" fill="#8884d8" />
+              <Area
+                type="monotone"
+                dataKey={rpc === 8.5 ? "mean85" : "mean45"}
+                fill="#8884d8"
+              />
             )}
             {isModeledGraph && (
-              <Area type="monotone" dataKey="min45" fill="#fff" />
+              <Area
+                type="monotone"
+                dataKey={rpc === 8.5 ? "min85" : "min45"}
+                fill="#fff"
+              />
             )}
 
             {isModeledGraph && (
               <Line
                 name="5-yr Mean"
-                dataKey="max45"
+                dataKey={rpc === 8.5 ? "max85" : "max45"}
                 stroke="#ED483B"
                 dot={false}
                 strokeWidth={2}
@@ -118,7 +129,7 @@ export default class Graph extends Component {
             {isModeledGraph && (
               <Line
                 name="5-yr Mean"
-                dataKey="min45"
+                dataKey={rpc === 8.5 ? "min85" : "min45"}
                 stroke="#2A43F6"
                 dot={false}
                 strokeWidth={2}
@@ -128,7 +139,7 @@ export default class Graph extends Component {
             {isModeledGraph && (
               <Line
                 name="5-yr Mean"
-                dataKey="mean45"
+                dataKey={rpc === 8.5 ? "mean85" : "mean45"}
                 stroke="#808080"
                 dot={false}
                 strokeWidth={2}
@@ -208,7 +219,7 @@ export default class Graph extends Component {
                   textAlign: "right"
                 }}
               >
-                Max: {this.index ? `${max45.toFixed(2)} ˚F` : ""}
+                Max: {this.index ? `${max.toFixed(2)} ˚F` : ""}
               </div>
               <div
                 style={{
@@ -217,7 +228,7 @@ export default class Graph extends Component {
                   textAlign: "right"
                 }}
               >
-                Mean: {this.index ? `${mean45.toFixed(2)} ˚F` : ""}
+                Mean: {this.index ? `${mean.toFixed(2)} ˚F` : ""}
               </div>
               <div
                 style={{
@@ -226,7 +237,7 @@ export default class Graph extends Component {
                   textAlign: "right"
                 }}
               >
-                Min: {this.index ? `${min45.toFixed(2)} ˚F` : ""}
+                Min: {this.index ? `${min.toFixed(2)} ˚F` : ""}
               </div>
             </div>
           </LegendCell>

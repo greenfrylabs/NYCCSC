@@ -34,7 +34,6 @@ import ACISLogo from "../assets/images/acis_logo.png";
 
 // components
 import MiniMap from "../components/MiniMap";
-import StationsGraph from "../components/StationsGraph";
 import GridGraph from "../components/GridGraph";
 
 // antd
@@ -262,22 +261,16 @@ export default class Block extends Component {
                 <WGraphTitle>
                   <h4>{graphTitle}</h4>
                 </WGraphTitle>
-                {geom === "stn" ? (
-                  <StationsGraph
-                    stationData={stationData}
-                    yaxisLabel={yaxisLabel}
-                    setField={setField}
-                    meanLabel={meanLabel}
-                  />
-                ) : (
-                  <GridGraph
-                    gridData={gridData}
-                    yaxisLabel={yaxisLabel}
-                    setField={setField}
-                    meanLabel={meanLabel}
-                    rpc={rpc}
-                  />
-                )}
+
+                <GridGraph
+                  stationData={stationData}
+                  gridData={gridData}
+                  yaxisLabel={yaxisLabel}
+                  setField={setField}
+                  meanLabel={meanLabel}
+                  rpc={rpc}
+                  geom={geom}
+                />
               </RowColumn>
             ) : (
               <Center>

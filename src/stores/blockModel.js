@@ -115,7 +115,7 @@ export default class BlockModel {
           }
         }
       });
-      console.log(results);
+      // console.log(results);
       return results;
     }
   }
@@ -134,6 +134,7 @@ export default class BlockModel {
         results[i]["observedMean"] = null;
         results[i]["meanRange"] = this.meanRange;
         results[i]["startYear"] = d.year - (this.meanRange - 1);
+
         if (this.rpc === 8.5) {
           results[i]["max"] = d["max85"][this.sid];
           results[i]["mean"] = d["mean85"][this.sid];

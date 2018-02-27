@@ -68,7 +68,7 @@ export default class Graph extends Component {
 
     return (
       <div style={{ width: "100%", height: "95%" }}>
-        <ResponsiveContainer width="100%" height="90%">
+        <ResponsiveContainer width="100%" height="80%">
           <ComposedChart
             data={geom === "stn" ? stationData : gridData}
             margin={{ top: 15, right: 40, left: 0, bottom: 15 }}
@@ -178,7 +178,7 @@ export default class Graph extends Component {
             )}
           </ComposedChart>
         </ResponsiveContainer>
-        <Legend datum={this.datum}> </Legend>
+        <Legend data={this.datum} />
       </div>
     );
   }

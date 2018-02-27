@@ -26,7 +26,7 @@ export const WBlock = styled.div`
   display: flex;
   // margin: 0 auto;
   flex-direction: column;
-  height: 600px;
+  height: 650px;
   padding: 1rem;
   border-bottom: 2px solid ${primary};
   // background: pink;
@@ -101,21 +101,57 @@ export const WGraphTitle = styled.div`
 
 export const WLegend = styled.div`
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 10%;
-`;
-
-export const LegendCell = styled.div`
-  display: flex;
-  // flex: 1;
   justify-content: center;
   align-items: center;
-  // height: 100%;
+  width: 90%;
+  height: 20%;
+  // background: teal;
+  margin: 0 auto;
+`;
+
+export const ObservedCell = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
   font-size: 1rem;
   padding: 0.3rem;
+  margin-right: 5px;
+`;
+
+export const ModeledCell = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-size: 1rem;
+  padding: 0.3rem;
+`;
+
+export const CellRow = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  // background: pink;
+  margin: 1px;
+  font-size: 0.8rem;
+`;
+
+export const CellCol = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
 `;
 
 export const Center = styled.div`

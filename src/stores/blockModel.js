@@ -38,7 +38,7 @@ export default class BlockModel {
 
   @action
   setField = (field, val) => {
-    console.log(field, val);
+    // console.log(field, val);
     if (field === "geom") {
       this[field] = val;
       if (val === "state") this.sid = "NY";

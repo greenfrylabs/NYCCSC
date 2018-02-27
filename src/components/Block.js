@@ -34,7 +34,7 @@ import ACISLogo from "../assets/images/acis_logo.png";
 
 // components
 import MiniMap from "../components/MiniMap";
-import GridGraph from "../components/GridGraph";
+import Graph from "../components/Graph";
 
 // antd
 import { Button, Select, Radio, Tooltip, Icon } from "antd";
@@ -262,7 +262,7 @@ export default class Block extends Component {
                   <h4>{graphTitle}</h4>
                 </WGraphTitle>
 
-                <GridGraph
+                <Graph
                   stationData={stationData}
                   gridData={gridData}
                   yaxisLabel={yaxisLabel}

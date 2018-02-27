@@ -14,7 +14,7 @@ import {
   Dot
 } from "recharts";
 
-// import Legend from "../components/Legend";
+import Legend from "../components/Legend";
 
 @inject("app")
 @observer
@@ -178,7 +178,7 @@ export default class Graph extends Component {
             )}
           </ComposedChart>
         </ResponsiveContainer>
-        {/*<Legend datum={this.datum}> </Legend>*/}
+        <Legend datum={this.datum}> </Legend>
       </div>
     );
   }

@@ -51,12 +51,12 @@ export default class Graph extends Component {
     if (grdData) {
       const yMinArr = grdData.map(obj => obj.min);
       const yMaxArr = grdData.map(obj => obj.max);
-      yMin = Math.round(Math.min(...yMinArr)) - 3;
-      yMax = Math.round(Math.max(...yMaxArr)) + 1;
+      yMin = Math.round(Math.min(...yMinArr));
+      yMax = Math.round(Math.max(...yMaxArr));
     } else {
       const valuesArr = stnData.map(obj => obj.observed);
-      yMin = Math.round(Math.min(...valuesArr)) - 3;
-      yMax = Math.round(Math.max(...valuesArr)) + 1;
+      yMin = Math.round(Math.min(...valuesArr));
+      yMax = Math.round(Math.max(...valuesArr));
     }
 
     const { isObservedGraph, isModeledGraph } = this.props.app.blockStore;
@@ -169,7 +169,7 @@ export default class Graph extends Component {
                 x1={this.startYear}
                 x2={this.year}
                 label={{
-                  position: "insideBottom",
+                  position: "top",
                   value: `${this.startYear}-${this.year}`,
                   fill: "red",
                   fontSize: 13

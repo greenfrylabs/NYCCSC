@@ -156,7 +156,7 @@ export default class BlockModel {
         }
         const yearsCount = this.yearsCount;
         let observed;
-        d.year >= 2012
+        d.year >= 2013
           ? (observed = null)
           : (observed = Number(d["observed"][sid]));
         const year = d.year;

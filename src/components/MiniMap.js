@@ -94,8 +94,16 @@ export default class MiniMap extends Component {
   componentDidMount() {
     this.map = L.map(ReactDOM.findDOMNode(this.refs.map), {
       center: this.props.center,
-      zoom: 5.5
+      zoom: 5.6
     });
+
+    this.map = this.map.fitBounds([
+      [40.4959, -79.76338],
+      [45.01605, -71.85616]
+    ]);
+
+    console.log(this.map.getZoom());
+
     L.tileLayer(
       "https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png",
       { subdomains: "abcd", minZoom: 5, maxZoom: 10, opacity: 0.3 }

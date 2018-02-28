@@ -189,7 +189,13 @@ export let elems = new Map([
       grid: { vX: 94, maxmissing: 0 },
       gridY: { vX: 98, maxmissing: 0 },
       gYr: [1895, 2016],
-      locaYr: [1950, 2099]
+      locaYr: [1950, 2099],
+      season: {
+        elem: { vX: 4, reduce: "sum", interval: [0, 1] },
+        interval: [1, 0],
+        duration: 3,
+        reduce: "sum"
+      }
     }
   ],
   [
@@ -221,7 +227,13 @@ export let elems = new Map([
       grid: { vX: 91, maxmissing: 0 },
       gridY: { vX: 95, maxmissing: 0 },
       gYr: [1895, 2016],
-      locaYr: [1950, 2099]
+      locaYr: [1950, 2099],
+      season: {
+        elem: { vX: 1, reduce: "mean", interval: [0, 1] },
+        interval: [1, 0],
+        duration: 3,
+        reduce: "mean"
+      }
     }
   ],
   [
@@ -234,7 +246,13 @@ export let elems = new Map([
       grid: { vX: 92, maxmissing: 0 },
       gridY: { vX: 96, maxmissing: 0 },
       gYr: [1895, 2016],
-      locaYr: [1950, 2099]
+      locaYr: [1950, 2099],
+      season: {
+        elem: { vX: 2, reduce: "mean", interval: [0, 1] },
+        interval: [1, 0],
+        duration: 3,
+        reduce: "mean"
+      }
     }
   ],
   [
@@ -247,7 +265,13 @@ export let elems = new Map([
       grid: { vX: 99, maxmissing: 0 },
       gridY: { vX: 100, maxmissing: 0 },
       gYr: [1895, 2016],
-      locaYr: [1950, 2099]
+      locaYr: [1950, 2099],
+      season: {
+        elem: { vX: 43, reduce: "mean", interval: [0, 1] },
+        interval: [1, 0],
+        duration: 3,
+        reduce: "mean"
+      }
     }
   ],
   [
@@ -259,7 +283,13 @@ export let elems = new Map([
       acis: { vX: 44, vN: 0, base: 50, reduce: "sum" },
       grid: {},
       gYr: [1981, 2016],
-      locaYr: [1950, 2099]
+      locaYr: [1950, 2099],
+      season: {
+        elem: { vX: 44, base: 50, reduce: "sum", interval: [0, 1] },
+        interval: [1, 0],
+        duration: 3,
+        reduce: "sum"
+      }
     }
   ],
   [
@@ -271,7 +301,13 @@ export let elems = new Map([
       acis: { vX: 45, vN: 0, base: 65, reduce: "sum" },
       grid: {},
       gYr: [1981, 2016],
-      locaYr: [1950, 2099]
+      locaYr: [1950, 2099],
+      season: {
+        elem: { vX: 45, base: 65, reduce: "sum", interval: [0, 1] },
+        interval: [1, 0],
+        duration: 3,
+        reduce: "sum"
+      }
     }
   ],
   [
@@ -283,7 +319,13 @@ export let elems = new Map([
       acis: { vX: 44, vN: 0, base: 65, reduce: "sum" },
       grid: {},
       gYr: [1981, 2016],
-      locaYr: [1950, 2099]
+      locaYr: [1950, 2099],
+      season: {
+        elem: { vX: 44, base: 65, reduce: "sum", interval: [0, 1] },
+        interval: [1, 0],
+        duration: 3,
+        reduce: "sum"
+      }
     }
   ],
   // StnTDays
@@ -296,7 +338,13 @@ export let elems = new Map([
       acis: { vX: 1, vN: 0, reduce: "cnt_gt_90" },
       grid: {},
       gYr: [1981, 2016],
-      locaYr: [1950, 2099]
+      locaYr: [1950, 2099],
+      season: {
+        elem: { vX: 1, reduce: "cnt_gt_90", interval: [0, 1] },
+        interval: [1, 0],
+        duration: 3,
+        reduce: "sum"
+      }
     }
   ],
   [
@@ -308,7 +356,13 @@ export let elems = new Map([
       acis: { vX: 1, vN: 0, reduce: "cnt_gt_95" },
       grid: {},
       gYr: [1981, 2016],
-      locaYr: [1950, 2099]
+      locaYr: [1950, 2099],
+      season: {
+        elem: { vX: 1, reduce: "cnt_gt_95", interval: [0, 1] },
+        interval: [1, 0],
+        duration: 3,
+        reduce: "sum"
+      }
     }
   ],
   [
@@ -320,7 +374,13 @@ export let elems = new Map([
       acis: { vX: 1, vN: 0, reduce: "cnt_gt_100" },
       grid: {},
       gYr: [1981, 2016],
-      locaYr: [1950, 2099]
+      locaYr: [1950, 2099],
+      season: {
+        elem: { vX: 1, reduce: "cnt_gt_100", interval: [0, 1] },
+        interval: [1, 0],
+        duration: 3,
+        reduce: "sum"
+      }
     }
   ],
   [
@@ -332,7 +392,13 @@ export let elems = new Map([
       acis: { vX: 2, vN: 0, reduce: "cnt_lt_0" },
       grid: {},
       gYr: [1981, 2016],
-      locaYr: [1950, 2099]
+      locaYr: [1950, 2099],
+      season: {
+        elem: { vX: 2, reduce: "cnt_lt_0", interval: [0, 1] },
+        interval: [1, 0],
+        duration: 3,
+        reduce: "sum"
+      }
     }
   ],
   [
@@ -344,7 +410,13 @@ export let elems = new Map([
       acis: { vX: 2, vN: 0, reduce: "cnt_lt_32" },
       grid: {},
       gYr: [1981, 2016],
-      locaYr: [1950, 2099]
+      locaYr: [1950, 2099],
+      season: {
+        elem: { vX: 2, reduce: "cnt_lt_32", interval: [0, 1] },
+        interval: [1, 0],
+        duration: 3,
+        reduce: "sum"
+      }
     }
   ],
   // StnPDays
@@ -357,7 +429,13 @@ export let elems = new Map([
       acis: { vX: 4, vN: 0, reduce: "cnt_gt_1" },
       grid: {},
       gYr: [1981, 2016],
-      locaYr: [1950, 2099]
+      locaYr: [1950, 2099],
+      season: {
+        elem: { vX: 4, reduce: "cnt_gt_1", interval: [0, 1] },
+        interval: [1, 0],
+        duration: 3,
+        reduce: "sum"
+      }
     }
   ],
   [
@@ -369,7 +447,13 @@ export let elems = new Map([
       acis: { vX: 4, vN: 0, reduce: "cnt_gt_2" },
       grid: {},
       gYr: [1981, 2016],
-      locaYr: [1950, 2099]
+      locaYr: [1950, 2099],
+      season: {
+        elem: { vX: 4, reduce: "cnt_gt_2", interval: [0, 1] },
+        interval: [1, 0],
+        duration: 3,
+        reduce: "sum"
+      }
     }
   ],
   [
@@ -381,7 +465,13 @@ export let elems = new Map([
       acis: { vX: 4, vN: 0, reduce: "cnt_gt_4" },
       grid: {},
       gYr: [1981, 2016],
-      locaYr: [1950, 2099]
+      locaYr: [1950, 2099],
+      season: {
+        elem: { vX: 4, reduce: "cnt_gt_4", interval: [0, 1] },
+        interval: [1, 0],
+        duration: 3,
+        reduce: "sum"
+      }
     }
   ],
   [
@@ -408,17 +498,18 @@ export let elems = new Map([
 // "elems":[{"name":"maxt","interval":[1,0,0],"duration":"std","season_start":"07-30","reduce":"run_gt_40"}]}
 
 export function buildQuery(params, meta) {
-  // console.log(params, meta);
+  console.log(params, meta);
   const s = seasons.get(params.season);
   const e = elems.get(params.element);
   let p = {};
-  let elem = {
-    name: params.element,
-    interval: s.interval,
-    reduce: e.acis.reduce
-  };
+  let elem;
+  if (s === "DJF" || s === "MAM" || s === "JJA" || s === "SON") {
+    elem = e.season;
+  } else {
+    elem = { ...e.acis };
+    elem.interval = s.interval;
+  }
 
-  // console.log(s, e);
   if (params.geom === "stn") {
     p.edate = "por";
     p.sid = meta.properties.ghcn;
@@ -430,15 +521,12 @@ export function buildQuery(params, meta) {
         p.state = "pa,nj,nh,ma";
         break;
       case "basin":
-        // p.state = 'oh,nj,me'
-        p.state = "oh,nj,nh,ma";
+        p.state = "oh,nj,me";
         break;
       default:
         p.state = "ny";
     }
     p.grid = `livneh`;
-    // livneh
-    // max
     p.sdate = s.smonth ? [e.locaYr[0], s.smonth] : [e.locaYr[0]];
     p.edate = s.smonth ? [e.locaYr[1], s.smonth] : [e.locaYr[1]];
     if (params.season === "DJF") p.sdate[0]++; // winter will start before POR
@@ -446,7 +534,7 @@ export function buildQuery(params, meta) {
   }
 
   p.elems = [elem];
-  // console.log(p);
+  console.log(p);
   return p;
 }
 

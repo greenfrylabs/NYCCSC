@@ -154,6 +154,8 @@ export default class BlockModel {
       const yMin = Math.floor(Math.min(...min45, ...min85, ...obsArr));
       const yMax = Math.ceil(Math.max(...max45, ...max85, ...obsArr));
 
+      const yRange = [yMin, yMax / 4, yMax / 2, yMax];
+
       this.gridData.forEach((d, i) => {
         if (this.rpc === 8.5) {
           p["max"] = d["max85"][sid];

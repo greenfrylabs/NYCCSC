@@ -102,8 +102,6 @@ export default class MiniMap extends Component {
       [45.01605, -71.85616]
     ]);
 
-    console.log(this.map.getZoom());
-
     L.tileLayer(
       "https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png",
       { subdomains: "abcd", minZoom: 5, maxZoom: 10, opacity: 0.3 }

@@ -255,25 +255,25 @@ export let elems = new Map([
       }
     }
   ],
-  [
-    "avgt",
-    {
-      label: "Average Temperature",
-      yLabel: "Temperature °F",
-      ttUnits: "°F",
-      acis: { vX: 43, vN: 0, reduce: "mean" },
-      grid: { vX: 99, maxmissing: 0 },
-      gridY: { vX: 100, maxmissing: 0 },
-      gYr: [1895, 2016],
-      locaYr: [1950, 2099],
-      season: {
-        elem: { vX: 43, reduce: "mean", interval: [0, 1] },
-        interval: [1, 0],
-        duration: 3,
-        reduce: "mean"
-      }
-    }
-  ],
+  // [
+  //   "avgt",
+  //   {
+  //     label: "Average Temperature",
+  //     yLabel: "Temperature °F",
+  //     ttUnits: "°F",
+  //     acis: { vX: 43, vN: 0, reduce: "mean" },
+  //     grid: { vX: 99, maxmissing: 0 },
+  //     gridY: { vX: 100, maxmissing: 0 },
+  //     gYr: [1895, 2016],
+  //     locaYr: [1950, 2099],
+  //     season: {
+  //       elem: { vX: 43, reduce: "mean", interval: [0, 1] },
+  //       interval: [1, 0],
+  //       duration: 3,
+  //       reduce: "mean"
+  //     }
+  //   }
+  // ],
   [
     "gdd50",
     {
@@ -383,24 +383,24 @@ export let elems = new Map([
       }
     }
   ],
-  [
-    "tn0",
-    {
-      label: "Days with Minimum Temperature Below 0°F",
-      yLabel: "Days",
-      ttUnits: "",
-      acis: { vX: 2, vN: 0, reduce: "cnt_lt_0" },
-      grid: {},
-      gYr: [1981, 2016],
-      locaYr: [1950, 2099],
-      season: {
-        elem: { vX: 2, reduce: "cnt_lt_0", interval: [0, 1] },
-        interval: [1, 0],
-        duration: 3,
-        reduce: "sum"
-      }
-    }
-  ],
+  // [
+  //   "tn0",
+  //   {
+  //     label: "Days with Minimum Temperature Below 0°F",
+  //     yLabel: "Days",
+  //     ttUnits: "",
+  //     acis: { vX: 2, vN: 0, reduce: "cnt_lt_0" },
+  //     grid: {},
+  //     gYr: [1981, 2016],
+  //     locaYr: [1950, 2099],
+  //     season: {
+  //       elem: { vX: 2, reduce: "cnt_lt_0", interval: [0, 1] },
+  //       interval: [1, 0],
+  //       duration: 3,
+  //       reduce: "sum"
+  //     }
+  //   }
+  // ],
   [
     "tn32",
     {
@@ -498,7 +498,7 @@ export let elems = new Map([
 // "elems":[{"name":"maxt","interval":[1,0,0],"duration":"std","season_start":"07-30","reduce":"run_gt_40"}]}
 
 export function buildQuery(params, meta) {
-  console.log(params, meta);
+  // console.log(params, meta);
   const s = seasons.get(params.season);
   const e = elems.get(params.element);
   let p = {};
@@ -534,7 +534,7 @@ export function buildQuery(params, meta) {
   }
 
   p.elems = [elem];
-  console.log(p);
+  // console.log(p);
   return p;
 }
 
@@ -642,14 +642,14 @@ export const chartDefs = new Map([
       elems: [
         "maxt",
         "mint",
-        "avgt",
+        // "avgt",
         "gdd50",
         "hdd65",
         "cdd65",
         "tx90",
         "tx95",
         "tx100",
-        "tn0",
+
         "tn32",
         "grow_32",
         "pcpn",
@@ -670,14 +670,14 @@ export const chartDefs = new Map([
       elems: [
         "maxt",
         "mint",
-        "avgt",
+        // "avgt",
         "gdd50",
         "hdd65",
         "cdd65",
         "tx90",
         "tx95",
         "tx100",
-        "tn0",
+
         "tn32",
         "grow_32",
         "pcpn",

@@ -259,10 +259,8 @@ export default class BlockStore {
         let max85 = { ...observed };
         max85.grid = "loca:allMax:rcp85";
 
-        // observed.edate[0] = 2013;
-
         const queryArr = [observed, min45, mean45, max45, min85, mean85, max85];
-        console.log(queryArr);
+
         fetchGridData(queryArr).then(
           res =>
             (this.blocks[i]["gridData"] = this.transformGridData(res, b.sid))

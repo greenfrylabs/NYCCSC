@@ -145,6 +145,38 @@ export default class BlockStore {
   };
 
   @action
+  updateBlockWithoutFetching = index => {
+    // console.log("updateBlock");
+    const b = this.blocks[index];
+    const data = b.data;
+    const chart = b.chart;
+    const element = b.element;
+    const geom = b.geom;
+    const season = b.season;
+    const sid = b.sid;
+    const idx = b.idx;
+    const rpc = b.rpc;
+    const yearsCount = b.yearsCount;
+
+    this.blocks.splice(
+      index,
+      1,
+      new BlockModel(this, {
+        data,
+        chart,
+        element,
+        geom,
+        season,
+        sid,
+        idx,
+        rpc,
+        yearsCount
+      })
+    );
+    this.setQString();
+  };
+
+  @action
   deleteBlock = idx => {
     // console.log("deleteBlock");
     this.blocks.splice(idx, 1);
@@ -172,6 +204,7 @@ export default class BlockStore {
 
   @action
   loadData = () => {
+    console.log("loadData");
     this.isLoading = true;
     let params = {};
     this.blocks.forEach((b, i) => {
@@ -232,7 +265,6 @@ export default class BlockStore {
 
   transformStationData(res) {
     if (res) {
-      console.log(res.data.data);
       let results = [];
       res.data.data.forEach(el => {
         results.push({

@@ -44,13 +44,7 @@ export default class Graph extends Component {
   @action resetIndex = () => (this.index = null);
 
   render() {
-    const {
-      gridData,
-      stationData,
-      yaxisLabel,
-      geom,
-      updateYearsCount
-    } = this.props;
+    const { gridData, stationData, yaxisLabel, geom, setField } = this.props;
     // console.log(gridData, stationData);
     let yMin;
     let yMax;
@@ -72,7 +66,7 @@ export default class Graph extends Component {
       return <Dot cx={cx} cy={cy} r={2} fill={fill} />;
     };
 
-    // console.log(gridData, stationData);
+    // console.log(isObservedGraph, gridData, stationData);
 
     return (
       <div style={{ width: "100%", height: "95%" }}>
@@ -112,6 +106,10 @@ export default class Graph extends Component {
             {isModeledGraph && (
               <Area type="monotone" dataKey="min" fill="#fff" />
             )}
+
+            {isModeledGraph && (
+              <Area type="monotone" dataKey="min" fill="#fff" />
+            )}
             {/* HACK........... FIX IT*/}
 
             {isModeledGraph &&
@@ -128,17 +126,6 @@ export default class Graph extends Component {
             {isModeledGraph &&
               gridData && (
                 <Line
-                  name="Min"
-                  dataKey="min"
-                  stroke="#255F85"
-                  dot={false}
-                  strokeWidth={1}
-                />
-              )}
-
-            {isModeledGraph &&
-              gridData && (
-                <Line
                   name="Mean"
                   dataKey="mean"
                   stroke="#2F2F2F"
@@ -147,10 +134,21 @@ export default class Graph extends Component {
                 />
               )}
 
+            {isModeledGraph &&
+              gridData && (
+                <Line
+                  name="Min"
+                  dataKey="min"
+                  stroke="#255F85"
+                  dot={false}
+                  strokeWidth={1}
+                />
+              )}
+
             {isObservedGraph && (
               <Scatter
                 line={false}
-                dataKey={gridData ? "mean" : "observed"}
+                dataKey={gridData ? "observed" : "observed"}
                 fill="black"
                 fillOpacity={0.5}
                 shape={<RenderDots />}
@@ -188,7 +186,8 @@ export default class Graph extends Component {
         <Legend
           data={this.datum}
           geom={geom}
-          updateYearsCount={updateYearsCount}
+          setField={setField}
+          isIndex={this.index}
         />
       </div>
     );

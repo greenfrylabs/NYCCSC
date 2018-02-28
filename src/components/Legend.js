@@ -17,7 +17,8 @@ import {
 @observer
 export default class Legend extends Component {
   render() {
-    const { data } = this.props;
+    const { data, isIndex } = this.props;
+
     const {
       toggleModeledGraph,
       isObservedGraph,
@@ -104,7 +105,7 @@ export default class Legend extends Component {
     }
 
     const menu = (
-      <Menu onClick={e => this.props.updateYearsCount(e.key)}>
+      <Menu onClick={e => this.props.setField("yearsCount", e.key)}>
         <Menu.Item key={5}>5 years mean</Menu.Item>
         <Menu.Item key={10}>10 years mean</Menu.Item>
         <Menu.Item key={15}>15 years mean</Menu.Item>
@@ -140,8 +141,8 @@ export default class Legend extends Component {
           </CellRow>
 
           <CellRow>
-            <CellCol>{data ? year : "-"}</CellCol>
-            <CellCol>{data ? observed : "-"}</CellCol>
+            <CellCol>{isIndex ? year : "-"}</CellCol>
+            <CellCol>{isIndex ? observed : "-"}</CellCol>
             <CellCol>-</CellCol>
           </CellRow>
           <CellRow>
@@ -155,7 +156,7 @@ export default class Legend extends Component {
                       color: "red"
                     }}
                   >
-                    {year ? (
+                    {isIndex ? (
                       <div>
                         {startYear}-{year}
                         <Icon type="down" />
@@ -168,7 +169,7 @@ export default class Legend extends Component {
               </Dropdown>
             </CellCol>
             <CellCol>-</CellCol>
-            <CellCol>{data ? observedMean : "-"}</CellCol>
+            <CellCol>{isIndex ? observedMean : "-"}</CellCol>
           </CellRow>
         </ObservedCell>
 
@@ -217,7 +218,7 @@ export default class Legend extends Component {
                         color: "red"
                       }}
                     >
-                      {year ? (
+                      {isIndex ? (
                         <div>
                           {startYear}-{year}
                           <Icon type="down" />
@@ -229,54 +230,54 @@ export default class Legend extends Component {
                   </a>
                 </Dropdown>
               </CellCol>
-              <CellCol>{data ? meanOfMin : "-"}</CellCol>
-              <CellCol>{data ? meanOfMean : "-"}</CellCol>
-              <CellCol>{data ? meanOfMax : "-"}</CellCol>
-              <CellCol>{year ? "0.00" : "-"}</CellCol>
-              <CellCol>{year ? "0.00" : "-"}</CellCol>
-              <CellCol>{year ? "0.00" : "-"}</CellCol>
+              <CellCol>{isIndex ? meanOfMin : "-"}</CellCol>
+              <CellCol>{isIndex ? meanOfMean : "-"}</CellCol>
+              <CellCol>{isIndex ? meanOfMax : "-"}</CellCol>
+              <CellCol>{isIndex ? "0.00" : "-"}</CellCol>
+              <CellCol>{isIndex ? "0.00" : "-"}</CellCol>
+              <CellCol>{isIndex ? "0.00" : "-"}</CellCol>
             </CellRow>
 
             <CellRow>
               <CellCol
-                style={{ justifyContent: year ? "flex-start" : "center" }}
+                style={{ justifyContent: isIndex ? "flex-start" : "center" }}
               >
-                {startYear2039 ? `${startYear2039}-2039` : "-"}
+                {isIndex ? `${startYear2039}-2039` : "-"}
               </CellCol>
-              <CellCol>{data ? meanOfMin2039 : "-"}</CellCol>
-              <CellCol>{data ? meanOfMean2039 : "-"}</CellCol>
-              <CellCol>{data ? meanOfMax2039 : "-"}</CellCol>
-              <CellCol>{data ? deltaMin2039 : "-"}</CellCol>
-              <CellCol>{data ? deltaMean2039 : "-"}</CellCol>
-              <CellCol>{data ? deltaMax2039 : "-"}</CellCol>
+              <CellCol>{isIndex ? meanOfMin2039 : "-"}</CellCol>
+              <CellCol>{isIndex ? meanOfMean2039 : "-"}</CellCol>
+              <CellCol>{isIndex ? meanOfMax2039 : "-"}</CellCol>
+              <CellCol>{isIndex ? deltaMin2039 : "-"}</CellCol>
+              <CellCol>{isIndex ? deltaMean2039 : "-"}</CellCol>
+              <CellCol>{isIndex ? deltaMax2039 : "-"}</CellCol>
             </CellRow>
 
             <CellRow>
               <CellCol
-                style={{ justifyContent: year ? "flex-start" : "center" }}
+                style={{ justifyContent: isIndex ? "flex-start" : "center" }}
               >
-                {startYear2069 ? `${startYear2069}-2069` : "-"}
+                {isIndex ? `${startYear2069}-2069` : "-"}
               </CellCol>
-              <CellCol>{data ? meanOfMin2069 : "-"}</CellCol>
-              <CellCol>{data ? meanOfMean2069 : "-"}</CellCol>
-              <CellCol>{data ? meanOfMax2069 : "-"}</CellCol>
-              <CellCol>{data ? deltaMin2069 : "-"}</CellCol>
-              <CellCol>{data ? deltaMean2069 : "-"}</CellCol>
-              <CellCol>{data ? deltaMax2069 : "-"}</CellCol>
+              <CellCol>{isIndex ? meanOfMin2069 : "-"}</CellCol>
+              <CellCol>{isIndex ? meanOfMean2069 : "-"}</CellCol>
+              <CellCol>{isIndex ? meanOfMax2069 : "-"}</CellCol>
+              <CellCol>{isIndex ? deltaMin2069 : "-"}</CellCol>
+              <CellCol>{isIndex ? deltaMean2069 : "-"}</CellCol>
+              <CellCol>{isIndex ? deltaMax2069 : "-"}</CellCol>
             </CellRow>
 
             <CellRow>
               <CellCol
-                style={{ justifyContent: year ? "flex-start" : "center" }}
+                style={{ justifyContent: isIndex ? "flex-start" : "center" }}
               >
-                {startYear2099 ? `${startYear2099}-2099` : "-"}
+                {isIndex ? `${startYear2099}-2099` : "-"}
               </CellCol>
-              <CellCol>{data ? meanOfMin2099 : "-"}</CellCol>
-              <CellCol>{data ? meanOfMean2099 : "-"}</CellCol>
-              <CellCol>{data ? meanOfMax2099 : "-"}</CellCol>
-              <CellCol>{data ? deltaMin2099 : "-"}</CellCol>
-              <CellCol>{data ? deltaMean2099 : "-"}</CellCol>
-              <CellCol>{data ? deltaMax2099 : "-"}</CellCol>
+              <CellCol>{isIndex ? meanOfMin2099 : "-"}</CellCol>
+              <CellCol>{isIndex ? meanOfMean2099 : "-"}</CellCol>
+              <CellCol>{isIndex ? meanOfMax2099 : "-"}</CellCol>
+              <CellCol>{isIndex ? deltaMin2099 : "-"}</CellCol>
+              <CellCol>{isIndex ? deltaMean2099 : "-"}</CellCol>
+              <CellCol>{isIndex ? deltaMax2099 : "-"}</CellCol>
             </CellRow>
           </ModeledCell>
         )}

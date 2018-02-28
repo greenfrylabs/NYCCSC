@@ -48,19 +48,23 @@ export default class BlockModel {
     } else {
       this[field] = val;
     }
-    this.app.blockStore.updateBlock(this.idx);
+    if (field === "sid") {
+      this.app.blockStore.updateBlockWithoutFetching(this.idx);
+    } else {
+      this.app.blockStore.updateBlock(this.idx);
+    }
   };
 
   @action
   setRpc = d => {
     this.rpc = d;
-    this.app.blockStore.updateBlock(this.idx);
+    this.app.blockStore.updateBlockWithoutFetching(this.idx);
   };
 
-  @action
-  updateYearsCount = d => {
-    this.yearsCount = d;
-  };
+  // @action
+  // updateYearsCount = d => {
+  //   this.yearsCount = d;
+  // };
 
   @computed
   get graphTitle() {
@@ -121,7 +125,7 @@ export default class BlockModel {
         }
         results.push({ ...d, ...p });
       });
-      console.log(results);
+      // console.log(results);
       return results;
     }
   }

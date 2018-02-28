@@ -17,7 +17,7 @@ class App extends Component {
   render() {
     const { blocks, isModal, toggleModal } = this.props.app;
     const blockList = blocks.map((block, i) => <Block key={i} block={block} />);
-    console.log(blocks.slice());
+    console.log(blocks[0]);
     return (
       <Main>
         <WHeader>

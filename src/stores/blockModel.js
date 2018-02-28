@@ -97,68 +97,36 @@ export default class BlockModel {
   @computed
   get stationData() {
     if (this.data && this.geom === "stn") {
-      let results = [...this.data];
-
-      let arr = [];
+      let results = [];
+      let meanArr = [];
       let hasNull = false;
-      results.forEach((d, i) => {
-        results[i]["mean"] = null;
-        results[i]["yearsCount"] = this.yearsCount;
-        results[i]["startYear"] = d.year - (this.yearsCount - 1);
+      this.data.forEach((d, i) => {
+        let p = {};
+        p["observedMean"] = null;
+        p["yearsCount"] = this.yearsCount;
+        p["startYear"] = d.year - (this.yearsCount - 1);
 
-        arr.push(d.value);
+        meanArr.push(d.observed);
         if (i > this.yearsCount) {
-          let tempArr = arr.slice(-this.yearsCount);
+          let tempArr = meanArr.slice(-this.yearsCount);
           hasNull = tempArr.includes(null);
           if (!hasNull) {
-            results[i]["mean"] = parseFloat(average(tempArr).toFixed(2));
+            p["observedMean"] = parseFloat(average(tempArr).toFixed(2));
           }
         }
+        results.push({ ...d, ...p });
       });
-      // console.log(results);
+      console.log(results);
       return results;
     }
   }
 
   @computed
   get dataWithSelectedRpc() {
-    let results = [];
-    let p = {};
-    this.data.forEach((d, i) => {
-      let sid = this.sid;
-      if (this.rpc === 8.5) {
-        p["max"] = d["max85"][sid];
-        p["mean"] = d["mean85"][sid];
-        p["min"] = d["min85"][sid];
-      } else {
-        p["max"] = d["max45"][sid];
-        p["mean"] = d["mean45"][sid];
-        p["min"] = d["min45"][sid];
-      }
-      const observed = Number(d["observed"][sid].toFixed(2));
-      const year = d.year;
-      results.push({ ...p, year, observed });
-    });
-    console.log(results);
-    return results;
-  }
-
-  @computed
-  get gridData() {
     if (this.data && this.geom !== "stn") {
-      console.log(this.dataWithSelectedRpc);
-      let deltaMaxObservedArr = [];
-      let deltaMeanObservedArr = [];
-      let deltaMinObservedArr = [];
-
-      const obj2039 = this.data.find(obj => obj.year === 2039);
-      const obj2069 = this.data.find(obj => obj.year === 2069);
-      const obj2099 = this.data.find(obj => obj.year === 2099);
-
       let results = [];
+      let p = {};
       this.data.forEach((d, i) => {
-        // console.log(d);
-        let p = {};
         let sid = this.sid;
         if (this.rpc === 8.5) {
           p["max"] = d["max85"][sid];
@@ -169,69 +137,130 @@ export default class BlockModel {
           p["mean"] = d["mean45"][sid];
           p["min"] = d["min45"][sid];
         }
-
-        p["yearsCount"] = this.yearsCount;
-        p["startYear"] = d.year - (this.yearsCount - 1);
-        p.year = d.year;
+        const yearsCount = this.yearsCount;
+        let observed;
         d.year >= 2012
-          ? (p["observed"] = null)
-          : (p["observed"] = Number(d["observed"][sid].toFixed(2)));
+          ? (observed = null)
+          : (observed = Number(d["observed"][sid].toFixed(2)));
+        const year = d.year;
+        const startYear = year - (this.yearsCount - 1);
+        results.push({ ...p, year, observed, yearsCount, startYear });
+      });
+      return results;
+    }
+  }
 
-        // observed data
-        p["deltaMaxObserved"] = null;
-        p["deltaMeanObserved"] = null;
-        p["deltaMinObserved"] = null;
+  @computed
+  get dataWithMeans() {
+    if (this.data && this.geom !== "stn") {
+      let meanOfMaxArr = [];
+      let meanOfMeanArr = [];
+      let meanOfMinArr = [];
 
-        // p["deltaMax2039"] = null;
-        // p["deltaMean2039"] = null;
-        // p["deltaMin2039"] = null;
+      let observedMeanArr = [];
 
-        // p["deltaMax2069"] = null;
-        // p["deltaMean2069"] = null;
-        // p["deltaMin2069"] = null;
+      let results = [];
+      this.dataWithSelectedRpc.forEach((d, i) => {
+        let p = {};
 
-        // p["deltaMax2099"] = null;
-        // p["deltaMean2099"] = null;
-        // p["deltaMin2099"] = null;
+        p["meanOfMax"] = null;
+        p["meanOfMean"] = null;
+        p["meanOfMin"] = null;
 
-        deltaMaxObservedArr.push(d.max);
-        deltaMeanObservedArr.push(d.mean);
-        deltaMinObservedArr.push(d.min);
-        // console.log(deltaMaxObservedArr);
+        p["observedMean"] = null;
+
+        meanOfMaxArr.push(d.max);
+        meanOfMeanArr.push(d.mean);
+        meanOfMinArr.push(d.min);
+
+        observedMeanArr.push(d.observed);
 
         if (i > this.yearsCount) {
-          let deltaMaxObservedTemp = deltaMaxObservedArr.slice(
-            -this.yearsCount
-          );
-          // console.log(deltaMaxObservedTemp);
-          if (!deltaMaxObservedTemp.includes(null)) {
-            p["deltaMaxObserved"] = parseFloat(
-              average(deltaMaxObservedArr).toFixed(2)
-            );
-            console.log(p.deltaMaxObserved);
+          let meanOfMaxTemp = meanOfMaxArr.slice(-this.yearsCount);
+          if (!meanOfMaxTemp.includes(null)) {
+            p["meanOfMax"] = parseFloat(average(meanOfMaxArr).toFixed(2));
           }
 
-          let deltaMeanObservedTemp = deltaMeanObservedArr.slice(
-            -this.yearsCount
-          );
-          if (!deltaMeanObservedTemp.includes(null)) {
-            p["deltaMeanObserved"] = parseFloat(
-              average(deltaMeanObservedArr).toFixed(2)
-            );
+          let meanOfMeanTemp = meanOfMeanArr.slice(-this.yearsCount);
+          if (!meanOfMeanTemp.includes(null)) {
+            p["meanOfMean"] = parseFloat(average(meanOfMeanArr).toFixed(2));
           }
 
-          let deltaMinObservedTemp = deltaMinObservedArr.slice(
-            -this.yearsCount
-          );
-          if (!deltaMinObservedTemp.includes(null)) {
-            p["deltaMinObserved"] = parseFloat(
-              average(deltaMinObservedArr).toFixed(2)
-            );
+          let meanOfMinTemp = meanOfMinArr.slice(-this.yearsCount);
+          if (!meanOfMinTemp.includes(null)) {
+            p["meanOfMin"] = parseFloat(average(meanOfMinArr).toFixed(2));
+          }
+
+          // Observed
+          let observedMeanTemp = observedMeanArr.slice(-this.yearsCount);
+          if (!observedMeanTemp.includes(null)) {
+            p["observedMean"] = parseFloat(average(observedMeanArr).toFixed(2));
           }
         }
-        results.push(p);
+
+        results.push({ ...p, ...d });
       });
 
+      console.log(results);
+      return results;
+    }
+  }
+
+  @computed
+  get gridData() {
+    if (this.dataWithMeans && this.geom !== "stn") {
+      const idx2039 = this.data.findIndex(obj => obj.year === 2039);
+      const idx2069 = this.data.findIndex(obj => obj.year === 2069);
+      const idx2099 = this.data.findIndex(obj => obj.year === 2099);
+
+      let results = [];
+      this.dataWithMeans.forEach((d, i) => {
+        let p = {};
+
+        p["meanOfMax2039"] = this.dataWithMeans[idx2039].meanOfMax;
+        p["meanOfMean2039"] = this.dataWithMeans[idx2039].meanOfMean;
+        p["meanOfMin2039"] = this.dataWithMeans[idx2039].meanOfMin;
+
+        p["meanOfMax2069"] = this.dataWithMeans[idx2069].meanOfMax;
+        p["meanOfMean2069"] = this.dataWithMeans[idx2069].meanOfMean;
+        p["meanOfMin2069"] = this.dataWithMeans[idx2069].meanOfMin;
+
+        p["meanOfMax2099"] = this.dataWithMeans[idx2099].meanOfMax;
+        p["meanOfMean2099"] = this.dataWithMeans[idx2099].meanOfMean;
+        p["meanOfMin2099"] = this.dataWithMeans[idx2099].meanOfMin;
+
+        p["deltaMax2039"] = (
+          this.dataWithMeans[idx2039].meanOfMax - d.meanOfMax
+        ).toFixed(2);
+        p["deltaMean2039"] = (
+          this.dataWithMeans[idx2039].meanOfMean - d.meanOfMean
+        ).toFixed(2);
+        p["deltaMin2039"] = (
+          this.dataWithMeans[idx2039].meanOfMin - d.meanOfMin
+        ).toFixed(2);
+
+        p["deltaMax2069"] = (
+          this.dataWithMeans[idx2069].meanOfMax - d.meanOfMax
+        ).toFixed(2);
+        p["deltaMean2069"] = (
+          this.dataWithMeans[idx2069].meanOfMean - d.meanOfMean
+        ).toFixed(2);
+        p["deltaMin2069"] = (
+          this.dataWithMeans[idx2069].meanOfMin - d.meanOfMin
+        ).toFixed(2);
+
+        p["deltaMax2099"] = (
+          this.dataWithMeans[idx2099].meanOfMax - d.meanOfMax
+        ).toFixed(2);
+        p["deltaMean2099"] = (
+          this.dataWithMeans[idx2099].meanOfMean - d.meanOfMean
+        ).toFixed(2);
+        p["deltaMin2099"] = (
+          this.dataWithMeans[idx2099].meanOfMin - d.meanOfMin
+        ).toFixed(2);
+
+        results.push({ ...d, ...p });
+      });
       console.log(results);
       return results;
     }

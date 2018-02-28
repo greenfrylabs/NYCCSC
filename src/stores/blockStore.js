@@ -232,11 +232,12 @@ export default class BlockStore {
 
   transformStationData(res) {
     if (res) {
+      console.log(res.data.data);
       let results = [];
       res.data.data.forEach(el => {
         results.push({
           year: parseInt(el[0], 10),
-          value: el[1] !== "M" ? parseFloat(el[1]) : null,
+          observed: el[1] !== "M" ? parseFloat(el[1]) : null,
           meta: res.data.meta
         });
       });

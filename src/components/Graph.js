@@ -54,7 +54,7 @@ export default class Graph extends Component {
       yMin = Math.round(Math.min(...yMinArr)) - 3;
       yMax = Math.round(Math.max(...yMaxArr)) + 1;
     } else {
-      const valuesArr = stationData.map(obj => obj.value);
+      const valuesArr = stationData.map(obj => obj.observed);
       yMin = Math.round(Math.min(...valuesArr)) - 3;
       yMax = Math.round(Math.max(...valuesArr)) + 1;
     }
@@ -65,6 +65,8 @@ export default class Graph extends Component {
       const { cx, cy, fill } = props;
       return <Dot cx={cx} cy={cy} r={2} fill={fill} />;
     };
+
+    console.log(gridData, stationData);
 
     return (
       <div style={{ width: "100%", height: "95%" }}>
@@ -91,7 +93,7 @@ export default class Graph extends Component {
               gridData && <Area type="monotone" dataKey="max" fill="#F9EBED" />}
             {isModeledGraph &&
               gridData && (
-                <Area type="monotone" dataKey="mean" fill="#EBF0F3" />
+                <Area type="monotone" dataKey="mean" fill="#7495AC" />
               )}
             {isModeledGraph &&
               gridData && <Area type="monotone" dataKey="min" fill="#fff" />}
@@ -139,22 +141,21 @@ export default class Graph extends Component {
                 />
               )}
 
-            {true && (
+            {isObservedGraph && (
               <Scatter
                 line={false}
-                dataKey={gridData ? "mean" : "value"}
+                dataKey={gridData ? "mean" : "observed"}
                 fill="black"
                 fillOpacity={0.5}
                 shape={<RenderDots />}
-                isAnimationActive={true}
               />
             )}
 
             {stationData && (
               <Line
-                name="Mean"
+                name="ObservedMean"
                 type="monotone"
-                dataKey="mean"
+                dataKey="observedMean"
                 stroke="#DC9052"
                 dot={false}
                 strokeWidth={2}
@@ -178,7 +179,7 @@ export default class Graph extends Component {
             )}
           </ComposedChart>
         </ResponsiveContainer>
-        <Legend data={this.datum} />
+        <Legend data={this.datum} geom={geom} />
       </div>
     );
   }

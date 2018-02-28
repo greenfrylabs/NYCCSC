@@ -141,7 +141,7 @@ export const CellRow = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 40px;
+  height: 65%px;
   // background: pink;
   margin: 1px;
   font-size: 0.8rem;
@@ -159,4 +159,18 @@ export const Center = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+`;
+
+export const Baseline = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  width: 100%;
+  height: 35%;
+`;
+
+export const HeaderCol = styled.div`
+  font-size: 0.7rem;
+  font-weight: bold;
+  margin-bottom: 2px;
 `;

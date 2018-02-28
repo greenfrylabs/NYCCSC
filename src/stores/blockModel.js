@@ -10,7 +10,8 @@ import { average } from "../utils";
 
 export default class BlockModel {
   app;
-  @observable data;
+  @observable stationData;
+  @observable gridData;
   @observable chart;
   @observable element;
   @observable geom;
@@ -22,10 +23,22 @@ export default class BlockModel {
 
   constructor(
     store,
-    { data, chart, element, geom, season, sid, idx, yearsCount = 5, rpc = 8.5 }
+    {
+      stationData,
+      gridData,
+      chart,
+      element,
+      geom,
+      season,
+      sid,
+      idx,
+      yearsCount = 5,
+      rpc = 8.5
+    }
   ) {
     this.app = store.app;
-    this.data = data;
+    this.stationData = stationData;
+    this.gridData = gridData;
     this.chart = chart;
     this.element = element;
     this.geom = geom;
@@ -60,11 +73,6 @@ export default class BlockModel {
     this.rpc = d;
     this.app.blockStore.updateBlockWithoutFetching(this.idx);
   };
-
-  // @action
-  // updateYearsCount = d => {
-  //   this.yearsCount = d;
-  // };
 
   @computed
   get graphTitle() {
@@ -104,12 +112,12 @@ export default class BlockModel {
   }
 
   @computed
-  get stationData() {
-    if (this.data && this.geom === "stn") {
+  get stnData() {
+    if (this.stationData) {
       let results = [];
       let meanArr = [];
       let hasNull = false;
-      this.data.forEach((d, i) => {
+      this.stationData.forEach((d, i) => {
         let p = {};
         p["observedMean"] = null;
         p["yearsCount"] = this.yearsCount;
@@ -132,10 +140,10 @@ export default class BlockModel {
 
   @computed
   get dataWithSelectedRpc() {
-    if (this.data && this.geom !== "stn") {
+    if (this.gridData) {
       let results = [];
       let p = {};
-      this.data.forEach((d, i) => {
+      this.gridData.forEach((d, i) => {
         let sid = this.sid;
         if (this.rpc === 8.5) {
           p["max"] = d["max85"][sid];
@@ -150,7 +158,7 @@ export default class BlockModel {
         let observed;
         d.year >= 2012
           ? (observed = null)
-          : (observed = Number(d["observed"][sid].toFixed(2)));
+          : (observed = Number(d["observed"][sid]));
         const year = d.year;
         const startYear = year - (this.yearsCount - 1);
         results.push({ ...p, year, observed, yearsCount, startYear });
@@ -161,7 +169,7 @@ export default class BlockModel {
 
   @computed
   get dataWithMeans() {
-    if (this.data && this.geom !== "stn") {
+    if (this.dataWithSelectedRpc) {
       let meanOfMaxArr = [];
       let meanOfMeanArr = [];
       let meanOfMinArr = [];
@@ -187,23 +195,23 @@ export default class BlockModel {
         if (i > this.yearsCount) {
           let meanOfMaxTemp = meanOfMaxArr.slice(-this.yearsCount);
           if (!meanOfMaxTemp.includes(null)) {
-            p["meanOfMax"] = parseFloat(average(meanOfMaxArr).toFixed(2));
+            p["meanOfMax"] = parseFloat(average(meanOfMaxArr).toFixed(1));
           }
 
           let meanOfMeanTemp = meanOfMeanArr.slice(-this.yearsCount);
           if (!meanOfMeanTemp.includes(null)) {
-            p["meanOfMean"] = parseFloat(average(meanOfMeanArr).toFixed(2));
+            p["meanOfMean"] = parseFloat(average(meanOfMeanArr).toFixed(1));
           }
 
           let meanOfMinTemp = meanOfMinArr.slice(-this.yearsCount);
           if (!meanOfMinTemp.includes(null)) {
-            p["meanOfMin"] = parseFloat(average(meanOfMinArr).toFixed(2));
+            p["meanOfMin"] = parseFloat(average(meanOfMinArr).toFixed(1));
           }
 
           // Observed
           let observedMeanTemp = observedMeanArr.slice(-this.yearsCount);
           if (!observedMeanTemp.includes(null)) {
-            p["observedMean"] = parseFloat(average(observedMeanArr).toFixed(2));
+            p["observedMean"] = parseFloat(average(observedMeanArr).toFixed(1));
           }
         }
 
@@ -216,11 +224,11 @@ export default class BlockModel {
   }
 
   @computed
-  get gridData() {
-    if (this.dataWithMeans && this.geom !== "stn") {
-      const idx2039 = this.data.findIndex(obj => obj.year === 2039);
-      const idx2069 = this.data.findIndex(obj => obj.year === 2069);
-      const idx2099 = this.data.findIndex(obj => obj.year === 2099);
+  get grdData() {
+    if (this.dataWithMeans) {
+      const idx2039 = this.gridData.findIndex(obj => obj.year === 2039);
+      const idx2069 = this.gridData.findIndex(obj => obj.year === 2069);
+      const idx2099 = this.gridData.findIndex(obj => obj.year === 2099);
 
       let results = [];
       this.dataWithMeans.forEach((d, i) => {
@@ -240,33 +248,33 @@ export default class BlockModel {
 
         p["deltaMax2039"] = (
           this.dataWithMeans[idx2039].meanOfMax - d.meanOfMax
-        ).toFixed(2);
+        ).toFixed(1);
         p["deltaMean2039"] = (
           this.dataWithMeans[idx2039].meanOfMean - d.meanOfMean
-        ).toFixed(2);
+        ).toFixed(1);
         p["deltaMin2039"] = (
           this.dataWithMeans[idx2039].meanOfMin - d.meanOfMin
-        ).toFixed(2);
+        ).toFixed(1);
 
         p["deltaMax2069"] = (
           this.dataWithMeans[idx2069].meanOfMax - d.meanOfMax
-        ).toFixed(2);
+        ).toFixed(1);
         p["deltaMean2069"] = (
           this.dataWithMeans[idx2069].meanOfMean - d.meanOfMean
-        ).toFixed(2);
+        ).toFixed(1);
         p["deltaMin2069"] = (
           this.dataWithMeans[idx2069].meanOfMin - d.meanOfMin
-        ).toFixed(2);
+        ).toFixed(1);
 
         p["deltaMax2099"] = (
           this.dataWithMeans[idx2099].meanOfMax - d.meanOfMax
-        ).toFixed(2);
+        ).toFixed(1);
         p["deltaMean2099"] = (
           this.dataWithMeans[idx2099].meanOfMean - d.meanOfMean
-        ).toFixed(2);
+        ).toFixed(1);
         p["deltaMin2099"] = (
           this.dataWithMeans[idx2099].meanOfMin - d.meanOfMin
-        ).toFixed(2);
+        ).toFixed(1);
 
         results.push({ ...d, ...p });
       });

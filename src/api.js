@@ -430,7 +430,8 @@ export function buildQuery(params, meta) {
         p.state = "pa,nj,nh,ma";
         break;
       case "basin":
-        p.state = "oh,nj,me";
+        // p.state = 'oh,nj,me'
+        p.state = "oh,nj,nh,ma";
         break;
       default:
         p.state = "ny";

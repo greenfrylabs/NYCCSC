@@ -26,7 +26,7 @@ export const WBlock = styled.div`
   display: flex;
   // margin: 0 auto;
   flex-direction: column;
-  height: 650px;
+  height: 750px;
   padding: 1rem;
   border-bottom: 2px solid ${primary};
   // background: pink;
@@ -85,6 +85,7 @@ export const RightContainer = styled.div`
   padding: 0px 0.5em;
   // border: 1px solid #dedede;
   // border-radius: 4px;
+  // background: pink;
 `;
 
 export const RowColumn = styled.div`
@@ -104,7 +105,7 @@ export const WLegend = styled.div`
   justify-content: center;
   align-items: center;
   width: 90%;
-  height: 20%;
+  height: 25%;
   // background: teal;
   margin: 0 auto;
 `;

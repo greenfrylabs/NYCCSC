@@ -85,7 +85,8 @@ export default class BlockStore {
   addBlock = index => {
     // console.log("addChart");
     const b = this.blocks[index];
-    const data = b.data;
+    const stationData = b.stationData;
+    const gridData = b.gridData;
     const chart = b.chart;
     const element = b.element;
     const geom = b.geom;
@@ -97,7 +98,8 @@ export default class BlockStore {
 
     this.blocks.push(
       new BlockModel(this, {
-        data,
+        stationData,
+        gridData,
         chart,
         element,
         geom,
@@ -115,7 +117,8 @@ export default class BlockStore {
   updateBlock = index => {
     // console.log("updateBlock");
     const b = this.blocks[index];
-    const data = b.data;
+    const stationData = b.stationData;
+    const gridData = b.gridData;
     const chart = b.chart;
     const element = b.element;
     const geom = b.geom;
@@ -129,7 +132,8 @@ export default class BlockStore {
       index,
       1,
       new BlockModel(this, {
-        data,
+        stationData,
+        gridData,
         chart,
         element,
         geom,
@@ -148,7 +152,8 @@ export default class BlockStore {
   updateBlockWithoutFetching = index => {
     // console.log("updateBlock");
     const b = this.blocks[index];
-    const data = b.data;
+    const stationData = b.stationData;
+    const gridData = b.gridData;
     const chart = b.chart;
     const element = b.element;
     const geom = b.geom;
@@ -162,7 +167,8 @@ export default class BlockStore {
       index,
       1,
       new BlockModel(this, {
-        data,
+        stationData,
+        gridData,
         chart,
         element,
         geom,
@@ -178,7 +184,6 @@ export default class BlockStore {
 
   @action
   deleteBlock = idx => {
-    // console.log("deleteBlock");
     this.blocks.splice(idx, 1);
     this.setQString();
   };
@@ -221,7 +226,8 @@ export default class BlockStore {
         meta = stations.features.find(d => d.id === params.sid);
         const query = buildQuery(params, meta);
         fetchStationData(query).then(
-          res => (this.blocks[i]["data"] = this.transformStationData(res))
+          res =>
+            (this.blocks[i]["stationData"] = this.transformStationData(res))
         );
       } else {
         if (b.geom === "state") {
@@ -254,9 +260,10 @@ export default class BlockStore {
         max85.grid = "loca:allMax:rcp85";
 
         const queryArr = [observed, min45, mean45, max45, min85, mean85, max85];
-
+        console.log(queryArr);
         fetchGridData(queryArr).then(
-          res => (this.blocks[i]["data"] = this.transformGridData(res, b.sid))
+          res =>
+            (this.blocks[i]["gridData"] = this.transformGridData(res, b.sid))
         );
       }
     });

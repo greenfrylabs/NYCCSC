@@ -59,8 +59,8 @@ export default class Block extends Component {
       idx,
       graphTitle,
       yaxisLabel,
-      stationData,
-      gridData,
+      stnData,
+      grdData,
       meanLabel,
       stationCSV,
       setStationCSV,
@@ -257,15 +257,15 @@ export default class Block extends Component {
             </WImage>
           </LeftContainer>
           <RightContainer>
-            {stationData || gridData ? (
+            {stnData || grdData ? (
               <RowColumn>
                 <WGraphTitle>
                   <h4>{graphTitle}</h4>
                 </WGraphTitle>
 
                 <Graph
-                  stationData={stationData}
-                  gridData={gridData}
+                  stnData={stnData}
+                  grdData={grdData}
                   yaxisLabel={yaxisLabel}
                   setField={setField}
                   meanLabel={meanLabel}

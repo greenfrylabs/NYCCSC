@@ -35,26 +35,26 @@ export default class Graph extends Component {
   setIndex = idx => {
     this.index = idx;
     if (this.props.geom !== "stn") {
-      this.datum = this.props.gridData[this.index];
+      this.datum = this.props.grdData[this.index];
     } else {
-      this.datum = this.props.stationData[this.index];
+      this.datum = this.props.stnData[this.index];
     }
   };
 
   @action resetIndex = () => (this.index = null);
 
   render() {
-    const { gridData, stationData, yaxisLabel, geom, setField } = this.props;
-    // console.log(gridData, stationData);
+    const { grdData, stnData, yaxisLabel, geom, setField } = this.props;
+    // console.log(grdData, stnData);
     let yMin;
     let yMax;
-    if (gridData) {
-      const yMinArr = gridData.map(obj => obj.min);
-      const yMaxArr = gridData.map(obj => obj.max);
+    if (grdData) {
+      const yMinArr = grdData.map(obj => obj.min);
+      const yMaxArr = grdData.map(obj => obj.max);
       yMin = Math.round(Math.min(...yMinArr)) - 3;
       yMax = Math.round(Math.max(...yMaxArr)) + 1;
     } else {
-      const valuesArr = stationData.map(obj => obj.observed);
+      const valuesArr = stnData.map(obj => obj.observed);
       yMin = Math.round(Math.min(...valuesArr)) - 3;
       yMax = Math.round(Math.max(...valuesArr)) + 1;
     }
@@ -66,20 +66,20 @@ export default class Graph extends Component {
       return <Dot cx={cx} cy={cy} r={2} fill={fill} />;
     };
 
-    // console.log(isObservedGraph, gridData, stationData);
+    // console.log(isObservedGraph, grdData, stnData);
 
     return (
       <div style={{ width: "100%", height: "95%" }}>
-        <ResponsiveContainer width="100%" height="80%">
+        <ResponsiveContainer width="100%" height="75%">
           <ComposedChart
-            data={geom === "stn" ? stationData : gridData}
+            data={geom === "stn" ? stnData : grdData}
             margin={{ top: 15, right: 40, left: 0, bottom: 15 }}
             onMouseMove={a => a && this.setIndex(a.activeTooltipIndex)}
             onMouseLeave={this.resetIndex}
           >
             <XAxis dataKey="year" />
             <YAxis
-              dataKey={gridData ? "observed" : "value"}
+              dataKey={grdData ? "observed" : "value"}
               allowDecimals={false}
               domain={[yMin, yMax]}
               label={{
@@ -90,13 +90,11 @@ export default class Graph extends Component {
             />
 
             {isModeledGraph &&
-              gridData && <Area type="monotone" dataKey="max" fill="#F9EBED" />}
+              grdData && <Area type="monotone" dataKey="max" fill="#EC9CA4" />}
             {isModeledGraph &&
-              gridData && (
-                <Area type="monotone" dataKey="mean" fill="#7495AC" />
-              )}
+              grdData && <Area type="monotone" dataKey="mean" fill="#B4D6EE" />}
             {isModeledGraph &&
-              gridData && <Area type="monotone" dataKey="min" fill="#fff" />}
+              grdData && <Area type="monotone" dataKey="min" fill="#fff" />}
 
             {/* HACK........... FIX IT*/}
             {isModeledGraph && (
@@ -113,18 +111,18 @@ export default class Graph extends Component {
             {/* HACK........... FIX IT*/}
 
             {isModeledGraph &&
-              gridData && (
+              grdData && (
                 <Line
                   name="Max"
                   dataKey="max"
-                  stroke="#C5283D"
+                  stroke="#C42333"
                   dot={false}
                   strokeWidth={1}
                 />
               )}
 
             {isModeledGraph &&
-              gridData && (
+              grdData && (
                 <Line
                   name="Mean"
                   dataKey="mean"
@@ -135,11 +133,11 @@ export default class Graph extends Component {
               )}
 
             {isModeledGraph &&
-              gridData && (
+              grdData && (
                 <Line
                   name="Min"
                   dataKey="min"
-                  stroke="#255F85"
+                  stroke="#5CA5DA"
                   dot={false}
                   strokeWidth={1}
                 />
@@ -148,19 +146,19 @@ export default class Graph extends Component {
             {isObservedGraph && (
               <Scatter
                 line={false}
-                dataKey={gridData ? "observed" : "observed"}
+                dataKey={grdData ? "observed" : "observed"}
                 fill="black"
                 fillOpacity={0.5}
                 shape={<RenderDots />}
               />
             )}
 
-            {stationData && (
+            {stnData && (
               <Line
                 name="ObservedMean"
                 type="monotone"
                 dataKey="observedMean"
-                stroke="#DC9052"
+                stroke="#EABA6B"
                 dot={false}
                 strokeWidth={2}
               />

@@ -134,6 +134,7 @@ export const ModeledCell = styled.div`
   border-radius: 4px;
   font-size: 1rem;
   padding: 0.3rem;
+  padding-left: 15px;
 `;
 
 export const CellRow = styled.div`

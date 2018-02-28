@@ -93,7 +93,7 @@ export default class BlockStore {
     const sid = b.sid;
     const idx = b.idx + 1;
     const rpc = b.rpc;
-    const meanRange = b.meanRange;
+    const yearsCount = b.yearsCount;
 
     this.blocks.push(
       new BlockModel(this, {
@@ -105,7 +105,7 @@ export default class BlockStore {
         sid,
         idx,
         rpc,
-        meanRange
+        yearsCount
       })
     );
     this.setQString();
@@ -123,7 +123,7 @@ export default class BlockStore {
     const sid = b.sid;
     const idx = b.idx;
     const rpc = b.rpc;
-    const meanRange = b.meanRange;
+    const yearsCount = b.yearsCount;
 
     this.blocks.splice(
       index,
@@ -137,7 +137,7 @@ export default class BlockStore {
         sid,
         idx,
         rpc,
-        meanRange
+        yearsCount
       })
     );
     this.setQString();

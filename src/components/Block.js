@@ -63,7 +63,8 @@ export default class Block extends Component {
       gridData,
       meanLabel,
       stationCSV,
-      setStationCSV
+      setStationCSV,
+      updateYearsCount
     } = this.props.block;
 
     // geom type
@@ -270,6 +271,7 @@ export default class Block extends Component {
                   meanLabel={meanLabel}
                   rpc={rpc}
                   geom={geom}
+                  updateYearsCount={updateYearsCount}
                 />
               </RowColumn>
             ) : (

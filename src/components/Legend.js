@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
-import { Checkbox } from "antd";
+import { Checkbox, Menu, Dropdown, Icon } from "antd";
+
 import {
   WLegend,
   ObservedCell,
@@ -102,6 +103,17 @@ export default class Legend extends Component {
       startYear2099 = 2099 - data.yearsCount;
     }
 
+    const menu = (
+      <Menu onClick={e => this.props.updateYearsCount(e.key)}>
+        <Menu.Item key={5}>5 years mean</Menu.Item>
+        <Menu.Item key={10}>10 years mean</Menu.Item>
+        <Menu.Item key={15}>15 years mean</Menu.Item>
+        <Menu.Item key={20}>20 years mean</Menu.Item>
+        <Menu.Item key={25}>25 years mean</Menu.Item>
+        <Menu.Item key={30}>30 years mean</Menu.Item>
+      </Menu>
+    );
+
     return (
       <WLegend>
         <ObservedCell>
@@ -134,7 +146,26 @@ export default class Legend extends Component {
           </CellRow>
           <CellRow>
             <CellCol style={{ color: "red" }}>
-              {startYear ? `${startYear}-${year}` : "-"}
+              <Dropdown overlay={menu}>
+                <a className="ant-dropdown-link">
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "baseline",
+                      color: "red"
+                    }}
+                  >
+                    {year ? (
+                      <div>
+                        {startYear}-{year}
+                        <Icon type="down" />
+                      </div>
+                    ) : (
+                      "-"
+                    )}
+                  </div>
+                </a>
+              </Dropdown>
             </CellCol>
             <CellCol>-</CellCol>
             <CellCol>{data ? observedMean : "-"}</CellCol>
@@ -177,7 +208,26 @@ export default class Legend extends Component {
 
             <CellRow>
               <CellCol style={{ color: "red" }}>
-                {year ? `${startYear}-${year}` : "-"}
+                <Dropdown overlay={menu}>
+                  <a className="ant-dropdown-link">
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "baseline",
+                        color: "red"
+                      }}
+                    >
+                      {year ? (
+                        <div>
+                          {startYear}-{year}
+                          <Icon type="down" />
+                        </div>
+                      ) : (
+                        "-"
+                      )}
+                    </div>
+                  </a>
+                </Dropdown>
               </CellCol>
               <CellCol>{data ? meanOfMin : "-"}</CellCol>
               <CellCol>{data ? meanOfMean : "-"}</CellCol>
@@ -188,7 +238,11 @@ export default class Legend extends Component {
             </CellRow>
 
             <CellRow>
-              <CellCol>{startYear2039 ? `${startYear2039}-2039` : "-"}</CellCol>
+              <CellCol
+                style={{ justifyContent: year ? "flex-start" : "center" }}
+              >
+                {startYear2039 ? `${startYear2039}-2039` : "-"}
+              </CellCol>
               <CellCol>{data ? meanOfMin2039 : "-"}</CellCol>
               <CellCol>{data ? meanOfMean2039 : "-"}</CellCol>
               <CellCol>{data ? meanOfMax2039 : "-"}</CellCol>
@@ -198,7 +252,11 @@ export default class Legend extends Component {
             </CellRow>
 
             <CellRow>
-              <CellCol>{startYear2069 ? `${startYear2069}-2069` : "-"}</CellCol>
+              <CellCol
+                style={{ justifyContent: year ? "flex-start" : "center" }}
+              >
+                {startYear2069 ? `${startYear2069}-2069` : "-"}
+              </CellCol>
               <CellCol>{data ? meanOfMin2069 : "-"}</CellCol>
               <CellCol>{data ? meanOfMean2069 : "-"}</CellCol>
               <CellCol>{data ? meanOfMax2069 : "-"}</CellCol>
@@ -208,7 +266,11 @@ export default class Legend extends Component {
             </CellRow>
 
             <CellRow>
-              <CellCol>{startYear2099 ? `${startYear2099}-2099` : "-"}</CellCol>
+              <CellCol
+                style={{ justifyContent: year ? "flex-start" : "center" }}
+              >
+                {startYear2099 ? `${startYear2099}-2099` : "-"}
+              </CellCol>
               <CellCol>{data ? meanOfMin2099 : "-"}</CellCol>
               <CellCol>{data ? meanOfMean2099 : "-"}</CellCol>
               <CellCol>{data ? meanOfMax2099 : "-"}</CellCol>

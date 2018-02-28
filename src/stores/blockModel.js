@@ -57,6 +57,11 @@ export default class BlockModel {
     this.app.blockStore.updateBlock(this.idx);
   };
 
+  @action
+  updateYearsCount = d => {
+    this.yearsCount = d;
+  };
+
   @computed
   get graphTitle() {
     const season = seasons.get(this.season).title;
@@ -201,7 +206,7 @@ export default class BlockModel {
         results.push({ ...p, ...d });
       });
 
-      console.log(results);
+      // console.log(results);
       return results;
     }
   }
@@ -261,7 +266,7 @@ export default class BlockModel {
 
         results.push({ ...d, ...p });
       });
-      console.log(results);
+      // console.log(results);
       return results;
     }
   }

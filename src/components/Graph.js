@@ -44,7 +44,13 @@ export default class Graph extends Component {
   @action resetIndex = () => (this.index = null);
 
   render() {
-    const { gridData, stationData, yaxisLabel, geom } = this.props;
+    const {
+      gridData,
+      stationData,
+      yaxisLabel,
+      geom,
+      updateYearsCount
+    } = this.props;
     // console.log(gridData, stationData);
     let yMin;
     let yMax;
@@ -66,7 +72,7 @@ export default class Graph extends Component {
       return <Dot cx={cx} cy={cy} r={2} fill={fill} />;
     };
 
-    console.log(gridData, stationData);
+    // console.log(gridData, stationData);
 
     return (
       <div style={{ width: "100%", height: "95%" }}>
@@ -179,7 +185,11 @@ export default class Graph extends Component {
             )}
           </ComposedChart>
         </ResponsiveContainer>
-        <Legend data={this.datum} geom={geom} />
+        <Legend
+          data={this.datum}
+          geom={geom}
+          updateYearsCount={updateYearsCount}
+        />
       </div>
     );
   }

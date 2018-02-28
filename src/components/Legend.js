@@ -156,7 +156,7 @@ export default class Legend extends Component {
                       color: "red"
                     }}
                   >
-                    {isIndex ? (
+                    {year ? (
                       <div>
                         {startYear}-{year}
                         <Icon type="down" />
@@ -218,7 +218,7 @@ export default class Legend extends Component {
                         color: "red"
                       }}
                     >
-                      {isIndex ? (
+                      {year ? (
                         <div>
                           {startYear}-{year}
                           <Icon type="down" />

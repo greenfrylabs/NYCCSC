@@ -155,7 +155,7 @@ export default class Legend extends Component {
                     style={{
                       display: "flex",
                       alignItems: "baseline",
-                      color: "red"
+                      color: "#488B49"
                     }}
                   >
                     {year ? (
@@ -217,7 +217,7 @@ export default class Legend extends Component {
                       style={{
                         display: "flex",
                         alignItems: "baseline",
-                        color: "red"
+                        color: "#488B49"
                       }}
                     >
                       {year ? (

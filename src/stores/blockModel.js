@@ -143,8 +143,18 @@ export default class BlockModel {
     if (this.gridData) {
       let results = [];
       let p = {};
+      let sid = this.sid;
+
+      const min85 = this.gridData.map(d => d.min85[sid]);
+      const min45 = this.gridData.map(d => d.min45[sid]);
+      const max85 = this.gridData.map(d => d.max85[sid]);
+      const max45 = this.gridData.map(d => d.max45[sid]);
+      const obsArr = this.gridData.map(d => d.observed[sid]);
+
+      const yMin = Math.floor(Math.min(...min45, ...min85, ...obsArr));
+      const yMax = Math.ceil(Math.max(...max45, ...max85, ...obsArr));
+
       this.gridData.forEach((d, i) => {
-        let sid = this.sid;
         if (this.rpc === 8.5) {
           p["max"] = d["max85"][sid];
           p["mean"] = d["mean85"][sid];
@@ -161,7 +171,15 @@ export default class BlockModel {
           : (observed = Number(d["observed"][sid]));
         const year = d.year;
         const startYear = year - (this.yearsCount - 1);
-        results.push({ ...p, year, observed, yearsCount, startYear });
+        results.push({
+          ...p,
+          year,
+          observed,
+          yearsCount,
+          startYear,
+          yMin,
+          yMax
+        });
       });
       return results;
     }

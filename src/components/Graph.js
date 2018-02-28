@@ -45,19 +45,18 @@ export default class Graph extends Component {
 
   render() {
     const { grdData, stnData, yaxisLabel, geom, setField } = this.props;
-    // console.log(grdData, stnData);
-    // let yMin;
-    // let yMax;
-    // if (grdData) {
-    //   const yMinArr = grdData.map(obj => obj.min);
-    //   const yMaxArr = grdData.map(obj => obj.max);
-    //   yMin = Math.round(Math.min(...yMinArr));
-    //   yMax = Math.round(Math.max(...yMaxArr));
-    // } else {
-    //   const valuesArr = stnData.map(obj => obj.observed);
-    //   yMin = Math.round(Math.min(...valuesArr));
-    //   yMax = Math.round(Math.max(...valuesArr));
-    // }
+    console.log(grdData, stnData);
+
+    let yMin;
+    let yMax;
+    if (grdData) {
+      yMin = grdData.map(obj => obj.yMin);
+      yMax = grdData.map(obj => obj.yMax);
+    } else {
+      const valuesArr = stnData.map(obj => obj.observed);
+      yMin = Math.round(Math.min(...valuesArr));
+      yMax = Math.round(Math.max(...valuesArr));
+    }
 
     const { isObservedGraph, isModeledGraph } = this.props.app.blockStore;
 
@@ -66,7 +65,7 @@ export default class Graph extends Component {
       return <Dot cx={cx} cy={cy} r={2} fill={fill} />;
     };
 
-    // console.log(isObservedGraph, grdData, stnData);
+    console.log(yMin, yMax);
 
     return (
       <div style={{ width: "100%", height: "95%" }}>
@@ -81,7 +80,7 @@ export default class Graph extends Component {
             <YAxis
               dataKey={"observed"}
               allowDecimals={false}
-              domain={["0", "58 + 8"]}
+              domain={[yMin[0], yMax[0] + 8]}
               label={{
                 value: `${yaxisLabel}`,
                 angle: -90,

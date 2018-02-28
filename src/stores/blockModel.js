@@ -151,10 +151,8 @@ export default class BlockModel {
       const max45 = this.gridData.map(d => d.max45[sid]);
       const obsArr = this.gridData.map(d => d.observed[sid]);
 
-      const yMin = Math.floor(Math.min(...min45, ...min85, ...obsArr));
+      const yMin = Math.floor(Math.min(...min45, ...min85));
       const yMax = Math.ceil(Math.max(...max45, ...max85, ...obsArr));
-
-      const yRange = [yMin, yMax / 4, yMax / 2, yMax];
 
       this.gridData.forEach((d, i) => {
         if (this.rpc === 8.5) {

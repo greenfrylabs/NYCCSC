@@ -34,7 +34,7 @@ export default class BlockStore {
 
   @action
   setBlocks = () => {
-    console.log("setBlocks");
+    // console.log("setBlocks");
     let arr = [];
     let qString = this.app.history.location.search;
     const defaultQString = "?c=Temp/state/maxt/ANN/NY/";
@@ -209,7 +209,7 @@ export default class BlockStore {
 
   @action
   loadData = () => {
-    console.log("loadData");
+    // console.log("loadData");
     this.isLoading = true;
     let params = {};
     this.blocks.forEach((b, i) => {

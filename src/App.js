@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 
 // styled
-import { Main, WHeader, Header } from "./styles";
+import { Main } from "./styles";
 
 // components
 import Block from "./components/Block";
@@ -17,15 +17,10 @@ class App extends Component {
   render() {
     const { blocks, isModal, toggleModal } = this.props.app;
     const blockList = blocks.map((block, i) => <Block key={i} block={block} />);
-    console.log(blocks[0]);
+    // console.log(blocks[0]);
     return (
       <Main>
-        <WHeader>
-          <Header>NYCCSC</Header>
-        </WHeader>
-
         {blockList}
-
         <Modal
           width={800}
           title=""

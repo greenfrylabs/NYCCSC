@@ -309,12 +309,13 @@ export default class BlockModel {
       : (dataSource = this.grdData);
 
     dataSource.forEach(d => {
-      console.log(d);
+      // console.log(d);
       this.stationCSV.push({
         Year: d.year,
         [this.elementLabel]: d.observed,
         Range: `${d.startYear}-${d.year}`,
-        [`${d.yearsCount}-years Mean`]: d.observedMean
+        [`${d.yearsCount}-years Mean`]: d.observedMean,
+        RPC: this.rpc
       });
     });
   };

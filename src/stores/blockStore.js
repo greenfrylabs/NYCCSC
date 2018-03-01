@@ -225,6 +225,7 @@ export default class BlockStore {
       if (b.geom === "stn") {
         meta = stations.features.find(d => d.id === params.sid);
         const query = buildQuery(params, meta);
+        this.blocks[i]["stationData"] = null;
         fetchStationData(query).then(
           res =>
             (this.blocks[i]["stationData"] = this.transformStationData(res))
@@ -260,7 +261,7 @@ export default class BlockStore {
         max85.grid = "loca:allMax:rcp85";
 
         const queryArr = [observed, min45, mean45, max45, min85, mean85, max85];
-
+        this.blocks[i]["gridData"] = null;
         fetchGridData(queryArr).then(
           res =>
             (this.blocks[i]["gridData"] = this.transformGridData(res, b.sid))
@@ -287,20 +288,20 @@ export default class BlockStore {
 
   transformGridData(res, sid) {
     if (res) {
-      // console.log(res);
       let results = [];
       const keys = Object.keys(res);
-
-      keys.forEach((k, i) => {
-        // console.log(res[k].data.data);
-        res[k].data.data.forEach((el, j) => {
-          if (i === 0) {
-            results.push({ year: parseInt(el[0], 10), [k]: el[1] });
-          } else {
-            results[j][[k]] = el[1];
-          }
+      if (keys) {
+        keys.forEach((k, i) => {
+          // console.log(res[k].data.data);
+          res[k].data.data.forEach((el, j) => {
+            if (i === 0) {
+              results.push({ year: parseInt(el[0], 10), [k]: el[1] });
+            } else {
+              results[j][[k]] = el[1];
+            }
+          });
         });
-      });
+      }
       // console.log(results);
       return results;
     }

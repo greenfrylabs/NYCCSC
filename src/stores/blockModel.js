@@ -141,6 +141,7 @@ export default class BlockModel {
   @computed
   get dataWithSelectedRpc() {
     if (this.gridData) {
+      // console.log(this.gridData.slice());
       let results = [];
       let p = {};
       let sid = this.sid;

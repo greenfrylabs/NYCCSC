@@ -81,8 +81,8 @@ export default class Graph extends Component {
       deltaMean2099 = grdData[this.index].deltaMean2099;
     }
 
-    const yMaxHeightObserved = yMax[0] + 10;
-    const yMaxHeightModeled = yMaxHeightObserved - yMaxHeightObserved * 0.03;
+    const yMaxHeightObserved = yMax[0] + Math.ceil(yMax[0] * 0.1);
+    const yMaxHeightModeled = yMaxHeightObserved - yMaxHeightObserved * 0.05;
 
     return (
       <div style={{ width: "100%", height: "95%" }}>

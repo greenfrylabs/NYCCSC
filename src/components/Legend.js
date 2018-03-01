@@ -223,7 +223,6 @@ export default class Legend extends Component {
                       {year ? (
                         <div>
                           {startYear}-{year}
-                          <Icon style={{ fontSize: "0.7rem" }} type="down" />
                         </div>
                       ) : (
                         "-"

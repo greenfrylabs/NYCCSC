@@ -95,16 +95,19 @@ export default class Graph extends Component {
             onMouseLeave={this.resetIndex}
           >
             <XAxis dataKey="year" />
-            <YAxis
-              dataKey={"observed"}
-              allowDecimals={false}
-              domain={[yMin[0], yMaxHeightObserved]}
-              label={{
-                value: `${yaxisLabel}`,
-                angle: -90,
-                position: "insideLeft"
-              }}
-            />
+            {stnData ||
+              (grdData && (
+                <YAxis
+                  dataKey={"observed"}
+                  allowDecimals={false}
+                  domain={[yMin[0], yMaxHeightObserved]}
+                  label={{
+                    value: `${yaxisLabel}`,
+                    angle: -90,
+                    position: "insideLeft"
+                  }}
+                />
+              ))}
 
             {isModeledGraph && grdData && <Area dataKey="max" fill="#EC9CA4" />}
             {isModeledGraph &&

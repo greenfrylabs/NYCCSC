@@ -34,10 +34,15 @@ export default class Graph extends Component {
   @action
   setIndex = idx => {
     this.index = idx;
-    if (this.props.geom !== "stn") {
-      this.datum = this.props.grdData[this.index];
+    const { geom, grdData, stnData } = this.props;
+    if (geom !== "stn") {
+      if (grdData) {
+        this.datum = grdData[this.index];
+      }
     } else {
-      this.datum = this.props.stnData[this.index];
+      if (stnData) {
+        this.datum = stnData[this.index];
+      }
     }
   };
 
@@ -81,7 +86,10 @@ export default class Graph extends Component {
       deltaMean2099 = grdData[this.index].deltaMean2099;
     }
 
-    const yMaxHeightObserved = yMax[0] + Math.ceil(yMax[0] * 0.1);
+    let yMaxHeightObserved;
+    if (yMax[0]) {
+      yMaxHeightObserved = yMax[0] + Math.ceil(yMax[0] * 0.1);
+    }
     const yMaxHeightModeled = yMaxHeightObserved - yMaxHeightObserved * 0.05;
 
     return (
@@ -95,19 +103,19 @@ export default class Graph extends Component {
             onMouseLeave={this.resetIndex}
           >
             <XAxis dataKey="year" />
-            {stnData ||
-              (grdData && (
-                <YAxis
-                  dataKey={"observed"}
-                  allowDecimals={false}
-                  domain={[yMin[0], yMaxHeightObserved]}
-                  label={{
-                    value: `${yaxisLabel}`,
-                    angle: -90,
-                    position: "insideLeft"
-                  }}
-                />
-              ))}
+
+            {(stnData || grdData) && (
+              <YAxis
+                dataKey={"observed"}
+                allowDecimals={false}
+                domain={[yMin[0], yMaxHeightObserved]}
+                label={{
+                  value: `${yaxisLabel}`,
+                  angle: -90,
+                  position: "insideLeft"
+                }}
+              />
+            )}
 
             {isModeledGraph && grdData && <Area dataKey="max" fill="#EC9CA4" />}
             {isModeledGraph &&

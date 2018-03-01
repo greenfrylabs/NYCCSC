@@ -46,7 +46,7 @@ export default class BlockModel {
     this.sid = sid;
     this.idx = idx;
     this.rpc = rpc;
-    this.yearsCount = yearsCount;
+    this.yearsCount = Number(yearsCount);
   }
 
   @action
@@ -212,17 +212,17 @@ export default class BlockModel {
         if (i > this.yearsCount) {
           let meanOfMaxTemp = meanOfMaxArr.slice(-this.yearsCount);
           if (!meanOfMaxTemp.includes(null)) {
-            p["meanOfMax"] = parseFloat(average(meanOfMaxArr).toFixed(1));
+            p["meanOfMax"] = parseFloat(average(meanOfMaxTemp).toFixed(1));
           }
 
           let meanOfMeanTemp = meanOfMeanArr.slice(-this.yearsCount);
           if (!meanOfMeanTemp.includes(null)) {
-            p["meanOfMean"] = parseFloat(average(meanOfMeanArr).toFixed(1));
+            p["meanOfMean"] = parseFloat(average(meanOfMeanTemp).toFixed(1));
           }
 
           let meanOfMinTemp = meanOfMinArr.slice(-this.yearsCount);
           if (!meanOfMinTemp.includes(null)) {
-            p["meanOfMin"] = parseFloat(average(meanOfMinArr).toFixed(1));
+            p["meanOfMin"] = parseFloat(average(meanOfMinTemp).toFixed(1));
           }
 
           // Observed

@@ -215,7 +215,7 @@ export default class Graph extends Component {
                 y2={yMaxHeightModeled}
                 label={{
                   position: "insideTop",
-                  value: `∆ ${deltaMean2039}`,
+                  value: `∆mean = ${deltaMean2039}`,
                   fill: "#2F2F2F",
                   fontSize: 13
                 }}
@@ -249,7 +249,7 @@ export default class Graph extends Component {
                 y2={yMaxHeightModeled}
                 label={{
                   position: "insideTop",
-                  value: `∆ ${deltaMean2069}`,
+                  value: `∆mean = ${deltaMean2069}`,
                   fill: "#2F2F2F",
                   fontSize: 13
                 }}
@@ -266,7 +266,7 @@ export default class Graph extends Component {
                 y2={yMaxHeightModeled}
                 label={{
                   position: "top",
-                  value: `${startYear2099}-${2069}`,
+                  value: `${startYear2099}-${2099}`,
                   fill: "#2F2F2F",
                   fontSize: 13
                 }}
@@ -283,7 +283,7 @@ export default class Graph extends Component {
                 y2={yMaxHeightModeled}
                 label={{
                   position: "insideTop",
-                  value: `∆ ${deltaMean2099}`,
+                  value: `∆mean = ${deltaMean2099}`,
                   fill: "#2F2F2F",
                   fontSize: 13
                 }}

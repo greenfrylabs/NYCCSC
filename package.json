@@ -1,9 +1,9 @@
 {
-  "name": "NYCCSC-site",
+  "name": "NYCCSC",
   "version": "0.1.0",
   "author": "alexsinfarosa <as898@cornell.edu>",
-  "homepage": "https://alexsinfarosa.github.io/NYCCSC-site/",
-  "description": "NYCCSC site",
+  "homepage": "https://alexsinfarosa.github.io/NYCCSC/",
+  "description": "NYCCSC",
   "private": true,
   "dependencies": {
     "antd": "^3.1.6",

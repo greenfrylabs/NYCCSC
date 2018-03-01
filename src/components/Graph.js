@@ -73,9 +73,9 @@ export default class Graph extends Component {
     let deltaMean2099 = "";
 
     if (grdData && this.index) {
-      startYear2039 = 2039 - grdData[0].yearsCount;
-      startYear2069 = 2069 - grdData[0].yearsCount;
-      startYear2099 = 2099 - grdData[0].yearsCount;
+      startYear2039 = 2039 - (grdData[0].yearsCount - 1);
+      startYear2069 = 2069 - (grdData[0].yearsCount - 1);
+      startYear2099 = 2099 - (grdData[0].yearsCount - 1);
       deltaMean2039 = grdData[this.index].deltaMean2039;
       deltaMean2069 = grdData[this.index].deltaMean2069;
       deltaMean2099 = grdData[this.index].deltaMean2099;
@@ -158,16 +158,17 @@ export default class Graph extends Component {
               />
             )}
 
-            {stnData && (
-              <Line
-                name="ObservedMean"
-                type="monotone"
-                dataKey="observedMean"
-                stroke="#EABA6B"
-                dot={false}
-                strokeWidth={2}
-              />
-            )}
+            {stnData &&
+              geom === "stn" && (
+                <Line
+                  name="ObservedMean"
+                  type="monotone"
+                  dataKey="observedMean"
+                  stroke="#EABA6B"
+                  dot={false}
+                  strokeWidth={2}
+                />
+              )}
 
             {this.index && (
               <ReferenceArea

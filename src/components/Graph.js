@@ -45,7 +45,7 @@ export default class Graph extends Component {
 
   render() {
     const { grdData, stnData, yaxisLabel, geom, setField } = this.props;
-    console.log(grdData, stnData);
+    // console.log(grdData, stnData);
 
     let yMin;
     let yMax;
@@ -64,6 +64,25 @@ export default class Graph extends Component {
       const { cx, cy, fill } = props;
       return <Dot cx={cx} cy={cy} r={2} fill={fill} />;
     };
+    let startYear2039 = "";
+    let startYear2069 = "";
+    let startYear2099 = "";
+
+    let deltaMean2039 = "";
+    let deltaMean2069 = "";
+    let deltaMean2099 = "";
+
+    if (grdData && this.index) {
+      startYear2039 = 2039 - grdData[0].yearsCount;
+      startYear2069 = 2069 - grdData[0].yearsCount;
+      startYear2099 = 2099 - grdData[0].yearsCount;
+      deltaMean2039 = grdData[this.index].deltaMean2039;
+      deltaMean2069 = grdData[this.index].deltaMean2069;
+      deltaMean2099 = grdData[this.index].deltaMean2099;
+    }
+
+    const yMaxHeightObserved = yMax[0] + 10;
+    const yMaxHeightModeled = yMaxHeightObserved - yMaxHeightObserved * 0.03;
 
     return (
       <div style={{ width: "100%", height: "95%" }}>
@@ -79,7 +98,7 @@ export default class Graph extends Component {
             <YAxis
               dataKey={"observed"}
               allowDecimals={false}
-              domain={[yMin[0], yMax[0] + 8]}
+              domain={[yMin[0], yMaxHeightObserved]}
               label={{
                 value: `${yaxisLabel}`,
                 angle: -90,
@@ -174,12 +193,13 @@ export default class Graph extends Component {
 
             {this.index && (
               <ReferenceArea
-                x1={2035}
+                x1={startYear2039}
                 x2={2039}
+                y2={yMaxHeightModeled}
                 label={{
                   position: "top",
-                  value: `${this.startYear}-${this.year}`,
-                  fill: "#488B49",
+                  value: `${startYear2039}-${2039}`,
+                  fill: "#2F2F2F",
                   fontSize: 13
                 }}
                 fill="#99A4F2"
@@ -190,12 +210,13 @@ export default class Graph extends Component {
 
             {this.index && (
               <ReferenceArea
-                x1={2035}
+                x1={startYear2039}
                 x2={2039}
+                y2={yMaxHeightModeled}
                 label={{
                   position: "insideTop",
-                  value: `999`,
-                  fill: "#488B49",
+                  value: `∆ ${deltaMean2039}`,
+                  fill: "#2F2F2F",
                   fontSize: 13
                 }}
                 fill="#99A4F2"
@@ -206,12 +227,13 @@ export default class Graph extends Component {
 
             {this.index && (
               <ReferenceArea
-                x1={2065}
+                x1={startYear2069}
                 x2={2069}
+                y2={yMaxHeightModeled}
                 label={{
                   position: "top",
-                  value: `${this.startYear}-${this.year}`,
-                  fill: "#488B49",
+                  value: `${startYear2069}-${2069}`,
+                  fill: "#2F2F2F",
                   fontSize: 13
                 }}
                 fill="#99A4F2"
@@ -222,12 +244,47 @@ export default class Graph extends Component {
 
             {this.index && (
               <ReferenceArea
-                x1={2095}
+                x1={startYear2069}
+                x2={2069}
+                y2={yMaxHeightModeled}
+                label={{
+                  position: "insideTop",
+                  value: `∆ ${deltaMean2069}`,
+                  fill: "#2F2F2F",
+                  fontSize: 13
+                }}
+                fill="#99A4F2"
+                fillOpacity={0.1}
+                isFront={true}
+              />
+            )}
+
+            {this.index && (
+              <ReferenceArea
+                x1={startYear2099}
                 x2={2099}
+                y2={yMaxHeightModeled}
                 label={{
                   position: "top",
-                  value: `${this.startYear}-${this.year}`,
-                  fill: "#488B49",
+                  value: `${startYear2099}-${2069}`,
+                  fill: "#2F2F2F",
+                  fontSize: 13
+                }}
+                fill="#99A4F2"
+                fillOpacity={0.1}
+                isFront={true}
+              />
+            )}
+
+            {this.index && (
+              <ReferenceArea
+                x1={startYear2099}
+                x2={2099}
+                y2={yMaxHeightModeled}
+                label={{
+                  position: "insideTop",
+                  value: `∆ ${deltaMean2099}`,
+                  fill: "#2F2F2F",
                   fontSize: 13
                 }}
                 fill="#99A4F2"

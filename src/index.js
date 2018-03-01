@@ -13,7 +13,7 @@ import { AppContainer } from "react-hot-loader";
 
 // history
 import createHistory from "history/createBrowserHistory";
-const history = createHistory({ basename: "/dataproduct/NYCCSC-site" });
+const history = createHistory({ basename: "/dataproduct/" });
 
 const fetcher = url => window.fetch(url).then(response => response.json());
 const app = new AppStore(fetcher, history);

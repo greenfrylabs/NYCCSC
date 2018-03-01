@@ -209,7 +209,6 @@ export default class BlockModel {
         meanOfMinArr.push(d.min);
 
         observedMeanArr.push(d.observed);
-
         if (i > this.yearsCount) {
           let meanOfMaxTemp = meanOfMaxArr.slice(-this.yearsCount);
           if (!meanOfMaxTemp.includes(null)) {
@@ -304,13 +303,19 @@ export default class BlockModel {
   @observable stationCSV = [];
   @action
   setStationCSV = () => {
-    this.dataWithMeanValues.forEach(d =>
+    let dataSource = [];
+    this.geom === "stn"
+      ? (dataSource = this.stnData)
+      : (dataSource = this.grdData);
+
+    dataSource.forEach(d => {
+      console.log(d);
       this.stationCSV.push({
         Year: d.year,
-        [this.elementLabel]: d.e,
+        [this.elementLabel]: d.observed,
         Range: `${d.startYear}-${d.year}`,
-        Mean: d.mean
-      })
-    );
+        [`${d.yearsCount}-years Mean`]: d.observedMean
+      });
+    });
   };
 }

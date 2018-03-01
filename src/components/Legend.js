@@ -210,7 +210,7 @@ export default class Legend extends Component {
             </CellRow>
 
             <CellRow>
-              <CellCol style={{ color: "red" }}>
+              <CellCol>
                 <Dropdown overlay={menu}>
                   <a className="ant-dropdown-link">
                     <div
@@ -223,7 +223,7 @@ export default class Legend extends Component {
                       {year ? (
                         <div>
                           {startYear}-{year}
-                          <Icon type="down" />
+                          <Icon style={{ fontSize: "0.7rem" }} type="down" />
                         </div>
                       ) : (
                         "-"
@@ -254,7 +254,7 @@ export default class Legend extends Component {
 
             <CellRow>
               <CellCol
-                style={{ justifyContent: isIndex ? "flex-start" : "center" }}
+                style={{ justifyContent: isIndex ? "center" : "center" }}
               >
                 {isIndex ? `${startYear2039}-2039` : "-"}
               </CellCol>
@@ -280,7 +280,7 @@ export default class Legend extends Component {
 
             <CellRow>
               <CellCol
-                style={{ justifyContent: isIndex ? "flex-start" : "center" }}
+                style={{ justifyContent: isIndex ? "center" : "center" }}
               >
                 {isIndex ? `${startYear2069}-2069` : "-"}
               </CellCol>
@@ -306,7 +306,7 @@ export default class Legend extends Component {
 
             <CellRow>
               <CellCol
-                style={{ justifyContent: isIndex ? "flex-start" : "center" }}
+                style={{ justifyContent: isIndex ? "center" : "center" }}
               >
                 {isIndex ? `${startYear2099}-2099` : "-"}
               </CellCol>

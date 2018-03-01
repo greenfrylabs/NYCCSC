@@ -65,12 +65,11 @@ export default class Graph extends Component {
       return <Dot cx={cx} cy={cy} r={2} fill={fill} />;
     };
 
-    console.log(yMin, yMax);
-
     return (
       <div style={{ width: "100%", height: "95%" }}>
         <ResponsiveContainer width="100%" height="75%">
           <ComposedChart
+            syncId="anyId"
             data={geom === "stn" ? stnData : grdData}
             margin={{ top: 15, right: 40, left: 0, bottom: 15 }}
             onMouseMove={a => a && this.setIndex(a.activeTooltipIndex)}
@@ -94,20 +93,14 @@ export default class Graph extends Component {
               grdData && <Area type="monotone" dataKey="mean" fill="#B4D6EE" />}
             {isModeledGraph &&
               grdData && <Area type="monotone" dataKey="min" fill="#fff" />}
-
-            {/* HACK........... FIX IT*/}
-            {isModeledGraph && (
-              <Area type="monotone" dataKey="min" fill="#fff" />
-            )}
-
-            {isModeledGraph && (
-              <Area type="monotone" dataKey="min" fill="#fff" />
-            )}
-
-            {isModeledGraph && (
-              <Area type="monotone" dataKey="min" fill="#fff" />
-            )}
-            {/* HACK........... FIX IT*/}
+            {isModeledGraph &&
+              grdData && <Area type="monotone" dataKey="min" fill="#fff" />}
+            {isModeledGraph &&
+              grdData && <Area type="monotone" dataKey="min" fill="#fff" />}
+            {isModeledGraph &&
+              grdData && <Area type="monotone" dataKey="min" fill="#fff" />}
+            {isModeledGraph &&
+              grdData && <Area type="monotone" dataKey="min" fill="#fff" />}
 
             {isModeledGraph &&
               grdData && (
@@ -167,6 +160,70 @@ export default class Graph extends Component {
               <ReferenceArea
                 x1={this.startYear}
                 x2={this.year}
+                label={{
+                  position: "top",
+                  value: `${this.startYear}-${this.year}`,
+                  fill: "#488B49",
+                  fontSize: 13
+                }}
+                fill="#99A4F2"
+                fillOpacity={0.1}
+                isFront={true}
+              />
+            )}
+
+            {this.index && (
+              <ReferenceArea
+                x1={2035}
+                x2={2039}
+                label={{
+                  position: "top",
+                  value: `${this.startYear}-${this.year}`,
+                  fill: "#488B49",
+                  fontSize: 13
+                }}
+                fill="#99A4F2"
+                fillOpacity={0.1}
+                isFront={true}
+              />
+            )}
+
+            {this.index && (
+              <ReferenceArea
+                x1={2035}
+                x2={2039}
+                label={{
+                  position: "insideTop",
+                  value: `999`,
+                  fill: "#488B49",
+                  fontSize: 13
+                }}
+                fill="#99A4F2"
+                fillOpacity={0.1}
+                isFront={true}
+              />
+            )}
+
+            {this.index && (
+              <ReferenceArea
+                x1={2065}
+                x2={2069}
+                label={{
+                  position: "top",
+                  value: `${this.startYear}-${this.year}`,
+                  fill: "#488B49",
+                  fontSize: 13
+                }}
+                fill="#99A4F2"
+                fillOpacity={0.1}
+                isFront={true}
+              />
+            )}
+
+            {this.index && (
+              <ReferenceArea
+                x1={2095}
+                x2={2099}
                 label={{
                   position: "top",
                   value: `${this.startYear}-${this.year}`,

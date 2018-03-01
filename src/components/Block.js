@@ -184,7 +184,7 @@ export default class Block extends Component {
           </Select>
 
           <RadioGroup
-            defaultValue={geom === "stn" ? null : rpc}
+            defaultValue={geom === "stn" ? null : 8.5}
             onChange={e => setRpc(e.target.value)}
             disabled={geom === "stn" ? true : false}
           >

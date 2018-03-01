@@ -106,20 +106,14 @@ export default class Graph extends Component {
               }}
             />
 
+            {isModeledGraph && grdData && <Area dataKey="max" fill="#EC9CA4" />}
             {isModeledGraph &&
-              grdData && <Area type="monotone" dataKey="max" fill="#EC9CA4" />}
-            {isModeledGraph &&
-              grdData && <Area type="monotone" dataKey="mean" fill="#B4D6EE" />}
-            {isModeledGraph &&
-              grdData && <Area type="monotone" dataKey="min" fill="#fff" />}
-            {isModeledGraph &&
-              grdData && <Area type="monotone" dataKey="min" fill="#fff" />}
-            {isModeledGraph &&
-              grdData && <Area type="monotone" dataKey="min" fill="#fff" />}
-            {isModeledGraph &&
-              grdData && <Area type="monotone" dataKey="min" fill="#fff" />}
-            {isModeledGraph &&
-              grdData && <Area type="monotone" dataKey="min" fill="#fff" />}
+              grdData && <Area dataKey="mean" fill="#B4D6EE" />}
+            {isModeledGraph && grdData && <Area dataKey="min" fill="#fff" />}
+            {isModeledGraph && grdData && <Area dataKey="min" fill="#fff" />}
+            {isModeledGraph && grdData && <Area dataKey="min" fill="#fff" />}
+            {isModeledGraph && grdData && <Area dataKey="min" fill="#fff" />}
+            {isModeledGraph && grdData && <Area dataKey="min" fill="#fff" />}
 
             {isModeledGraph &&
               grdData && (
@@ -159,7 +153,7 @@ export default class Graph extends Component {
                 line={false}
                 dataKey={grdData ? "observed" : "observed"}
                 fill="black"
-                fillOpacity={0.5}
+                fillOpacity={0.7}
                 shape={<RenderDots />}
               />
             )}

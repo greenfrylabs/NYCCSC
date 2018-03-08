@@ -24,13 +24,13 @@ export default class MiniMap extends Component {
       f =>
         isPoint
           ? {
-              fillColor: f.id === sid ? "blue" : "black",
+              fillColor: f.id === sid ? "#E88D44" : "black",
               opacity: 0.0,
               fillOpacity: 0.5,
               color: "black"
             }
           : {
-              fillColor: f.id === sid ? "blue" : "lightgrey",
+              fillColor: f.id === sid ? "#E88D44" : "lightgrey",
               weight: 1.5,
               opacity: 0.6,
               fillOpacity: 0.4,
@@ -65,13 +65,13 @@ export default class MiniMap extends Component {
       style: f =>
         isPoint
           ? {
-              fillColor: f.id === sid ? "blue" : "black",
+              fillColor: f.id === sid ? "#E88D44" : "black",
               opacity: 0.0,
               fillOpacity: 0.5,
               color: "black"
             }
           : {
-              fillColor: f.id === sid ? "blue" : "lightgrey",
+              fillColor: f.id === sid ? "#E88D44" : "lightgrey",
               weight: 1.5,
               opacity: 0.6,
               fillOpacity: 0.4,

@@ -101,7 +101,6 @@ export default class Graph extends Component {
             onMouseMove={a => a && this.setIndex(a.activeTooltipIndex)}
             onMouseLeave={this.resetIndex}
           >
-            <XAxis dataKey="year" />
             {(stnData || grdData) && (
               <YAxis
                 scale="linear"
@@ -120,6 +119,7 @@ export default class Graph extends Component {
               grdData && (
                 <Area stackId="1" dataKey="min" stroke="#2176FF" fill="#fff" />
               )}
+
             {isModeledGraph &&
               grdData && (
                 <Area
@@ -129,6 +129,7 @@ export default class Graph extends Component {
                   fill="#8FCBFD"
                 />
               )}
+
             {isModeledGraph &&
               grdData && (
                 <Area
@@ -142,12 +143,13 @@ export default class Graph extends Component {
             {isObservedGraph && (
               <Scatter
                 line={false}
-                dataKey={grdData ? "observed" : "observed"}
+                dataKey="observed"
                 fill="black"
                 fillOpacity={1}
                 shape={<RenderDots />}
               />
             )}
+
             {stnData &&
               geom === "stn" && (
                 <Line
@@ -159,10 +161,11 @@ export default class Graph extends Component {
                   strokeWidth={2}
                 />
               )}
+
             {this.index && (
               <ReferenceArea
-                x1={this.startYear}
-                x2={this.year}
+                x1={this.startYear ? this.startYear : null}
+                x2={this.year ? this.year : null}
                 label={{
                   position: "top",
                   value: `${this.startYear}-${this.year}`,
@@ -171,9 +174,10 @@ export default class Graph extends Component {
                 }}
                 fill="#99A4F2"
                 fillOpacity={0.1}
-                isFront={true}
+                isFront={false}
               />
             )}
+
             {this.index && (
               <ReferenceArea
                 x1={startYear2039}
@@ -270,6 +274,7 @@ export default class Graph extends Component {
                 isFront={true}
               />
             )}
+            <XAxis dataKey="year" />
           </ComposedChart>
         </ResponsiveContainer>
         <Legend

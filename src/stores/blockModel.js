@@ -293,6 +293,8 @@ export default class BlockModel {
         p["deltaMin2099"] = (
           this.dataWithMeans[idx2099].meanOfMin - d.meanOfMin
         ).toFixed(1);
+        p["mean-min"] = d.mean - d.min;
+        p["max-mean"] = d.max - d.mean;
 
         results.push({ ...d, ...p });
       });

@@ -136,7 +136,11 @@ export default class Legend extends Component {
               <HeaderCol>VALUE</HeaderCol>
             </CellCol>
             <CellCol>
-              <HeaderCol>MEAN</HeaderCol>
+              <HeaderCol
+                style={{ color: this.props.geom === "stn" ? "#8C9DE9" : null }}
+              >
+                MEAN
+              </HeaderCol>
             </CellCol>
           </CellRow>
 
@@ -171,7 +175,11 @@ export default class Legend extends Component {
               </Dropdown>
             </CellCol>
             <CellCol>-</CellCol>
-            <CellCol>{isIndex ? observedMean : "-"}</CellCol>
+            <CellCol
+              style={{ color: this.props.geom === "stn" ? "#8C9DE9" : null }}
+            >
+              {isIndex ? observedMean : "-"}
+            </CellCol>
           </CellRow>
         </ObservedCell>
 
@@ -190,7 +198,7 @@ export default class Legend extends Component {
                 <HeaderCol>YEAR</HeaderCol>
               </CellCol>
               <CellCol>
-                <HeaderCol style={{ color: "#5CA5DA" }}>MIN</HeaderCol>
+                <HeaderCol style={{ color: "#2176FF" }}>MIN</HeaderCol>
               </CellCol>
               <CellCol>
                 <HeaderCol style={{ color: "#2F2F2F" }}>MEAN</HeaderCol>
@@ -199,7 +207,7 @@ export default class Legend extends Component {
                 <HeaderCol style={{ color: "#C42333" }}>MAX</HeaderCol>
               </CellCol>
               <CellCol>
-                <HeaderCol style={{ color: "#5CA5DA" }}>&Delta; min</HeaderCol>
+                <HeaderCol style={{ color: "#2176FF" }}>&Delta; min</HeaderCol>
               </CellCol>
               <CellCol>
                 <HeaderCol style={{ color: "#2F2F2F" }}>&Delta; mean</HeaderCol>
@@ -231,7 +239,7 @@ export default class Legend extends Component {
                   </a>
                 </Dropdown>
               </CellCol>
-              <CellCol style={{ color: "#5CA5DA" }}>
+              <CellCol style={{ color: "#2176FF" }}>
                 {isIndex ? meanOfMin : "-"}
               </CellCol>
               <CellCol style={{ color: "#2F2F2F" }}>
@@ -240,7 +248,7 @@ export default class Legend extends Component {
               <CellCol style={{ color: "#C42333" }}>
                 {isIndex ? meanOfMax : "-"}
               </CellCol>
-              <CellCol style={{ color: "#5CA5DA" }}>
+              <CellCol style={{ color: "#2176FF" }}>
                 {isIndex ? "0.0" : "-"}
               </CellCol>
               <CellCol style={{ color: "#2F2F2F" }}>
@@ -257,7 +265,7 @@ export default class Legend extends Component {
               >
                 {isIndex ? `${startYear2039}-2039` : "-"}
               </CellCol>
-              <CellCol style={{ color: "#5CA5DA" }}>
+              <CellCol style={{ color: "#2176FF" }}>
                 {isIndex ? meanOfMin2039 : "-"}
               </CellCol>
               <CellCol style={{ color: "#2F2F2F" }}>
@@ -266,7 +274,7 @@ export default class Legend extends Component {
               <CellCol style={{ color: "#C42333" }}>
                 {isIndex ? meanOfMax2039 : "-"}
               </CellCol>
-              <CellCol style={{ color: "#5CA5DA" }}>
+              <CellCol style={{ color: "#2176FF" }}>
                 {isIndex ? deltaMin2039 : "-"}
               </CellCol>
               <CellCol style={{ color: "#2F2F2F" }}>
@@ -283,7 +291,7 @@ export default class Legend extends Component {
               >
                 {isIndex ? `${startYear2069}-2069` : "-"}
               </CellCol>
-              <CellCol style={{ color: "#5CA5DA" }}>
+              <CellCol style={{ color: "#2176FF" }}>
                 {isIndex ? meanOfMin2069 : "-"}
               </CellCol>
               <CellCol style={{ color: "#2F2F2F" }}>
@@ -292,7 +300,7 @@ export default class Legend extends Component {
               <CellCol style={{ color: "#C42333" }}>
                 {isIndex ? meanOfMax2069 : "-"}
               </CellCol>
-              <CellCol style={{ color: "#5CA5DA" }}>
+              <CellCol style={{ color: "#2176FF" }}>
                 {isIndex ? deltaMin2069 : "-"}
               </CellCol>
               <CellCol style={{ color: "#2F2F2F" }}>
@@ -309,7 +317,7 @@ export default class Legend extends Component {
               >
                 {isIndex ? `${startYear2099}-2099` : "-"}
               </CellCol>
-              <CellCol style={{ color: "#5CA5DA" }}>
+              <CellCol style={{ color: "#2176FF" }}>
                 {isIndex ? meanOfMin2099 : "-"}
               </CellCol>
               <CellCol style={{ color: "#2F2F2F" }}>
@@ -318,7 +326,7 @@ export default class Legend extends Component {
               <CellCol style={{ color: "#C42333" }}>
                 {isIndex ? meanOfMax2099 : "-"}
               </CellCol>
-              <CellCol style={{ color: "#5CA5DA" }}>
+              <CellCol style={{ color: "#2176FF" }}>
                 {isIndex ? deltaMin2099 : "-"}
               </CellCol>
               <CellCol style={{ color: "#2F2F2F" }}>

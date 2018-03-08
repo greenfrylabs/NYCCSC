@@ -50,7 +50,6 @@ export default class Graph extends Component {
 
   render() {
     const { grdData, stnData, yaxisLabel, geom, setField } = this.props;
-    // console.log(grdData, stnData);
 
     let yMin;
     let yMax;
@@ -103,9 +102,9 @@ export default class Graph extends Component {
             onMouseLeave={this.resetIndex}
           >
             <XAxis dataKey="year" />
-
             {(stnData || grdData) && (
               <YAxis
+                scale="linear"
                 dataKey={"observed"}
                 allowDecimals={false}
                 domain={[yMin[0], yMaxHeightObserved]}
@@ -117,45 +116,26 @@ export default class Graph extends Component {
               />
             )}
 
-            {isModeledGraph && grdData && <Area dataKey="max" fill="#EC9CA4" />}
-            {isModeledGraph &&
-              grdData && <Area dataKey="mean" fill="#B4D6EE" />}
-            {isModeledGraph && grdData && <Area dataKey="min" fill="#fff" />}
-            {isModeledGraph && grdData && <Area dataKey="min" fill="#fff" />}
-            {isModeledGraph && grdData && <Area dataKey="min" fill="#fff" />}
-            {isModeledGraph && grdData && <Area dataKey="min" fill="#fff" />}
-            {isModeledGraph && grdData && <Area dataKey="min" fill="#fff" />}
-
             {isModeledGraph &&
               grdData && (
-                <Line
-                  name="Max"
-                  dataKey="max"
+                <Area stackId="1" dataKey="min" stroke="#2176FF" fill="#fff" />
+              )}
+            {isModeledGraph &&
+              grdData && (
+                <Area
+                  stackId="1"
+                  dataKey={"mean-min"}
+                  stroke="#342E37"
+                  fill="#8FCBFD"
+                />
+              )}
+            {isModeledGraph &&
+              grdData && (
+                <Area
+                  stackId="1"
+                  dataKey="max-mean"
                   stroke="#C42333"
-                  dot={false}
-                  strokeWidth={1}
-                />
-              )}
-
-            {isModeledGraph &&
-              grdData && (
-                <Line
-                  name="Mean"
-                  dataKey="mean"
-                  stroke="#2F2F2F"
-                  dot={false}
-                  strokeWidth={1}
-                />
-              )}
-
-            {isModeledGraph &&
-              grdData && (
-                <Line
-                  name="Min"
-                  dataKey="min"
-                  stroke="#5CA5DA"
-                  dot={false}
-                  strokeWidth={1}
+                  fill="#F17E89 "
                 />
               )}
 
@@ -164,23 +144,21 @@ export default class Graph extends Component {
                 line={false}
                 dataKey={grdData ? "observed" : "observed"}
                 fill="black"
-                fillOpacity={0.7}
+                fillOpacity={1}
                 shape={<RenderDots />}
               />
             )}
-
             {stnData &&
               geom === "stn" && (
                 <Line
                   name="ObservedMean"
                   type="monotone"
                   dataKey="observedMean"
-                  stroke="#EABA6B"
+                  stroke="#8C9DE9"
                   dot={false}
                   strokeWidth={2}
                 />
               )}
-
             {this.index && (
               <ReferenceArea
                 x1={this.startYear}
@@ -196,7 +174,6 @@ export default class Graph extends Component {
                 isFront={true}
               />
             )}
-
             {this.index && (
               <ReferenceArea
                 x1={startYear2039}
@@ -213,7 +190,6 @@ export default class Graph extends Component {
                 isFront={true}
               />
             )}
-
             {this.index && (
               <ReferenceArea
                 x1={startYear2039}
@@ -230,7 +206,6 @@ export default class Graph extends Component {
                 isFront={true}
               />
             )}
-
             {this.index && (
               <ReferenceArea
                 x1={startYear2069}
@@ -247,7 +222,6 @@ export default class Graph extends Component {
                 isFront={true}
               />
             )}
-
             {this.index && (
               <ReferenceArea
                 x1={startYear2069}
@@ -264,7 +238,6 @@ export default class Graph extends Component {
                 isFront={true}
               />
             )}
-
             {this.index && (
               <ReferenceArea
                 x1={startYear2099}
@@ -281,7 +254,6 @@ export default class Graph extends Component {
                 isFront={true}
               />
             )}
-
             {this.index && (
               <ReferenceArea
                 x1={startYear2099}

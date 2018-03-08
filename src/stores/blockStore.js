@@ -57,7 +57,7 @@ export default class BlockStore {
 
       if (!isValid) {
         console.log("not valid");
-        this.app.history.replace("?c=Temp/state/maxt/ANN/NY/");
+        this.app.history.push("?c=Temp/state/maxt/ANN/NY/");
         qParam = parseURL("?c=Temp/state/maxt/ANN/NY/");
       }
 

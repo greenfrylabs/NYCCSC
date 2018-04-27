@@ -6,7 +6,7 @@ import registerServiceWorker from "./registerServiceWorker";
 
 // Mobx
 import { Provider } from "mobx-react";
-import AppStore from "stores/appStore";
+import AppStore from "./stores/appStore";
 
 // hot reload
 import { AppContainer } from "react-hot-loader";
@@ -35,7 +35,7 @@ registerServiceWorker();
 render(App);
 
 if (module.hot) {
-  module.hot.accept("stores/appStore", () => {
+  module.hot.accept("./stores/appStore", () => {
     render(App);
   });
 }

@@ -5,7 +5,7 @@ import { inject, observer } from "mobx-react";
 import { geoms, elems, seasons, chartDefs } from "../api";
 
 // utils
-import { transformToGeoJSON } from "utils";
+import { transformToGeoJSON } from "../utils";
 
 import basins from "../assets/basin.json";
 import counties from "../assets/county.json";

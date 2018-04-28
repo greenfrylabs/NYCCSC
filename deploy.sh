@@ -1,7 +1,8 @@
 if [[ -n $(git status --porcelain) ]]; then echo "repo is not checked in fully. Try again."; exit 1; fi
-rm -rf dist/*
-grunt
+echo "We can't build this yet, so using hard-coded... but soon I hope"
+#rm -rf dist/*
+#grunt
 
-aws s3 sync --profile=nescaum dist/ s3://ny-map-nescaum-ccsc-dataservices --acl public-read
+aws s3 sync --profile=nescaum dist/ s3://ny-datagrapher-nescaum-ccsc-dataservices/ --acl public-read
 
-rm -rf dist/*
+# rm -rf dist/*

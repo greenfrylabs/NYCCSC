@@ -6,7 +6,7 @@ import BlockModel from "./blockModel";
 // utils
 import { isEquivalent } from "../utils";
 import { parseURL, buildQuery, correctParam } from "../api";
-import { fetchStationData, fetchGridData } from "fetchData";
+import { fetchStationData, fetchGridData } from "../fetchData";
 
 import stations from "../assets/stn.json";
 import states from "../assets/state.json";

@@ -263,10 +263,14 @@ export default class BlockStore {
         const maxmissingValue = elems.get(b.element)[maxmissing];
         query.elems = [{ ...query.elems[0], maxmissing: maxmissingValue }];
 
-        fetchStationData(query).then(
-          res =>
-            (this.blocks[i]["stationData"] = this.transformStationData(res))
-        );
+        fetchStationData(query)
+          .then(
+            res =>
+              (this.blocks[i]["stationData"] = this.transformStationData(res))
+          )
+          .catch(err =>
+            console.log(`There was an error fetching station data: ${err}`)
+          );
       } else {
         if (b.geom === "state") {
           meta = states.meta.find(d => d.id === params.sid);
@@ -299,10 +303,17 @@ export default class BlockStore {
 
         const queryArr = [observed, min45, mean45, max45, min85, mean85, max85];
         // this.blocks[i]["gridData"] = null;
-        fetchGridData(queryArr).then(
-          res =>
-            (this.blocks[i]["gridData"] = this.transformGridData(res, b.sid))
-        );
+        fetchGridData(queryArr)
+          .then(
+            res =>
+              (this.blocks[i]["gridData"] = this.transformGridData(res, b.sid))
+          )
+          .catch(err => {
+            console.log(`There was an error fetching grid data: ${err}`);
+            alert(
+              "There was a problem fetching the data. Please, reload the page."
+            );
+          });
       }
     });
     this.isLoading = false;

@@ -189,10 +189,10 @@ export default class Block extends Component {
             disabled={geom === "stn" ? true : false}
           >
             <Tooltip title="Low Emission rpc">
-              <Radio value={4.5}>RPC 4.5</Radio>
+              <Radio value={4.5}>RCP 4.5</Radio>
             </Tooltip>
             <Tooltip title="Hi Emission rpc">
-              <Radio value={8.5}>RPC 8.5</Radio>
+              <Radio value={8.5}>RCP 8.5</Radio>
             </Tooltip>
           </RadioGroup>
 

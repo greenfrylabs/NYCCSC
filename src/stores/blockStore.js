@@ -152,7 +152,7 @@ export default class BlockStore {
       })
     );
     this.setQString();
-    this.loadData();
+    this.loadData(index);
   };
 
   @action
@@ -215,105 +215,118 @@ export default class BlockStore {
   @observable isLoading = false;
 
   @action
-  loadData = () => {
+  loadData = index => {
     // console.log("loadData");
     this.isLoading = true;
     let params = {};
     this.blocks.forEach((b, i) => {
-      params = {
-        chart: b.chart,
-        geom: b.geom,
-        element: b.element,
-        season: b.season,
-        sid: b.sid
-      };
-      this.blocks[i]["stationData"] = null;
-      this.blocks[i]["gridData"] = null;
-      let meta;
-      if (b.geom === "stn") {
-        meta = stations.features.find(d => d.id === params.sid);
-        let query = buildQuery(params, meta);
-        let maxmissing;
+      if (index === undefined || i === index) {
+        params = {
+          chart: b.chart,
+          geom: b.geom,
+          element: b.element,
+          season: b.season,
+          sid: b.sid
+        };
+        this.blocks[i]["stationData"] = null;
+        this.blocks[i]["gridData"] = null;
+        let meta;
+        if (b.geom === "stn") {
+          meta = stations.features.find(d => d.id === params.sid);
+          let query = buildQuery(params, meta);
+          let maxmissing;
 
-        if (b.season === "ANN") maxmissing = "maxmissingAnnual";
-        if (
-          b.season === "MAM" ||
-          b.season === "JJA" ||
-          b.season === "SON" ||
-          b.season === "DJF"
-        )
-          maxmissing = "maxmissingSeasonal";
-
-        if (
-          b.season === "Jan" ||
-          b.season === "Feb" ||
-          b.season === "Mar" ||
-          b.season === "Apr" ||
-          b.season === "May" ||
-          b.season === "Jun" ||
-          b.season === "Jul" ||
-          b.season === "Aug" ||
-          b.season === "Sep" ||
-          b.season === "Oct" ||
-          b.season === "Nov" ||
-          b.season === "Dec"
-        )
-          maxmissing = "maxmissingMonthly";
-
-        const maxmissingValue = elems.get(b.element)[maxmissing];
-        query.elems = [{ ...query.elems[0], maxmissing: maxmissingValue }];
-
-        fetchStationData(query)
-          .then(
-            res =>
-              (this.blocks[i]["stationData"] = this.transformStationData(res))
+          if (b.season === "ANN") maxmissing = "maxmissingAnnual";
+          if (
+            b.season === "MAM" ||
+            b.season === "JJA" ||
+            b.season === "SON" ||
+            b.season === "DJF"
           )
-          .catch(err =>
-            console.log(`There was an error fetching station data: ${err}`)
-          );
-      } else {
-        if (b.geom === "state") {
-          meta = states.meta.find(d => d.id === params.sid);
-        }
-        if (b.geom === "county") {
-          meta = counties.meta.find(d => d.id === params.sid);
-        }
-        if (b.geom === "basin") {
-          meta = basins.meta.find(d => d.id === params.sid);
-        }
+            maxmissing = "maxmissingSeasonal";
 
-        // observed
-        let observed = buildQuery(params, meta);
-
-        // rcp45
-        let mean45 = { ...observed };
-        mean45.grid = "loca:wMean:rcp45";
-        let min45 = { ...observed };
-        min45.grid = "loca:allMin:rcp45";
-        let max45 = { ...observed };
-        max45.grid = "loca:allMax:rcp45";
-
-        // rcp85
-        let mean85 = { ...observed };
-        mean85.grid = "loca:wMean:rcp85";
-        let min85 = { ...observed };
-        min85.grid = "loca:allMin:rcp85";
-        let max85 = { ...observed };
-        max85.grid = "loca:allMax:rcp85";
-
-        const queryArr = [observed, min45, mean45, max45, min85, mean85, max85];
-        // this.blocks[i]["gridData"] = null;
-        fetchGridData(queryArr)
-          .then(
-            res =>
-              (this.blocks[i]["gridData"] = this.transformGridData(res, b.sid))
+          if (
+            b.season === "Jan" ||
+            b.season === "Feb" ||
+            b.season === "Mar" ||
+            b.season === "Apr" ||
+            b.season === "May" ||
+            b.season === "Jun" ||
+            b.season === "Jul" ||
+            b.season === "Aug" ||
+            b.season === "Sep" ||
+            b.season === "Oct" ||
+            b.season === "Nov" ||
+            b.season === "Dec"
           )
-          .catch(err => {
-            console.log(`There was an error fetching grid data: ${err}`);
-            alert(
-              "There was a problem fetching the data. Please, reload the page."
+            maxmissing = "maxmissingMonthly";
+
+          const maxmissingValue = elems.get(b.element)[maxmissing];
+          query.elems = [{ ...query.elems[0], maxmissing: maxmissingValue }];
+
+          fetchStationData(query)
+            .then(
+              res =>
+                (this.blocks[i]["stationData"] = this.transformStationData(res))
+            )
+            .catch(err =>
+              console.log(`There was an error fetching station data: ${err}`)
             );
-          });
+        } else {
+          if (b.geom === "state") {
+            meta = states.meta.find(d => d.id === params.sid);
+          }
+          if (b.geom === "county") {
+            meta = counties.meta.find(d => d.id === params.sid);
+          }
+          if (b.geom === "basin") {
+            meta = basins.meta.find(d => d.id === params.sid);
+          }
+
+          // observed
+          let observed = buildQuery(params, meta);
+
+          // rcp45
+          let mean45 = { ...observed };
+          mean45.grid = "loca:wMean:rcp45";
+          let min45 = { ...observed };
+          min45.grid = "loca:allMin:rcp45";
+          let max45 = { ...observed };
+          max45.grid = "loca:allMax:rcp45";
+
+          // rcp85
+          let mean85 = { ...observed };
+          mean85.grid = "loca:wMean:rcp85";
+          let min85 = { ...observed };
+          min85.grid = "loca:allMin:rcp85";
+          let max85 = { ...observed };
+          max85.grid = "loca:allMax:rcp85";
+
+          const queryArr = [
+            observed,
+            min45,
+            mean45,
+            max45,
+            min85,
+            mean85,
+            max85
+          ];
+          // this.blocks[i]["gridData"] = null;
+          fetchGridData(queryArr)
+            .then(
+              res =>
+                (this.blocks[i]["gridData"] = this.transformGridData(
+                  res,
+                  b.sid
+                ))
+            )
+            .catch(err => {
+              console.log(`There was an error fetching grid data: ${err}`);
+              alert(
+                "There was a problem fetching the data. Please, reload the page."
+              );
+            });
+        }
       }
     });
     this.isLoading = false;

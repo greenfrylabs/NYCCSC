@@ -61,7 +61,7 @@ export default class BlockModel {
     } else {
       this[field] = val;
     }
-    if (field === "sid" && this.geom !== "stn") {
+    if ((field === "sid" && this.geom !== "stn") || field === "yearsCount") {
       this.app.blockStore.updateBlockWithoutFetching(this.idx);
     } else {
       this.app.blockStore.updateBlock(this.idx);

@@ -8,9 +8,6 @@ import registerServiceWorker from "./registerServiceWorker";
 import { Provider } from "mobx-react";
 import AppStore from "stores/appStore";
 
-// hot reload
-import { AppContainer } from "react-hot-loader";
-
 // history
 import createHistory from "history/createBrowserHistory";
 const history = createHistory({ basename: "" });
@@ -18,24 +15,11 @@ const history = createHistory({ basename: "" });
 const fetcher = url => window.fetch(url).then(response => response.json());
 const app = new AppStore(fetcher, history);
 
-const render = Component => {
-  ReactDOM.render(
-    <AppContainer>
-      <Provider app={app}>
-        <App />
-      </Provider>
-    </AppContainer>,
-    document.getElementById("root")
-  );
-};
+ReactDOM.render(
+  <Provider app={app}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
 
 registerServiceWorker();
-
-// Render once
-render(App);
-
-if (module.hot) {
-  module.hot.accept("stores/appStore", () => {
-    render(App);
-  });
-}

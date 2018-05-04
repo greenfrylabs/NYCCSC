@@ -5,7 +5,7 @@ import BlockModel from "./blockModel";
 
 // utils
 import { isEquivalent } from "../utils";
-import { parseURL, buildQuery, correctParam } from "../api";
+import { parseURL, buildQuery, correctParam, elems } from "../api";
 import { fetchStationData, fetchGridData } from "../fetchData";
 
 import stations from "../assets/stn.json";
@@ -17,8 +17,15 @@ export default class BlockStore {
   app;
   constructor(app) {
     this.app = app;
-    when(() => this.blocks.length === 0, () => this.setBlocks());
+    when(
+      () => this.blocks.length === 0,
+      () => {
+        // console.log("blocks are empty");
+        this.setBlocks();
+      }
+    );
     this.app.history.listen((location, action) => {
+      // console.log("history.listen fired");
       if (action === "POP") {
         this.blocks = [];
         this.setBlocks();
@@ -56,7 +63,7 @@ export default class BlockStore {
       const isValid = isEquivalent(qParam, nParam);
 
       if (!isValid) {
-        console.log("not valid");
+        // console.log("not valid");
         this.app.history.push("?c=Temp/state/maxt/ANN/NY/");
         qParam = parseURL("?c=Temp/state/maxt/ANN/NY/");
       }
@@ -225,8 +232,37 @@ export default class BlockStore {
       let meta;
       if (b.geom === "stn") {
         meta = stations.features.find(d => d.id === params.sid);
-        const query = buildQuery(params, meta);
-        // this.blocks[i]["stationData"] = null;
+        let query = buildQuery(params, meta);
+        let maxmissing;
+
+        if (b.season === "ANN") maxmissing = "maxmissingAnnual";
+        if (
+          b.season === "MAM" ||
+          b.season === "JJA" ||
+          b.season === "SON" ||
+          b.season === "DJF"
+        )
+          maxmissing = "maxmissingSeasonal";
+
+        if (
+          b.season === "Jan" ||
+          b.season === "Feb" ||
+          b.season === "Mar" ||
+          b.season === "Apr" ||
+          b.season === "May" ||
+          b.season === "Jun" ||
+          b.season === "Jul" ||
+          b.season === "Aug" ||
+          b.season === "Sep" ||
+          b.season === "Oct" ||
+          b.season === "Nov" ||
+          b.season === "Dec"
+        )
+          maxmissing = "maxmissingMonthly";
+
+        const maxmissingValue = elems.get(b.element)[maxmissing];
+        query.elems = [{ ...query.elems[0], maxmissing: maxmissingValue }];
+
         fetchStationData(query).then(
           res =>
             (this.blocks[i]["stationData"] = this.transformStationData(res))

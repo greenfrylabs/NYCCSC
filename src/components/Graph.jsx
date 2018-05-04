@@ -57,9 +57,9 @@ export default class Graph extends Component {
       yMin = grdData.map(obj => obj.yMin);
       yMax = grdData.map(obj => obj.yMax);
     } else {
-      const valuesArr = stnData.map(obj => obj.observed);
-      yMin = Math.round(Math.min(...valuesArr));
-      yMax = Math.round(Math.max(...valuesArr));
+      const valuesArr = stnData.map(obj => obj.observed).filter(d => d);
+      yMin = Math.round(Math.min(...valuesArr)) - 2;
+      yMax = Math.round(Math.max(...valuesArr)) + 2;
     }
 
     const { isObservedGraph, isModeledGraph } = this.props.app.blockStore;
@@ -101,12 +101,24 @@ export default class Graph extends Component {
             onMouseMove={a => a && this.setIndex(a.activeTooltipIndex)}
             onMouseLeave={this.resetIndex}
           >
-            {(stnData || grdData) && (
+            {grdData ? (
               <YAxis
                 scale="linear"
                 dataKey={"observed"}
                 allowDecimals={false}
                 domain={[yMin[0], yMaxHeightObserved]}
+                label={{
+                  value: `${yaxisLabel}`,
+                  angle: -90,
+                  position: "insideLeft"
+                }}
+              />
+            ) : (
+              <YAxis
+                scale="linear"
+                dataKey={"observed"}
+                allowDecimals={false}
+                domain={[yMin, yMax]}
                 label={{
                   value: `${yaxisLabel}`,
                   angle: -90,

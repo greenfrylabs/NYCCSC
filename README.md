@@ -4,6 +4,7 @@
 
 * Make sure node.js is installed on your system
 * Download/Clone the repo
-* From the terminal run `npm install` to install all the dependencies
+* Open the terminal and drag the newly downloaded folder on it
+* From the project folder run `npm install` in the terminal to install all the dependencies
 * After all the dependencies have been installed execute `npm run`
 * To generate the build folder run `npm build`

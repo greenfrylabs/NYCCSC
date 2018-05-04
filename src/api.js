@@ -185,9 +185,10 @@ export let elems = new Map([
       label: "Total Precipitation",
       yLabel: "Precipitation (Inch)",
       ttUnits: '"',
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 3,
+      maxmissingMonthly: 1,
       acis: { vX: 4, vN: 0, reduce: "sum" },
-      grid: { vX: 94, maxmissing: 0 },
-      gridY: { vX: 98, maxmissing: 0 },
       gYr: [1895, 2016],
       locaYr: [1950, 2099],
       season: {
@@ -204,6 +205,9 @@ export let elems = new Map([
       label: "Total Snowfall",
       yLabel: "Snowfall (Inch)",
       ttUnits: '"',
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 3,
+      maxmissingMonthly: 1,
       acis: { vX: 10, vN: 0, reduce: "sum" }
     }
   ],
@@ -213,6 +217,9 @@ export let elems = new Map([
       label: "Maximum Daily Snowdepth",
       yLabel: "Snowdepth (Inch)",
       ttUnits: '"',
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 3,
+      maxmissingMonthly: 1,
       acis: { vX: 11, vN: 0, reduce: "max" }
     }
   ],
@@ -223,9 +230,10 @@ export let elems = new Map([
       label: "Maximum Temperature",
       yLabel: "Temperature °F",
       ttUnits: "°F",
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 6,
+      maxmissingMonthly: 3,
       acis: { vX: 1, vN: 0, reduce: "mean" },
-      grid: { vX: 91, maxmissing: 0 },
-      gridY: { vX: 95, maxmissing: 0 },
       gYr: [1895, 2016],
       locaYr: [1950, 2099],
       season: {
@@ -242,9 +250,10 @@ export let elems = new Map([
       label: "Minimum Temperature",
       yLabel: "Temperature °F",
       ttUnits: "°F",
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 6,
+      maxmissingMonthly: 3,
       acis: { vX: 2, vN: 0, reduce: "mean" },
-      // grid: { vX: 92, maxmissing: 0 },
-      // gridY: { vX: 96, maxmissing: 0 },
       gYr: [1895, 2016],
       locaYr: [1950, 2099],
       season: {
@@ -261,9 +270,10 @@ export let elems = new Map([
       label: "Average Temperature",
       yLabel: "Temperature °F",
       ttUnits: "°F",
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 6,
+      maxmissingMonthly: 3,
       acis: { vX: 43, vN: 0, reduce: "mean" },
-      // grid: { vX: 99, maxmissing: 0 },
-      // gridY: { vX: 100, maxmissing: 0 },
       gYr: [1895, 2016],
       locaYr: [1950, 2099],
       season: {
@@ -280,8 +290,10 @@ export let elems = new Map([
       label: "Growing Degree-Day Accumulation",
       yLabel: "Degree-Day °F",
       ttUnits: "°F",
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 6,
+      maxmissingMonthly: 3,
       acis: { vX: 44, vN: 0, base: 50, reduce: "sum" },
-      grid: {},
       gYr: [1981, 2016],
       locaYr: [1950, 2099],
       season: {
@@ -298,8 +310,10 @@ export let elems = new Map([
       label: "Heating Degree-Day Accumulation",
       yLabel: "Degree-Day °F",
       ttUnits: "°F",
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 6,
+      maxmissingMonthly: 3,
       acis: { vX: 45, vN: 0, base: 65, reduce: "sum" },
-      grid: {},
       gYr: [1981, 2016],
       locaYr: [1950, 2099],
       season: {
@@ -316,8 +330,10 @@ export let elems = new Map([
       label: "Cooling Degree-Day Accumulation",
       yLabel: "Degree-Day °F",
       ttUnits: "°F",
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 6,
+      maxmissingMonthly: 3,
       acis: { vX: 44, vN: 0, base: 65, reduce: "sum" },
-      grid: {},
       gYr: [1981, 2016],
       locaYr: [1950, 2099],
       season: {
@@ -335,8 +351,10 @@ export let elems = new Map([
       label: "Days with Maximum Temperature Above 90°F",
       yLabel: "Days",
       ttUnits: "",
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 6,
+      maxmissingMonthly: 3,
       acis: { vX: 1, vN: 0, reduce: "cnt_gt_90" },
-      grid: {},
       gYr: [1981, 2016],
       locaYr: [1950, 2099],
       season: {
@@ -353,8 +371,10 @@ export let elems = new Map([
       label: "Days with Maximum Temperature Above 95°F",
       yLabel: "Days",
       ttUnits: "",
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 6,
+      maxmissingMonthly: 3,
       acis: { vX: 1, vN: 0, reduce: "cnt_gt_95" },
-      grid: {},
       gYr: [1981, 2016],
       locaYr: [1950, 2099],
       season: {
@@ -371,8 +391,10 @@ export let elems = new Map([
       label: "Days with Maximum Temperature Above 100°F",
       yLabel: "Days",
       ttUnits: "",
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 6,
+      maxmissingMonthly: 3,
       acis: { vX: 1, vN: 0, reduce: "cnt_gt_100" },
-      grid: {},
       gYr: [1981, 2016],
       locaYr: [1950, 2099],
       season: {
@@ -389,8 +411,10 @@ export let elems = new Map([
       label: "Days with Minimum Temperature Below 0°F",
       yLabel: "Days",
       ttUnits: "",
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 6,
+      maxmissingMonthly: 3,
       acis: { vX: 2, vN: 0, reduce: "cnt_lt_0" },
-      // grid: {},
       gYr: [1981, 2016],
       locaYr: [1950, 2099],
       season: {
@@ -407,8 +431,10 @@ export let elems = new Map([
       label: "Days with Minimum Temperature Below 32°F",
       yLabel: "Days",
       ttUnits: "",
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 6,
+      maxmissingMonthly: 3,
       acis: { vX: 2, vN: 0, reduce: "cnt_lt_32" },
-      grid: {},
       gYr: [1981, 2016],
       locaYr: [1950, 2099],
       season: {
@@ -426,8 +452,10 @@ export let elems = new Map([
       label: 'Days with Precipitation > 1"',
       yLabel: "Days",
       ttUnits: "",
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 3,
+      maxmissingMonthly: 1,
       acis: { vX: 4, vN: 0, reduce: "cnt_gt_1" },
-      grid: {},
       gYr: [1981, 2016],
       locaYr: [1950, 2099],
       season: {
@@ -444,8 +472,10 @@ export let elems = new Map([
       label: 'Days with Precipitation > 2"',
       yLabel: "Days",
       ttUnits: "",
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 3,
+      maxmissingMonthly: 1,
       acis: { vX: 4, vN: 0, reduce: "cnt_gt_2" },
-      grid: {},
       gYr: [1981, 2016],
       locaYr: [1950, 2099],
       season: {
@@ -462,8 +492,10 @@ export let elems = new Map([
       label: 'Days with Precipitation > 4"',
       yLabel: "Days",
       ttUnits: "",
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 3,
+      maxmissingMonthly: 1,
       acis: { vX: 4, vN: 0, reduce: "cnt_gt_4" },
-      grid: {},
       gYr: [1981, 2016],
       locaYr: [1950, 2099],
       season: {
@@ -480,6 +512,9 @@ export let elems = new Map([
       label: 'Days with Snow Depth > 1"',
       yLabel: "Days",
       ttUnits: "",
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 3,
+      maxmissingMonthly: 1,
       acis: { vX: 11, vN: 0, reduce: "cnt_gt_1" }
     }
   ],
@@ -490,6 +525,9 @@ export let elems = new Map([
       label: "Growing Season Length (above 32°F)",
       yLabel: "Days",
       ttUnits: "",
+      maxmissingAnnual: 12,
+      maxmissingSeasonal: 3,
+      maxmissingMonthly: 1,
       acis: { vX: 2, vN: 0, reduce: { reduce: "run_gt_32", n: 1 } }
     }
   ]
@@ -519,6 +557,7 @@ export function buildQuery(params, meta) {
     switch (params.geom) {
       case "state":
         p.state = "pa,nj,nh,ma";
+        // p.state = "ny";
         break;
       case "basin":
         p.state = "oh,nj,me";

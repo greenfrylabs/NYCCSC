@@ -325,7 +325,7 @@ export default class BlockModel {
         [this.elementLabel]: d.observed,
         Range: `${d.startYear}-${d.year}`,
         [`${d.yearsCount}-years Mean`]: d.observedMean,
-        RPC: this.rpc
+        RCP: this.rpc
       });
     });
   };

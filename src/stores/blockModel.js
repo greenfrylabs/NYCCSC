@@ -20,6 +20,8 @@ export default class BlockModel {
   @observable rpc;
   @observable idx;
   @observable yearsCount;
+  @observable isObservedGraph = true;
+  @observable isModeledGraph = true;
 
   constructor(
     store,
@@ -66,6 +68,11 @@ export default class BlockModel {
     } else {
       this.app.blockStore.updateBlock(this.idx);
     }
+  };
+
+  @action
+  toggleGraph = graph => {
+    this[graph] = !this[graph];
   };
 
   @action

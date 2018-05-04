@@ -64,7 +64,10 @@ export default class Block extends Component {
       meanLabel,
       stationCSV,
       setStationCSV,
-      updateYearsCount
+      updateYearsCount,
+      isModeledGraph,
+      isObservedGraph,
+      toggleGraph
     } = this.props.block;
 
     // geom type
@@ -272,6 +275,9 @@ export default class Block extends Component {
                   rpc={rpc}
                   geom={geom}
                   updateYearsCount={updateYearsCount}
+                  isModeledGraph={isModeledGraph}
+                  isObservedGraph={isObservedGraph}
+                  toggleGraph={toggleGraph}
                 />
               </RowColumn>
             ) : (

@@ -62,8 +62,6 @@ export default class Graph extends Component {
       yMax = Math.round(Math.max(...valuesArr)) + 2;
     }
 
-    const { isObservedGraph, isModeledGraph } = this.props.app.blockStore;
-
     const RenderDots = props => {
       const { cx, cy, fill } = props;
       return <Dot cx={cx} cy={cy} r={2} fill={fill} />;
@@ -127,12 +125,12 @@ export default class Graph extends Component {
               />
             )}
 
-            {isModeledGraph &&
+            {this.props.isModeledGraph &&
               grdData && (
                 <Area stackId="1" dataKey="min" stroke="#2176FF" fill="#fff" />
               )}
 
-            {isModeledGraph &&
+            {this.props.isModeledGraph &&
               grdData && (
                 <Area
                   stackId="1"
@@ -142,7 +140,7 @@ export default class Graph extends Component {
                 />
               )}
 
-            {isModeledGraph &&
+            {this.props.isModeledGraph &&
               grdData && (
                 <Area
                   stackId="1"
@@ -152,7 +150,7 @@ export default class Graph extends Component {
                 />
               )}
 
-            {isObservedGraph && (
+            {this.props.isObservedGraph && (
               <Scatter
                 line={false}
                 dataKey="observed"
@@ -294,6 +292,9 @@ export default class Graph extends Component {
           geom={geom}
           setField={setField}
           isIndex={this.index}
+          isModeledGraph={this.props.isModeledGraph}
+          isObservedGraph={this.props.isObservedGraph}
+          toggleGraph={this.props.toggleGraph}
         />
       </div>
     );

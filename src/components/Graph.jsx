@@ -57,12 +57,10 @@ export default class Graph extends Component {
       yMin = grdData.map(obj => obj.yMin);
       yMax = grdData.map(obj => obj.yMax);
     } else {
-      const valuesArr = stnData.map(obj => obj.observed);
-      yMin = Math.round(Math.min(...valuesArr));
-      yMax = Math.round(Math.max(...valuesArr));
+      const valuesArr = stnData.map(obj => obj.observed).filter(d => d);
+      yMin = Math.round(Math.min(...valuesArr)) - 2;
+      yMax = Math.round(Math.max(...valuesArr)) + 2;
     }
-
-    const { isObservedGraph, isModeledGraph } = this.props.app.blockStore;
 
     const RenderDots = props => {
       const { cx, cy, fill } = props;
@@ -101,7 +99,7 @@ export default class Graph extends Component {
             onMouseMove={a => a && this.setIndex(a.activeTooltipIndex)}
             onMouseLeave={this.resetIndex}
           >
-            {(stnData || grdData) && (
+            {grdData ? (
               <YAxis
                 scale="linear"
                 dataKey={"observed"}
@@ -113,14 +111,26 @@ export default class Graph extends Component {
                   position: "insideLeft"
                 }}
               />
+            ) : (
+              <YAxis
+                scale="linear"
+                dataKey={"observed"}
+                allowDecimals={false}
+                domain={[yMin, yMax]}
+                label={{
+                  value: `${yaxisLabel}`,
+                  angle: -90,
+                  position: "insideLeft"
+                }}
+              />
             )}
 
-            {isModeledGraph &&
+            {this.props.isModeledGraph &&
               grdData && (
                 <Area stackId="1" dataKey="min" stroke="#2176FF" fill="#fff" />
               )}
 
-            {isModeledGraph &&
+            {this.props.isModeledGraph &&
               grdData && (
                 <Area
                   stackId="1"
@@ -130,7 +140,7 @@ export default class Graph extends Component {
                 />
               )}
 
-            {isModeledGraph &&
+            {this.props.isModeledGraph &&
               grdData && (
                 <Area
                   stackId="1"
@@ -140,7 +150,7 @@ export default class Graph extends Component {
                 />
               )}
 
-            {isObservedGraph && (
+            {this.props.isObservedGraph && (
               <Scatter
                 line={false}
                 dataKey="observed"
@@ -282,6 +292,9 @@ export default class Graph extends Component {
           geom={geom}
           setField={setField}
           isIndex={this.index}
+          isModeledGraph={this.props.isModeledGraph}
+          isObservedGraph={this.props.isObservedGraph}
+          toggleGraph={this.props.toggleGraph}
         />
       </div>
     );

@@ -19,14 +19,6 @@ export default class Legend extends Component {
   render() {
     const { data, isIndex } = this.props;
 
-    const {
-      toggleModeledGraph,
-      isObservedGraph,
-      isModeledGraph,
-      toggleObservedGraph
-    } = this.props.app.blockStore;
-    // console.log(data);
-
     let startYear = "";
     let year = "";
     let observed;
@@ -123,8 +115,8 @@ export default class Legend extends Component {
             {this.props.geom !== "stn" && (
               <Checkbox
                 style={{ marginLeft: 10, fonstSize: 8 }}
-                onChange={e => toggleObservedGraph(e.target.checked)}
-                checked={isObservedGraph}
+                onChange={() => this.props.toggleGraph("isObservedGraph")}
+                checked={this.props.isObservedGraph}
               />
             )}
           </Baseline>
@@ -189,8 +181,8 @@ export default class Legend extends Component {
               <h5>Modeled</h5>
               <Checkbox
                 style={{ marginLeft: 10, fonstSize: 8 }}
-                onChange={e => toggleModeledGraph(e.target.checked)}
-                checked={isModeledGraph}
+                onChange={() => this.props.toggleGraph("isModeledGraph")}
+                checked={this.props.isModeledGraph}
               />
             </Baseline>
             <CellRow style={{ marginBottom: "5px" }}>

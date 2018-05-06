@@ -20,6 +20,8 @@ export default class BlockModel {
   @observable rpc;
   @observable idx;
   @observable yearsCount;
+  @observable isObservedGraph = true;
+  @observable isModeledGraph = true;
 
   constructor(
     store,
@@ -61,11 +63,16 @@ export default class BlockModel {
     } else {
       this[field] = val;
     }
-    if (field === "sid" && this.geom !== "stn") {
+    if ((field === "sid" && this.geom !== "stn") || field === "yearsCount") {
       this.app.blockStore.updateBlockWithoutFetching(this.idx);
     } else {
       this.app.blockStore.updateBlock(this.idx);
     }
+  };
+
+  @action
+  toggleGraph = graph => {
+    this[graph] = !this[graph];
   };
 
   @action
@@ -318,7 +325,7 @@ export default class BlockModel {
         [this.elementLabel]: d.observed,
         Range: `${d.startYear}-${d.year}`,
         [`${d.yearsCount}-years Mean`]: d.observedMean,
-        RPC: this.rpc
+        RCP: this.rpc
       });
     });
   };

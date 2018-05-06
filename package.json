@@ -2,7 +2,7 @@
   "name": "NYCCSC",
   "version": "0.1.0",
   "author": "alexsinfarosa <as898@cornell.edu>",
-  "homepage": "https://alexsinfarosa.github.io/NYCCSC/",
+  "homepage": ".",
   "description": "NYCCSC",
   "private": true,
   "dependencies": {

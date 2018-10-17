@@ -10,23 +10,28 @@ const InfoModal = () => {
       <h2>
         The NYCCSC Data Grapher combines a number of different data sources
       </h2>
-      <h3>Observed Data</h3>
+      <h3>Historical Data</h3>
       <p>
-        State, county and river basin graphs use the gridded
-        <a href="http://www.prism.oregonstate.edu">
-          {" "}
-          Parameter-elevation Relationships on Independent Slopes Model (PRISM){" "}
-        </a>
-        dataset. A 4 km x 4 km grid is used. PRISM data are updated each month,
-        typically on the 15th (e.g. March 2016 data are available in mid-April
-        2016). Monthly, seasonal and annual maximum, minimum and average
-        temperature as well as total precipitation cover the period from
-        1895-the most recent full month. For elements such as heating
-        degree-days, temperature and precipitation threshold counts, and growing
-        season length that require daily data to compute, PRISM data are
-        available from 1981-most recent full month. Snowfall and snow depth data
-        are not included in the PRISM dataset, but are available as a part of
-        station-specific data graphs.
+        State, county and river basin graphs use the gridded data set described
+        by{" "}
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.esrl.noaa.gov/psd/data/gridded/data.livneh.html"
+        >
+          Livneh et al. (2015)
+        </a>. The Livneh et al. data cover the period from 1950-2013 and include
+        daily maximum and minimum air temperature and precipitation at a spatial
+        resolution of 1/16 degree (approximately 6 km x 6 km). The data grid is
+        based on several thousand observation stations comprising the United
+        States National Weather Service Cooperative Observer (NWS COOP) network.
+        Station data are statistically interpolated to the Livneh grid and
+        adjusted to account for elevation using a scaling based on the
+        parameter- regressions on independent slopes (PRISM) model (Daly et al.,
+        1994) climatology for precipitation and a constant -6.5°C km-1 lapse
+        rate for temperature. Elements such as heating degree-days, growing
+        degree-days and temperature and precipitation threshold counts are
+        computed from the daily values.
       </p>
       <p>
         A single value is obtained for each spatial feature (i.e. state, county
@@ -37,11 +42,14 @@ const InfoModal = () => {
         weight of a grid that is totally within the county.
       </p>
       <p>
-        For station data graphs, observations from stations within the
-        <a href="http://cdiac.ornl.gov/epubs/ndp/ushcn/ushcn.html">
-          {" "}
-          U.S. Historical Climatology Network (HCN){" "}
-        </a>
+        For station data graphs, observations from stations within the{" "}
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="http://cdiac.ess-dive.lbl.gov/epubs/ndp/ushcn/ushcn.html"
+        >
+          U.S. Historical Climatology Network (HCN)
+        </a>{" "}
         are used. USHCN data include daily observations of maximum and minimum
         temperature, precipitation amount, snowfall amount, and snow depth,
         monthly-averaged maximum, minimum, and mean temperature and total
@@ -54,108 +62,131 @@ const InfoModal = () => {
         dates. Data from currently active stations are updated daily.
       </p>
       <p>
-        On the county, state, basin and station graphs, observed data values for
-        each year are shown by gray dots. The solid black line shows the 5-year
-        running mean of the annual values. For instance, the value corresponding
-        to the line in the year 2000 is the average of the five annual values
-        for 1996-2000. The 5-year running mean highlights multi-year variations
-        including trends.
+        On the county, state, basin and station graphs, historical Livneh et al.
+        values for each year are shown by black dots. The solid blue line on the
+        station graphs shows a running mean of the annual USHCN values. The
+        length of this mean can be adjusted by setting the year interval in the
+        table that appears under the graph. Running means of 5 to 30 years (in
+        increments of 5 years) can be chosen. If the 10-year running mean is
+        selected, the value corresponding to the line in the year 2000 is the
+        average of the ten annual values from 1991-2000. This value is displayed
+        in the table along with the annual value for 2000. Running means
+        highlight multi-year variations including trends.
       </p>
-      <p style={{ display: "flex", justifyContent: "center" }}>
-        <img alt="" src={fig1} style={{ height: "400px" }} title="" />
+
+      <p style={{ margin: "32px auto" }}>
+        <img alt="" src={fig1} style={{ height: "450px" }} title="fig1" />
       </p>
+
       <h3>Projected Data</h3>
       <p>
-        Global climate model projections from the North American Regional
-        Climate Change Assessment Program (NARCCAP) are shown on graphs for
-        state, county and basin areas. The NARCCAP dataset provides daily values
-        of maximum and minimum temperature and precipitation on a 50 km grid.
-        Eleven NARCCAP grids are used each is created using a regional climate
-        model (RCM) driven by one of three atmosphere-ocean general circulation
-        models (AOGCM) or a historical Reanalysis dataset. The spatial
-        resolution of the NARCCAP simulations preclude the inclusion of
-        projections on station-specific graphs.
+        General Circulation Model (GCM) projections from the 32{" "}
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://cmip.llnl.gov/cmip5/"
+        >
+          Climate Model Intercomparison Project Phase 5 (CMIP5)
+        </a>{" "}
+        (Taylor et al., 2012) models are shown on graphs for state, county and
+        basin areas. The projections have been downscaled to a spatial
+        resolution of 1/16 degree (approximately 6 km x 6 km) using the{" "}
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://gdo-dcp.ucllnl.org/downscaled_cmip_projections/dcpInterface.html"
+        >
+          Localized Constructed Analog (LOCA)
+        </a>{" "}
+        method of (Pierce et al., 2014). The LOCA dataset provides daily values
+        of maximum and minimum temperature and precipitation. Its spatial
+        resolution precludes the inclusion of projections on station-specific
+        graphs.
       </p>
       <p>
-        All future projections cover the period 2041-2070 and are based on the
-        relatively high SRES A2 emissions scenario. Simulations are also
-        generated for the 1971-2000 historical period. Future (and historical)
-        simulations are based four RCMs:
-      </p>
-      <ul>
-        <li>Canadian Regional Climate Model (CRCM)</li>
-        <li>MM5 - Penn State NCAR Mesoscale Model (MM5I)</li>
-        <li>Regional Climate Model Ver. 3 (RCM3)</li>
-        <li>Weather Research and Forecasting Model (WRF)</li>
-      </ul>
-      <p>nested within at least one of three AOGCMS:</p>
-      <ul>
-        <li>Community Climate System Model (CCSM)</li>
-        <li>Third Generation Coupled Global Climate Model (CGCM3)</li>
-        <li>Geophysical Fluid Dynamics Laboratory GCM (GFDL)</li>
-      </ul>
-      <p>This yields a set of seven RCM-AOGCM combinations:</p>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <div>CRCM-CCSM</div>
-        <div>CRCM-CGCM3</div>
-        <div>MM5I-CCSM</div>
-        <div>RCM3-GFDL</div>
-        <div>RCM3-CGCM3</div>
-        <div>WRF-CCSM</div>
-        <div>WRF-CGM3</div>
-      </div>
-      <p>
-        Simulations from these model combinations form the red-blue shaded areas
-        on each graph for the historical and future period. The top of the red
-        area corresponds to the highest of the seven combinations. The bottom of
-        the blue area corresponds to the lowest of the seven combinations. The
-        mean of the seven combinations is reflected by the boundary between the
-        blue and red areas. As with the observed data, a 5-year running mean is
-        used.
-      </p>
-      <p style={{ display: "flex", justifyContent: "center" }}>
-        <img alt="" src={fig2} style={{ height: "400px" }} title="" />
+        The downscaled CMIP5 data include both historical simulations and future
+        projections. The historical simulations are based on observed trends in
+        greenhouse gases and cover period 1951- 2005. Future projections cover
+        the period from 2006-2099 and are based on either relatively high RCP
+        8.5 or lower RCP 4.5 greenhouse gas emissions. A weighted mean is
+        computed from the 32 LOCA-downscaled CMIP5 models. Weights are derived
+        based on the skill of each model at reproducing the large scale climate
+        of North America and also the uniqueness of each model relative to the
+        others (e.g. the equations used by some model formulations are only
+        slight variations from those used in others and therefore these models
+        are weighted less). This follows the methods of Sanderson and Wehner
+        (2017).
       </p>
       <p>
-        The remaining four NARCCAP grids (each RCM driven by NCEP/DOE AMIP-II
-        Reanalysis) are used to bias adjust the historical and future AOGCM
-        simulations. The Reanalysis is not a climate model, but a representation
-        of historical atmospheric conditions based on observed data. Differences
-        between RCM simulations and the &ldquo;true&rdquo; climate occur for a
-        variety of reasons, particularly boundary conditions that result from
-        the limited spatial domain of the RCMs and between-model differences in
-        the physical handling of complex atmospheric processes. To account for
-        this, a bias grid was computed for each RCM by subtracting the average
-        monthly RCM-NCEP simulations from the corresponding historical RCM-AOGCM
-        combination. This bias grid was then used to adjust both the historical
-        and future RCM-AOGCM simulations. For instance, suppose the historical
-        June average temperature at a grid point is 54 °F in the WRF-NCEP
-        simulation and the corresponding temperature in the historical WRF-CGCM3
-        simulation is 54.6 °F. This 0.6 °F bias would be subtracted from both
-        the historical WRF-CGCM3 and future WRF-CGCM3 simulations prior to
-        plotting on the graphs.
+        The range in the simulations from the individual model combinations form
+        the red-blue shaded areas on each graph for the historical and future
+        period. The top of the red area corresponds to the highest of the 32
+        models. The bottom of the blue area corresponds to the lowest of the set
+        of models. The weighted mean of CMIP5 models is reflected by the black
+        line between the blue and red areas. Unlike the station graphs, the
+        lines show each annual value.
+      </p>
+      <p style={{ margin: "32px auto" }}>
+        <img alt="" src={fig2} style={{ height: "450px" }} title="" />
       </p>
       <p>
-        You may notice that in many cases, the shaded region corresponding to
-        the bias corrected historical RCM-AOGCM simulations does not encompass
-        the observed data values. This is to be expected, as the Reanalysis data
-        used to drive the historical RCM simulations is different from the PRISM
-        data that represent the observations. The RCM-simulations represent
-        conditions over a much larger spatial area (50km) than the PRISM values
-        (4 km). Also the coarser resolution of the RCM affects the influence of
-        variables such as topography and proximity to water bodies. The nuances
-        of these features in regions like the Finger Lakes and Catskills can not
-        be represented at the RCM resolution, but influence the higher
-        resolution PRISM data.
+        When the cursor is moved over the graph, a set of shaded bands appear.
+        One is moveable and thus can be used to highlight any period of
+        interest. The other three are fixed and show projected conditions in the
+        early (ending in 2039), middle (ending in 2069), and late (ending in
+        2099) 21st century. The width of the bands can be adjusted by setting
+        the year interval in the Observed table that appears under the graph.
+        Intervals of 5 to 30 years (in increments of 5 years) can be chosen. As
+        the position of the moveable band changes, the table values respond and
+        show the average of the model minima (the values included along the blue
+        line within the window), model maxima (the values included along the red
+        line within the window), and the model weighted means (the values
+        included along the black line within the window). The table also shows
+        the difference in the these values ( min,  mean and  max) between the
+        fixed future periods and the period highlighted by the moveable window.
+        In the table, the observed values are based on the Livneh dataset.
+        Modeled values reflect downscaled CMIP5 simulations, in both future and
+        historical periods. No values are displayed in the observed portion of
+        the table when the moveable window extends past 2012.
       </p>
+
+      <p style={{ margin: "32px auto" }}>
+        <img alt="" src={fig3} style={{ height: "450px" }} title="" />
+      </p>
+
+      <h3>References</h3>
       <p>
-        A final element of each graph depicts the change between the historical
-        and future RCM-AOGM mean. In the example below, the mean of the seven
-        RCM-AOGCM simulations increases by 3.9 °F between 1970-2000 and
-        2041-2070.
+        Daly, C., R. P. Neilson, and D. L. Phillips, 1994: A
+        statistical–topographic model for mapping climatological precipitation
+        over mountainous terrain. <i>J. Appl. Meteor.</i>, 33, 140–158.
       </p>
-      <p style={{ display: "flex", justifyContent: "center" }}>
-        <img alt="" src={fig3} style={{ height: "400px" }} title="" />
+
+      <p>
+        Livneh, B., T.J. Bohn, D.W. Pierce, F. Munoz-Arriola, B. Nijssen, R.
+        Vose, D.R. Cayan, and L. Brekke, 2015: A spatially comprehensive,
+        hydrometeorological data set for Mexico, the U.S., and Southern Canada
+        1950–2013. <i>Sci. Data 2</i>, 150042. doi:10.1038/sdata.2015.42.
+      </p>
+
+      <p>
+        Pierce, D. W., D. R. Cayan, and B. L. Thrasher, 2014: Statistical
+        downscaling using localized constructed analogs (LOCA),{" "}
+        <i>Journal of Hydrometeorology</i>, 15(6), 2558-2585.
+      </p>
+
+      <p>
+        Sanderson, B.M. and M.F. Wehner, 2017 :Weighting strategy for the Fourth
+        National Climate Assessment, in: Climate Science Special Report: A
+        Sustained Assessment Activity of the U.S. Global Change Research Program
+        [Wuebbles, D.J., D.W. Fahey, K.A. Hibbard, D.J. Dokken, B.C. Stewart,
+        and T.K. Maycock (eds.)]. U.S. Global Change Research Program,
+        Washington, DC, USA, pp. 644-653.
+      </p>
+
+      <p>
+        Taylor, K. E., R.J. Stouffer, and G.A. Meehl, 2012: An overview of CMIP5
+        and the experiment design.{" "}
+        <i>Bulletin of the American Meteorological Society</i>, 93 (4), 485-498.
       </p>
     </div>
   );

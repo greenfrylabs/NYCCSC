@@ -127,7 +127,8 @@ export default class Block extends Component {
     ));
 
     // list to render
-    let center = [42.9543, -75.5262];
+    let center = [42.407211, -71.382439];
+    // NY center let center = [42.9543, -75.5262];
     let geojson;
     let list;
 

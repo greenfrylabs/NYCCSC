@@ -1,8 +1,8 @@
 export const geoms = new Map([
-  ["state", "State"],
+  //["state", "State"],
   ["county", "County"],
   ["basin", "Basin"],
-  ["stn", "Station"]
+  //["stn", "Station"]
 ]);
 
 export let seasons = new Map([
@@ -180,7 +180,7 @@ export let seasons = new Map([
 export let elems = new Map([
   // StnPrcp
   [
-    "pcpn",
+    "PRCPTOT",
     {
       label: "Total Precipitation",
       yLabel: "Precipitation (Inch)",
@@ -188,15 +188,16 @@ export let elems = new Map([
       maxmissingAnnual: 12,
       maxmissingSeasonal: 3,
       maxmissingMonthly: 1,
-      acis: { vX: 4, vN: 0, reduce: "sum" },
+      //acis: { vX: 4, vN: 0, reduce: "sum" },
       gYr: [1895, 2016],
-      locaYr: [1950, 2099],
-      season: {
+      //locaYr: [1950, 2099],
+      /*season: {
         elem: { vX: 4, reduce: "sum", interval: [0, 1] },
         interval: [1, 0],
         duration: 3,
         reduce: "sum"
       }
+      */
     }
   ],
   [
@@ -265,23 +266,24 @@ export let elems = new Map([
     }
   ],
   [
-    "avgt",
+    "TG",
     {
       label: "Average Temperature",
       yLabel: "Temperature °F",
       ttUnits: "°F",
-      maxmissingAnnual: 12,
-      maxmissingSeasonal: 6,
-      maxmissingMonthly: 3,
-      acis: { vX: 43, vN: 0, reduce: "mean" },
-      gYr: [1895, 2016],
-      locaYr: [1950, 2099],
-      season: {
+      //maxmissingAnnual: 12,
+      //maxmissingSeasonal: 6,
+      //maxmissingMonthly: 3,
+      //acis: { vX: 43, vN: 0, reduce: "mean" },
+      //gYr: [1895, 2016],
+      //locaYr: [1950, 2099],
+      /*season: {
         elem: { vX: 43, reduce: "mean", interval: [0, 1] },
         interval: [1, 0],
         duration: 3,
         reduce: "mean"
       }
+      */
     }
   ],
   [
@@ -536,6 +538,24 @@ export let elems = new Map([
 // "elems":[{"name":"maxt","interval":[1,0,0],"duration":"std","season_start":"07-30","reduce":"run_gt_40"}]}
 
 export function buildQuery(params, meta) {
+  let season = "";
+  if (params.season == "ANN") {
+    season = "Annual";
+  } else if (params.season == "DJF") {
+    season = "Winter";
+  } else if (params.season == "MAM") {
+    season = "Spring";
+  } else if (params.season == "JJA") {
+    season = "Summer";
+  } else if (params.season == "SON") {
+    season = "Fall";
+  }
+  return {
+    'area_type': (params.geom == 'state' ? 'county' : params.geom),
+    'variable_name': params.element,
+    'season': season
+  };
+  /*
   // console.log(params, meta);
   const s = seasons.get(params.season);
   const e = elems.get(params.element);
@@ -555,10 +575,10 @@ export function buildQuery(params, meta) {
     elem = { ...elem, ...e.acis };
   } else {
     switch (params.geom) {
-      case "state":
-        p.state = "pa,nj,nh,ma";
+      //case "state":
+        //p.state = "pa,nj,nh,ma";
         // p.state = "ny";
-        break;
+      //  break;
       case "basin":
         p.state = "oh,nj,me";
         // p.state = "ny";
@@ -574,8 +594,9 @@ export function buildQuery(params, meta) {
   }
 
   p.elems = [elem];
-  // console.log(p);
+  console.log(p);
   return p;
+  */
 }
 
 export function parseURL(pStr) {
@@ -654,11 +675,10 @@ export function updateSid(param, prevParam, geoms) {
   return { ...param, sid };
 }
 
-const defaultSids = {
-  stn: "USH00300042",
-  state: "NY",
-  county: "36001",
-  basin: "02020006"
+export const defaultSids = {
+  state: "MA",
+  county: "Suffolk",
+  basin: "Boston Harbor"
 };
 
 // export function haveSameResults(p1, p2) {
@@ -673,6 +693,37 @@ const defaultSids = {
 // }
 
 const allSeasons = [...seasons.keys()];
+/*
+  TG - Average Temperature (Fahrenheit)\
+  TX - Maximum Temperature (Fahrenheit)\
+  TN - Minimum Temperature (Fahrenheit)\
+
+  Degree Day Accumulation
+  HD - Heating Degree-Day Accumulation (Degree-Day Fahrenheit)\
+  CD - Cooling Degree-Day Accumulation (Degree-Day Fahrenheit)\
+  GD - Growing Degree-Day Accumulation (Degree-Day Fahrenheit)\
+
+  Days Above Temp
+  TX90F   - Days with Maximum Temperature above 90F (Days)\
+  TX95F   - Days with Maximum Temperature above 95F (Days)\
+  TX100F - Days with Maximum Temperature above 100F (Days)\
+
+  Days Below Temp
+  TN0F     - Days with Minimum Temperature below 0F (Days)\
+  TN32F   - Days with Minimum Temperature below 32F (Days)\
+
+  Total Precip (Projected / Observed)
+  PRCPTOT - Total Precipitation (Inches)\
+  NO SNOWFALL  NUMBERS
+
+  Total Extreme Precip Events
+  R1in - Days with Precipitation > 1\'94 (Days)\
+  R2in - Days with Precipitation > 2\'94 (Days)\
+  R4in - Days with Precipitation > 4\'94 (Days)\
+
+  Snow Layer
+  NO SNOWFALL  NUMBERS
+*/
 
 export const chartDefs = new Map([
   [
@@ -680,6 +731,8 @@ export const chartDefs = new Map([
     {
       title: "Temp",
       elems: [
+        "TG", // Average Temp
+        /*
         "maxt",
         "mint",
         "avgt",
@@ -699,6 +752,7 @@ export const chartDefs = new Map([
         "pcpn_2",
         "pcpn_4",
         "snwd_1"
+        */
       ],
       seasons: allSeasons
     }
@@ -708,6 +762,8 @@ export const chartDefs = new Map([
     {
       title: "Prcp",
       elems: [
+        "PRCPTOT",
+        /*
         "maxt",
         "mint",
         "avgt",
@@ -727,6 +783,7 @@ export const chartDefs = new Map([
         "pcpn_2",
         "pcpn_4",
         "snwd_1"
+        */
       ],
       seasons: allSeasons
     }

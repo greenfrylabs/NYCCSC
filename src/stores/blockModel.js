@@ -1,11 +1,10 @@
 import { observable, action, computed } from "mobx";
 
-import { seasons, elems } from "../api";
+import { seasons, elems, defaultSids } from "../api";
 import states from "../assets/state.json";
 import basins from "../assets/basin.json";
 import counties from "../assets/county.json";
 import stations from "../assets/stn.json";
-
 import { average } from "../utils";
 
 export default class BlockModel {
@@ -56,18 +55,20 @@ export default class BlockModel {
     // console.log(field, val);
     if (field === "geom") {
       this[field] = val;
-      if (val === "state") this.sid = "NY";
-      if (val === "basin") this.sid = "02020006";
-      if (val === "county") this.sid = "36001";
-      if (val === "stn") this.sid = "USH00300042";
+      this.sid = defaultSids[val];
+      /*if (val === "state") this.sid = "MA";
+      if (val === "basin") this.sid = default"Boston Harbor";
+      if (val === "county") this.sid = "25025";
+      */
+      //if (val === "stn") this.sid = "USH00300042";
     } else {
       this[field] = val;
     }
-    if ((field === "sid" && this.geom !== "stn") || field === "yearsCount") {
-      this.app.blockStore.updateBlockWithoutFetching(this.idx);
-    } else {
-      this.app.blockStore.updateBlock(this.idx);
-    }
+    //if ((field === "sid" && this.geom !== "stn") || field === "yearsCount") {
+      //this.app.blockStore.updateBlockWithoutFetching(this.idx);
+    //} else {
+    this.app.blockStore.updateBlock(this.idx);
+    //}
   };
 
   @action
@@ -87,14 +88,15 @@ export default class BlockModel {
     const element = elems.get(this.element).label;
     let sid;
     if (this.geom === "state") {
-      sid = states.meta.find(s => s.id === this.sid).name;
+      sid = states.meta.find(s => s.id === this.sid || s.name === this.sid).name;
     }
     if (this.geom === "county") {
-      sid = counties.meta.find(s => s.id === this.sid).name;
+      counties.meta.forEach(m => console.log(m));
+      sid = counties.meta.find(s => s.id === this.sid || s.name === this.sid).name;
     }
 
     if (this.geom === "basin") {
-      sid = basins.meta.find(s => s.id === this.sid).name;
+      sid = basins.meta.find(s => s.id === this.sid || s.name === this.sid).name;
     }
 
     if (this.geom === "stn") {
@@ -158,18 +160,18 @@ export default class BlockModel {
       const max85 = this.gridData.map(d => d.max85[sid]);
       const max45 = this.gridData.map(d => d.max45[sid]);
       const obsArr = this.gridData.map(d => d.observed[sid]);
-
+      debugger;
       const yMin = Math.floor(Math.min(...min45, ...min85));
       const yMax = Math.ceil(Math.max(...max45, ...max85, ...obsArr));
 
       this.gridData.forEach((d, i) => {
         if (this.rpc === 8.5) {
           p["max"] = d["max85"][sid];
-          p["mean"] = d["mean85"][sid];
+          p["mean"] = d["med85"][sid];
           p["min"] = d["min85"][sid];
         } else {
           p["max"] = d["max45"][sid];
-          p["mean"] = d["mean45"][sid];
+          p["mean"] = d["med45"][sid];
           p["min"] = d["min45"][sid];
         }
         const yearsCount = this.yearsCount;
@@ -251,9 +253,10 @@ export default class BlockModel {
   @computed
   get grdData() {
     if (this.dataWithMeans) {
+
       const idx2039 = this.gridData.findIndex(obj => obj.year === 2039);
       const idx2069 = this.gridData.findIndex(obj => obj.year === 2069);
-      const idx2099 = this.gridData.findIndex(obj => obj.year === 2099);
+      const idx2097 = this.gridData.findIndex(obj => obj.year === 2097);
 
       let results = [];
       this.dataWithMeans.forEach((d, i) => {
@@ -267,9 +270,9 @@ export default class BlockModel {
         p["meanOfMean2069"] = this.dataWithMeans[idx2069].meanOfMean;
         p["meanOfMin2069"] = this.dataWithMeans[idx2069].meanOfMin;
 
-        p["meanOfMax2099"] = this.dataWithMeans[idx2099].meanOfMax;
-        p["meanOfMean2099"] = this.dataWithMeans[idx2099].meanOfMean;
-        p["meanOfMin2099"] = this.dataWithMeans[idx2099].meanOfMin;
+        p["meanOfMax2097"] = this.dataWithMeans[idx2097].meanOfMax;
+        p["meanOfMean2097"] = this.dataWithMeans[idx2097].meanOfMean;
+        p["meanOfMin2097"] = this.dataWithMeans[idx2097].meanOfMin;
 
         p["deltaMax2039"] = (
           this.dataWithMeans[idx2039].meanOfMax - d.meanOfMax
@@ -291,21 +294,21 @@ export default class BlockModel {
           this.dataWithMeans[idx2069].meanOfMin - d.meanOfMin
         ).toFixed(1);
 
-        p["deltaMax2099"] = (
-          this.dataWithMeans[idx2099].meanOfMax - d.meanOfMax
+        p["deltaMax2097"] = (
+          this.dataWithMeans[idx2097].meanOfMax - d.meanOfMax
         ).toFixed(1);
-        p["deltaMean2099"] = (
-          this.dataWithMeans[idx2099].meanOfMean - d.meanOfMean
+        p["deltaMean2097"] = (
+          this.dataWithMeans[idx2097].meanOfMean - d.meanOfMean
         ).toFixed(1);
-        p["deltaMin2099"] = (
-          this.dataWithMeans[idx2099].meanOfMin - d.meanOfMin
+        p["deltaMin2097"] = (
+          this.dataWithMeans[idx2097].meanOfMin - d.meanOfMin
         ).toFixed(1);
         p["mean-min"] = d.mean - d.min;
         p["max-mean"] = d.max - d.mean;
 
         results.push({ ...d, ...p });
       });
-      // console.log(results);
+
       return results;
     }
   }

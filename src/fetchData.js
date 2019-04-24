@@ -9,46 +9,24 @@ export const fetchStationData = params => {
     .catch(err => console.log("Failed to load station data", err));
 };
 
-export const fetchGridData = async queryArr => {
-  const url = `${protocol}//grid2.rcc-acis.org/GridData`;
+export const fetchGridData = async params => {
+  //https://repository.nescaum-ccsc-dataservices.com/umass/5yr/?variable_name=TX95F&area_type=county&season=Winter
+  const url = "https://repository.nescaum-ccsc-dataservices.com/umass/5yr";
+  /*
+  const params = {
+    area_type: '',
+    variable_name: '',
+    season: ''
+  };
+  */
+  const req = axios.get(url, {params: params});
 
-  // observed
-  const observedP = axios.post(url, queryArr[0]);
-
-  // rcp45
-  const min45P = axios.post(url, queryArr[1]);
-  const mean45P = axios.post(url, queryArr[2]);
-  const max45P = axios.post(url, queryArr[3]);
-
-  // rcp85
-  const min85P = axios.post(url, queryArr[4]);
-  const mean85P = axios.post(url, queryArr[5]);
-  const max85P = axios.post(url, queryArr[6]);
+  console.error("Need to get observed data still....");
 
   const [
-    observed,
-    min45,
-    mean45,
-    max45,
-    min85,
-    mean85,
-    max85
+    resp
   ] = await Promise.all([
-    observedP,
-    min45P,
-    mean45P,
-    max45P,
-    min85P,
-    mean85P,
-    max85P
+    req
   ]);
-  return {
-    observed,
-    min45,
-    mean45,
-    max45,
-    min85,
-    mean85,
-    max85
-  };
+  return resp;
 };

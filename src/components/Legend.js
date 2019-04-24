@@ -35,9 +35,9 @@ export default class Legend extends Component {
     let meanOfMean2069;
     let meanOfMin2069;
 
-    let meanOfMax2099;
-    let meanOfMean2099;
-    let meanOfMin2099;
+    let meanOfMax2097;
+    let meanOfMean2097;
+    let meanOfMin2097;
 
     let observedMean;
 
@@ -49,13 +49,13 @@ export default class Legend extends Component {
     let deltaMean2069;
     let deltaMin2069;
 
-    let deltaMax2099;
-    let deltaMean2099;
-    let deltaMin2099;
+    let deltaMax2097;
+    let deltaMean2097;
+    let deltaMin2097;
 
     let startYear2039 = "";
     let startYear2069 = "";
-    let startYear2099 = "";
+    let startYear2097 = "";
     if (data) {
       startYear = data.startYear;
       year = data.year;
@@ -73,9 +73,9 @@ export default class Legend extends Component {
       meanOfMean2069 = data.meanOfMean2069;
       meanOfMin2069 = data.meanOfMin2069;
 
-      meanOfMax2099 = data.meanOfMax2099;
-      meanOfMean2099 = data.meanOfMean2099;
-      meanOfMin2099 = data.meanOfMin2099;
+      meanOfMax2097 = data.meanOfMax2097;
+      meanOfMean2097 = data.meanOfMean2097;
+      meanOfMin2097 = data.meanOfMin2097;
 
       observedMean = data.observedMean;
 
@@ -87,13 +87,13 @@ export default class Legend extends Component {
       deltaMean2069 = data.deltaMean2069;
       deltaMin2069 = data.deltaMin2069;
 
-      deltaMax2099 = data.deltaMax2099;
-      deltaMean2099 = data.deltaMean2099;
-      deltaMin2099 = data.deltaMin2099;
+      deltaMax2097 = data.deltaMax2097;
+      deltaMean2097 = data.deltaMean2097;
+      deltaMin2097 = data.deltaMin2097;
 
       startYear2039 = 2039 - data.yearsCount;
       startYear2069 = 2069 - data.yearsCount;
-      startYear2099 = 2099 - data.yearsCount;
+      startYear2097 = 2097 - data.yearsCount;
     }
 
     const menu = (
@@ -307,25 +307,25 @@ export default class Legend extends Component {
               <CellCol
                 style={{ justifyContent: isIndex ? "center" : "center" }}
               >
-                {isIndex ? `${startYear2099}-2099` : "-"}
+                {isIndex ? `${startYear2097}-2097` : "-"}
               </CellCol>
               <CellCol style={{ color: "#2176FF" }}>
-                {isIndex ? meanOfMin2099 : "-"}
+                {isIndex ? meanOfMin2097 : "-"}
               </CellCol>
               <CellCol style={{ color: "#2F2F2F" }}>
-                {isIndex ? meanOfMean2099 : "-"}
+                {isIndex ? meanOfMean2097 : "-"}
               </CellCol>
               <CellCol style={{ color: "#C42333" }}>
-                {isIndex ? meanOfMax2099 : "-"}
+                {isIndex ? meanOfMax2097 : "-"}
               </CellCol>
               <CellCol style={{ color: "#2176FF" }}>
-                {isIndex ? deltaMin2099 : "-"}
+                {isIndex ? deltaMin2097 : "-"}
               </CellCol>
               <CellCol style={{ color: "#2F2F2F" }}>
-                {isIndex ? deltaMean2099 : "-"}
+                {isIndex ? deltaMean2097 : "-"}
               </CellCol>
               <CellCol style={{ color: "#C42333" }}>
-                {isIndex ? deltaMax2099 : "-"}
+                {isIndex ? deltaMax2097 : "-"}
               </CellCol>
             </CellRow>
           </ModeledCell>

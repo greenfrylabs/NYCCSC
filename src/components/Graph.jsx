@@ -49,6 +49,7 @@ export default class Graph extends Component {
   @action resetIndex = () => (this.index = null);
 
   render() {
+    debugger;
     const { grdData, stnData, yaxisLabel, geom, setField } = this.props;
 
     let yMin;
@@ -68,19 +69,19 @@ export default class Graph extends Component {
     };
     let startYear2039 = "";
     let startYear2069 = "";
-    let startYear2099 = "";
+    let startYear2097 = "";
 
     let deltaMean2039 = "";
     let deltaMean2069 = "";
-    let deltaMean2099 = "";
+    let deltaMean2097 = "";
 
     if (grdData && this.index) {
       startYear2039 = 2039 - (grdData[0].yearsCount - 1);
       startYear2069 = 2069 - (grdData[0].yearsCount - 1);
-      startYear2099 = 2099 - (grdData[0].yearsCount - 1);
+      startYear2097 = 2097 - (grdData[0].yearsCount - 1);
       deltaMean2039 = grdData[this.index].deltaMean2039;
       deltaMean2069 = grdData[this.index].deltaMean2069;
-      deltaMean2099 = grdData[this.index].deltaMean2099;
+      deltaMean2097 = grdData[this.index].deltaMean2097;
     }
 
     let yMaxHeightObserved;
@@ -254,12 +255,12 @@ export default class Graph extends Component {
             )}
             {this.index && (
               <ReferenceArea
-                x1={startYear2099}
-                x2={2099}
+                x1={startYear2097}
+                x2={2097}
                 y2={yMaxHeightModeled}
                 label={{
                   position: "top",
-                  value: `${startYear2099}-${2099}`,
+                  value: `${startYear2097}-${2097}`,
                   fill: "#2F2F2F",
                   fontSize: 13
                 }}
@@ -270,12 +271,12 @@ export default class Graph extends Component {
             )}
             {this.index && (
               <ReferenceArea
-                x1={startYear2099}
-                x2={2099}
+                x1={startYear2097}
+                x2={2097}
                 y2={yMaxHeightModeled}
                 label={{
                   position: "insideTop",
-                  value: `∆mean = ${deltaMean2099}`,
+                  value: `∆mean = ${deltaMean2097}`,
                   fill: "#2F2F2F",
                   fontSize: 13
                 }}

@@ -44,10 +44,10 @@ export default class BlockStore {
     // console.log("setBlocks");
     let arr = [];
     let qString = this.app.history.location.search;
-    const defaultQString = "?c=Temp/state/maxt/ANN/NY/";
+    const defaultQString = "?c=Temp/state/TG/ANN/MA/";
 
     if (!qString) {
-      this.app.history.push("?c=Temp/state/maxt/ANN/NY/");
+      this.app.history.push(defaultQString);
       qString = defaultQString;
     }
 
@@ -64,8 +64,8 @@ export default class BlockStore {
 
       if (!isValid) {
         // console.log("not valid");
-        this.app.history.push("?c=Temp/state/maxt/ANN/NY/");
-        qParam = parseURL("?c=Temp/state/maxt/ANN/NY/");
+        this.app.history.push(defaultQString);
+        qParam = parseURL(defaultQString);
       }
 
       const chart = qParam.chart;
@@ -275,44 +275,13 @@ export default class BlockStore {
         } else {
           if (b.geom === "state") {
             meta = states.meta.find(d => d.id === params.sid);
-          }
-          if (b.geom === "county") {
+          } else if (b.geom === "county") {
             meta = counties.meta.find(d => d.id === params.sid);
-          }
-          if (b.geom === "basin") {
+          } else if (b.geom === "basin") {
             meta = basins.meta.find(d => d.id === params.sid);
           }
 
-          // observed
-          let observed = buildQuery(params, meta);
-
-          // rcp45
-          let mean45 = { ...observed };
-          mean45.grid = "loca:wMean:rcp45";
-          let min45 = { ...observed };
-          min45.grid = "loca:allMin:rcp45";
-          let max45 = { ...observed };
-          max45.grid = "loca:allMax:rcp45";
-
-          // rcp85
-          let mean85 = { ...observed };
-          mean85.grid = "loca:wMean:rcp85";
-          let min85 = { ...observed };
-          min85.grid = "loca:allMin:rcp85";
-          let max85 = { ...observed };
-          max85.grid = "loca:allMax:rcp85";
-
-          const queryArr = [
-            observed,
-            min45,
-            mean45,
-            max45,
-            min85,
-            mean85,
-            max85
-          ];
-          // this.blocks[i]["gridData"] = null;
-          fetchGridData(queryArr)
+          fetchGridData(buildQuery(params, meta))
             .then(
               res =>
                 (this.blocks[i]["gridData"] = this.transformGridData(
@@ -350,20 +319,35 @@ export default class BlockStore {
   transformGridData(res, sid) {
     if (res) {
       let results = [];
-      const keys = Object.keys(res);
-      if (keys) {
-        keys.forEach((k, i) => {
-          // console.log(res[k].data.data);
-          res[k].data.data.forEach((el, j) => {
-            if (i === 0) {
-              results.push({ year: parseInt(el[0], 10), [k]: el[1] });
-            } else {
-              results[j][[k]] = el[1];
-            }
-          });
-        });
+
+      res.data.forEach((record) => {
+        let rec = record[1];
+
+        rec.max45 = record[1].maxrcp45 || 0;
+        rec.med45 = record[1].medrcp45 || 0;
+        rec.min45 = record[1].minrcp45 || 0;
+        rec.max85 = record[1].maxrcp85 || 0;
+        rec.med85 = record[1].medrcp85 || 0;
+        rec.min85 = record[1].minrcp85 || 0;
+
+        rec.observed = record[1].observed || record[1].medrcp45;
+        console.error("HACKING THE OBSERVED DATA!!!");
+
+        results.push(rec);
+      });
+
+      // SORT THESE THINGS!
+      let comp = function (a, b) {
+          if (a.year > b.year) {
+              return 1;
+          } else if (a.year < b.year) {
+              return -1;
+          } else {
+            return 0;
+          }
       }
-      // console.log(results);
+      results.sort(comp);
+
       return results;
     }
   }

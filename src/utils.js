@@ -1,3 +1,5 @@
+let turf = require('@turf/turf');
+
 export const isEquivalent = (a, b) => {
   // Create arrays of property names
   var aProps = Object.getOwnPropertyNames(a);
@@ -27,18 +29,25 @@ export const isEquivalent = (a, b) => {
 export const transformToGeoJSON = res => {
   const out = { type: "FeatureCollection" };
   out.features = res.meta.map(f => {
+    let bbox = [];
+    let geometry = {};
+    if (f.geojson.geometry) {
+        bbox = turf.bbox(f.geojson.geometry); //f.bbox
+        geometry = f.geojson.geometry;
+    } else {
+        bbox = turf.bbox(f.geojson); //f.bbox
+        geometry = f.geojson
+    }
+
     return {
       type: "Feature",
       id: f.id,
       properties: {
         name: f.name,
         id: f.id,
-        bbox: f.bbox
+        bbox: bbox
       },
-      geometry: {
-        type: f.geojson.type,
-        coordinates: f.geojson.coordinates
-      }
+      geometry: geometry
     };
   });
   return out;

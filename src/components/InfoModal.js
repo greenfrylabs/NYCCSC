@@ -107,7 +107,7 @@ const InfoModal = () => {
         The downscaled CMIP5 data include both historical simulations and future
         projections. The historical simulations are based on observed trends in
         greenhouse gases and cover period 1951- 2005. Future projections cover
-        the period from 2006-2099 and are based on either relatively high RCP
+        the period from 2006-2097 and are based on either relatively high RCP
         8.5 or lower RCP 4.5 greenhouse gas emissions. A weighted mean is
         computed from the 32 LOCA-downscaled CMIP5 models. Weights are derived
         based on the skill of each model at reproducing the large scale climate
@@ -134,7 +134,7 @@ const InfoModal = () => {
         One is moveable and thus can be used to highlight any period of
         interest. The other three are fixed and show projected conditions in the
         early (ending in 2039), middle (ending in 2069), and late (ending in
-        2099) 21st century. The width of the bands can be adjusted by setting
+        2097) 21st century. The width of the bands can be adjusted by setting
         the year interval in the Observed table that appears under the graph.
         Intervals of 5 to 30 years (in increments of 5 years) can be chosen. As
         the position of the moveable band changes, the table values respond and

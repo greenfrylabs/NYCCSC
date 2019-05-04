@@ -12,21 +12,10 @@ export const fetchStationData = params => {
 export const fetchGridData = async params => {
   //https://repository.nescaum-ccsc-dataservices.com/umass/5yr/?variable_name=TX95F&area_type=county&season=Winter
   const url = "https://repository.nescaum-ccsc-dataservices.com/umass/5yr";
-  /*
-  const params = {
-    area_type: '',
-    variable_name: '',
-    season: ''
-  };
-  */
-  const req = axios.get(url, {params: params});
+  const observed_url = "https://repository.staging.nescaum-ccsc-dataservices.com/data/ma/datagrapher/observed_" + params.observed.variable_name + "_" + params.observed.season;
 
-  console.error("Need to get observed data still....");
-
-  const [
-    resp
-  ] = await Promise.all([
-    req
+  return await Promise.all([
+    axios.get(url, {params: params.projected}), // Projected
+    axios.get(observed_url) // Observed
   ]);
-  return resp;
 };

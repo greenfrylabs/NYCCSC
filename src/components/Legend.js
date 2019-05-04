@@ -193,7 +193,7 @@ export default class Legend extends Component {
                 <HeaderCol style={{ color: "#2176FF" }}>MIN</HeaderCol>
               </CellCol>
               <CellCol>
-                <HeaderCol style={{ color: "#2F2F2F" }}>MEAN</HeaderCol>
+                <HeaderCol style={{ color: "#2F2F2F" }}>MEDIAN</HeaderCol>
               </CellCol>
               <CellCol>
                 <HeaderCol style={{ color: "#C42333" }}>MAX</HeaderCol>
@@ -202,7 +202,7 @@ export default class Legend extends Component {
                 <HeaderCol style={{ color: "#2176FF" }}>&Delta; min</HeaderCol>
               </CellCol>
               <CellCol>
-                <HeaderCol style={{ color: "#2F2F2F" }}>&Delta; mean</HeaderCol>
+                <HeaderCol style={{ color: "#2F2F2F" }}>&Delta; median</HeaderCol>
               </CellCol>
               <CellCol>
                 <HeaderCol style={{ color: "#C42333" }}>&Delta; max</HeaderCol>

@@ -49,7 +49,6 @@ export default class Graph extends Component {
   @action resetIndex = () => (this.index = null);
 
   render() {
-    debugger;
     const { grdData, stnData, yaxisLabel, geom, setField } = this.props;
 
     let yMin;
@@ -89,6 +88,13 @@ export default class Graph extends Component {
       yMaxHeightObserved = yMax[0] + Math.ceil(yMax[0] * 0.1);
     }
     const yMaxHeightModeled = yMaxHeightObserved - yMaxHeightObserved * 0.05;
+    // Calculate how many parts to mask off from the front (missing values)
+    let number_of_blanks = 0;
+    while (!grdData[number_of_blanks].min) {
+      number_of_blanks ++;
+    }
+
+    const hidden_stop = (number_of_blanks + 2) / grdData.length;
 
     return (
       <div style={{ width: "100%", height: "95%" }}>
@@ -100,6 +106,15 @@ export default class Graph extends Component {
             onMouseMove={a => a && this.setIndex(a.activeTooltipIndex)}
             onMouseLeave={this.resetIndex}
           >
+        <defs>
+          <linearGradient id="fadeGrad" y2="0" x2="1">
+            <stop offset={hidden_stop} stopColor="white" stopOpacity="0"/>
+            <stop offset={hidden_stop} stopColor="white" stopOpacity="1"/>
+          </linearGradient>
+          <mask id="fade" maskContentUnits="objectBoundingBox">
+            <rect width="1" height="1" fill="url(#fadeGrad)"/>
+          </mask>
+        </defs>
             {grdData ? (
               <YAxis
                 scale="linear"
@@ -128,7 +143,7 @@ export default class Graph extends Component {
 
             {this.props.isModeledGraph &&
               grdData && (
-                <Area stackId="1" dataKey="min" stroke="#2176FF" fill="#fff" />
+                <Area stackId="1" dataKey="min" stroke="#2176FF" fill="#fff" mask="url(#fade)"/>
               )}
 
             {this.props.isModeledGraph &&
@@ -138,6 +153,8 @@ export default class Graph extends Component {
                   dataKey={"mean-min"}
                   stroke="#342E37"
                   fill="#8FCBFD"
+                  mask="url(#fade)"
+
                 />
               )}
 
@@ -148,6 +165,7 @@ export default class Graph extends Component {
                   dataKey="max-mean"
                   stroke="#C42333"
                   fill="#F17E89 "
+                mask="url(#fade)"
                 />
               )}
 
@@ -212,7 +230,7 @@ export default class Graph extends Component {
                 y2={yMaxHeightModeled}
                 label={{
                   position: "insideTop",
-                  value: `∆mean = ${deltaMean2039}`,
+                  value: `∆median = ${deltaMean2039}`,
                   fill: "#2F2F2F",
                   fontSize: 13
                 }}
@@ -244,7 +262,7 @@ export default class Graph extends Component {
                 y2={yMaxHeightModeled}
                 label={{
                   position: "insideTop",
-                  value: `∆mean = ${deltaMean2069}`,
+                  value: `∆median = ${deltaMean2069}`,
                   fill: "#2F2F2F",
                   fontSize: 13
                 }}
@@ -276,7 +294,7 @@ export default class Graph extends Component {
                 y2={yMaxHeightModeled}
                 label={{
                   position: "insideTop",
-                  value: `∆mean = ${deltaMean2097}`,
+                  value: `∆median = ${deltaMean2097}`,
                   fill: "#2F2F2F",
                   fontSize: 13
                 }}

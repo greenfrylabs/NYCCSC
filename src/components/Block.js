@@ -30,7 +30,7 @@ import {
 } from "../styles";
 
 // logo
-import ACISLogo from "../assets/images/acis_logo.png";
+import Logo from "../assets/images/ne_casc_logo.png";
 
 // components
 import MiniMap from "../components/MiniMap";
@@ -109,9 +109,9 @@ export default class Block extends Component {
     ));
 
     const cDef = chartDefs.get(chart);
-    const seasonsAdj = element === "grow_32" ? ["ANN"] : cDef.seasons;
-    const elementsAdj = geom === "stn" ? cDef.elems : cDef.gElems;
 
+    const seasonsAdj = element === "grow_32" ? ["ANN"] : cDef.seasons;
+    const elementsAdj = cDef.elems; //geom === "stn" ? cDef.elems : cDef.gElems;
     // elements
     const elemList = elementsAdj.map(el => (
       <Option key={el} value={el}>
@@ -257,7 +257,7 @@ export default class Block extends Component {
               )}
             </WMap>
             <WImage>
-              <img src={ACISLogo} alt="ACISLogo" height="60px" width="200px" />
+              <img src={Logo} alt="Logo" height="60px" width="200px" />
             </WImage>
           </LeftContainer>
           <RightContainer>

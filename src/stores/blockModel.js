@@ -115,10 +115,6 @@ export default class BlockModel {
     return elems.get(this.element).label;
   }
 
-  @computed
-  get meanLabel() {
-    return `${this.yearsCount} years mean`;
-  }
 
   @computed
   get stnData() {
@@ -150,35 +146,38 @@ export default class BlockModel {
   @computed
   get dataWithSelectedRpc() {
     if (this.gridData) {
-      // console.log(this.gridData.slice());
       let results = [];
       let p = {};
       let sid = this.sid;
+      let pull_val = function (data, key) {
+        try {
+          return Number(data[key][sid]);
+        } catch (e) {
+          return null;
+        }
+      }
+      const min85 = this.gridData.map(d => pull_val(d, 'min85'));
+      const min45 = this.gridData.map(d => pull_val(d, 'min45'));
+      const max85 = this.gridData.map(d => pull_val(d, 'max85'));
+      const max45 = this.gridData.map(d => pull_val(d, 'max45'));
+      const obsArr = this.gridData.map(d => pull_val(d, 'observed'));
 
-      const min85 = this.gridData.map(d => d.min85[sid]);
-      const min45 = this.gridData.map(d => d.min45[sid]);
-      const max85 = this.gridData.map(d => d.max85[sid]);
-      const max45 = this.gridData.map(d => d.max45[sid]);
-      const obsArr = this.gridData.map(d => d.observed[sid]);
-      debugger;
-      const yMin = Math.floor(Math.min(...min45, ...min85));
-      const yMax = Math.ceil(Math.max(...max45, ...max85, ...obsArr));
+      const yMin = Math.floor(Math.min(...(min45.concat(min85).filter((v) => v !== null))));
+      const yMax = Math.ceil(Math.max(...(max45.concat(max85).concat(obsArr).filter((v) => v !== null))));
 
       this.gridData.forEach((d, i) => {
         if (this.rpc === 8.5) {
-          p["max"] = d["max85"][sid];
-          p["mean"] = d["med85"][sid];
-          p["min"] = d["min85"][sid];
+          p["max"] = pull_val(d, "max85");
+          p["mean"] = pull_val(d, "med85");
+          p["min"] = pull_val(d, "min85");
         } else {
-          p["max"] = d["max45"][sid];
-          p["mean"] = d["med45"][sid];
-          p["min"] = d["min45"][sid];
+          p["max"] = pull_val(d, "max45");
+          p["mean"] = pull_val(d, "med45");
+          p["min"] = pull_val(d, "min45");
         }
         const yearsCount = this.yearsCount;
-        let observed;
-        d.year >= 2013
-          ? (observed = null)
-          : (observed = Number(d["observed"][sid]));
+        let observed = pull_val(d, 'observed');
+
         const year = d.year;
         const startYear = year - (this.yearsCount - 1);
         results.push({
@@ -303,8 +302,17 @@ export default class BlockModel {
         p["deltaMin2097"] = (
           this.dataWithMeans[idx2097].meanOfMin - d.meanOfMin
         ).toFixed(1);
-        p["mean-min"] = d.mean - d.min;
-        p["max-mean"] = d.max - d.mean;
+
+        if (d.mean && d.min) {
+          p["mean-min"] = d.mean - d.min;
+        } else {
+          p["mean-min"] = null;
+        }
+        if (d.max && d.mean) {
+          p["max-mean"] = d.max - d.mean;
+        } else {
+          p["max-mean"] = null
+        }
 
         results.push({ ...d, ...p });
       });

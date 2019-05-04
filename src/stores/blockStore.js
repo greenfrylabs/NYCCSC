@@ -319,8 +319,10 @@ export default class BlockStore {
   transformGridData(res, sid) {
     if (res) {
       let results = [];
+      let projected = res[0];
+      let observed = res[1];
 
-      res.data.forEach((record) => {
+      projected.data.forEach((record) => {
         let rec = record[1];
 
         rec.max45 = record[1].maxrcp45 || 0;
@@ -330,10 +332,27 @@ export default class BlockStore {
         rec.med85 = record[1].medrcp85 || 0;
         rec.min85 = record[1].minrcp85 || 0;
 
-        rec.observed = record[1].observed || record[1].medrcp45;
-        console.error("HACKING THE OBSERVED DATA!!!");
-
         results.push(rec);
+      });
+
+      observed.data.data.forEach((record) => {
+        let yr = parseInt(record[0], 10);
+        let rec = results.find(r => r.year === yr);
+        // Stored as an array [min, median, max]
+        //  We only care about median
+        let observed_medians = {};
+
+        Object.keys(record[1]).forEach((k) => {
+          let v = record[1][k];
+          observed_medians[k] = v.length > 1 ? v[1] : v[0];
+        });
+
+        if (rec) {
+          rec.observed = observed_medians;
+        } else {
+          rec = {year: yr, observed: observed_medians};
+          results.push(rec);
+        }
       });
 
       // SORT THESE THINGS!

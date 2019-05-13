@@ -26,7 +26,7 @@ export const WBlock = styled.div`
   display: flex;
   // margin: 0 auto;
   flex-direction: column;
-  height: 750px;
+  height: 55rem;
   padding: 1rem;
   border-bottom: 2px solid ${primary};
   // background: pink;

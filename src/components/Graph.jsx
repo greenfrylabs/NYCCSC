@@ -87,14 +87,30 @@ export default class Graph extends Component {
     if (yMax[0]) {
       yMaxHeightObserved = yMax[0] + Math.ceil(yMax[0] * 0.1);
     }
+
     const yMaxHeightModeled = yMaxHeightObserved - yMaxHeightObserved * 0.05;
     // Calculate how many parts to mask off from the front (missing values)
-    let number_of_blanks = 0;
-    while (!grdData[number_of_blanks].min) {
-      number_of_blanks ++;
-    }
 
-    const hidden_stop = (number_of_blanks + 2) / grdData.length;
+    let stops = [[0.0, false]];
+
+    for (let i = 0; i < grdData.length; i++) {
+      let g = grdData[i];
+      let prev = stops[stops.length-1] && stops[stops.length - 1][1];
+
+      if (grdData[i].min)  {
+        if (!prev) {
+          stops.push([(i / (grdData.length - 1)) + 0.01, false]);
+          stops.push([ i / (grdData.length), true]);
+        }
+      } else {
+        if (prev) {
+          stops.push([(i / (grdData.length - 1)) - 0.01, true]);
+          stops.push([ i / grdData.length, false]);
+        }
+      }
+    }
+    stops.push([1.0, true]);
+    stops = stops.map((s) => <stop key={"stop_" + s[0] + '_' + s[1]} offset={s[0]} stopColor="white" stopOpacity={s[1] ? 1.0 : 0.0} />)
 
     return (
       <div style={{ width: "100%", height: "95%" }}>
@@ -108,8 +124,7 @@ export default class Graph extends Component {
           >
         <defs>
           <linearGradient id="fadeGrad" y2="0" x2="1">
-            <stop offset={hidden_stop} stopColor="white" stopOpacity="0"/>
-            <stop offset={hidden_stop} stopColor="white" stopOpacity="1"/>
+            {stops}
           </linearGradient>
           <mask id="fade" maskContentUnits="objectBoundingBox">
             <rect width="1" height="1" fill="url(#fadeGrad)"/>

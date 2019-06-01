@@ -192,10 +192,10 @@ export default class Block extends Component {
             onChange={e => setRpc(e.target.value)}
             disabled={geom === "stn" ? true : false}
           >
-            <Tooltip title="Low Emission rpc">
+            <Tooltip title="Low Emission RCP">
               <Radio value={4.5}>RCP 4.5</Radio>
             </Tooltip>
-            <Tooltip title="Hi Emission rpc">
+            <Tooltip title="Hi Emission RCP">
               <Radio value={8.5}>RCP 8.5</Radio>
             </Tooltip>
           </RadioGroup>

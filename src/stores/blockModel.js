@@ -53,7 +53,6 @@ export default class BlockModel {
 
   @action
   setField = (field, val) => {
-    // console.log(field, val);
     if (field === "geom") {
       this[field] = val;
       if (val === "state") this.sid = "NY";
@@ -109,6 +108,11 @@ export default class BlockModel {
   }
 
   @computed
+  get yaxisUnits() {
+    return elems.get(this.element).ttUnits;
+  }
+
+  @computed
   get elementLabel() {
     return elems.get(this.element).label;
   }
@@ -140,7 +144,6 @@ export default class BlockModel {
         }
         results.push({ ...d, ...p });
       });
-      // console.log(results);
       return results;
     }
   }
@@ -148,7 +151,7 @@ export default class BlockModel {
   @computed
   get dataWithSelectedRpc() {
     if (this.gridData) {
-      // console.log(this.gridData.slice());
+
       let results = [];
       let p = {};
       let sid = this.sid;
@@ -189,6 +192,7 @@ export default class BlockModel {
           yMax
         });
       });
+
       return results;
     }
   }
@@ -243,7 +247,6 @@ export default class BlockModel {
         results.push({ ...p, ...d });
       });
 
-      // console.log(results);
       return results;
     }
   }
@@ -305,7 +308,6 @@ export default class BlockModel {
 
         results.push({ ...d, ...p });
       });
-      // console.log(results);
       return results;
     }
   }
@@ -319,13 +321,28 @@ export default class BlockModel {
       : (dataSource = this.grdData);
 
     dataSource.forEach(d => {
-      // console.log(d);
       this.stationCSV.push({
+        /* Column 1: year */
         Year: d.year,
-        [this.elementLabel]: d.observed,
+        /* Column 2: value of observed, historical data for the climate parameter that's being plotted.
+         * Time span: 1950 to 2012.
+         * (NOTE: it would be great if we could include the units for each climate variable here.
+         *   For example, total precipitation has units of inches, temperature has units of degrees F, etc.  If you think we can do this, I can send you a list of all the units.)
+         */
+        [this.elementLabel + ' ' + this.yaxisUnits]: d.observed,
+        /* Column 3: Time range for 5-year mean of historical data. Time span: 1956-2012. */
         Range: `${d.startYear}-${d.year}`,
+        /* Column 4: 5-year mean of historical data. Time span: 1956-2012. */
         [`${d.yearsCount}-years Mean`]: d.observedMean,
-        RCP: this.rpc
+        /*Column 5: RCP chosen by the user (8.5 or 4.5)*/
+        RCP: this.rpc,
+        /*Column 6: minimum of modeled data for the chosen climate variable and RCP.
+         * Time span: 1950 to 2099 (since the model goes back to the past and forward to the future) */
+        ['Modeled Min ' + this.yaxisUnits]: d.min,
+        /*Column 7: maximum of modeled data for the chosen climate variable and RCP. Time span: 1950 to 2099.*/
+        ['Modeled Max ' + this.yaxisUnits]: d.max,
+        /*Column 8: mean of modeled data for the chosen climate variable and RCP. Time span: 1950 to 2099.*/
+        ['Modeled Mean ' + this.yaxisUnits]: d.mean
       });
     });
   };

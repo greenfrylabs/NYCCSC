@@ -342,7 +342,6 @@ export default class BlockStore {
           meta: res.data.meta
         });
       });
-      // console.log(results);
       return results;
     }
   }
@@ -363,7 +362,7 @@ export default class BlockStore {
           });
         });
       }
-      // console.log(results);
+
       return results;
     }
   }

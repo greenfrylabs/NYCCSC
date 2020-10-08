@@ -184,7 +184,7 @@ export let elems = new Map([
     {
       label: "Total Precipitation",
       yLabel: "Precipitation (Inch)",
-      ttUnits: '"',
+      ttUnits: '”',
       maxmissingAnnual: 12,
       maxmissingSeasonal: 3,
       maxmissingMonthly: 1,
@@ -204,7 +204,7 @@ export let elems = new Map([
     {
       label: "Total Snowfall",
       yLabel: "Snowfall (Inch)",
-      ttUnits: '"',
+      ttUnits: '”',
       maxmissingAnnual: 12,
       maxmissingSeasonal: 3,
       maxmissingMonthly: 1,
@@ -216,7 +216,7 @@ export let elems = new Map([
     {
       label: "Maximum Daily Snowdepth",
       yLabel: "Snowdepth (Inch)",
-      ttUnits: '"',
+      ttUnits: '”',
       maxmissingAnnual: 12,
       maxmissingSeasonal: 3,
       maxmissingMonthly: 1,
